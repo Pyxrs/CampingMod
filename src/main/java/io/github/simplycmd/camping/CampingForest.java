@@ -13,6 +13,7 @@ import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import static com.terraformersmc.terraform.biomebuilder.DefaultFeature.*;
 
 public class CampingForest {
+    // Biomes using Terraform API
     private static final BiomeTemplate CAMPING_FOREST_TEMPLATE = new BiomeTemplate(TerraformBiomeBuilder.create()
             .configureSurfaceBuilder(SurfaceBuilder.DEFAULT, SurfaceBuilder.GRASS_CONFIG)
             .addDefaultFeatures(LAND_CARVERS, DEFAULT_UNDERGROUND_STRUCTURES, DUNGEONS, MINEABLES, ORES, DISKS, DEFAULT_MUSHROOMS, DEFAULT_VEGETATION, FROZEN_TOP_LAYER, FOREST_FLOWERS, FOREST_GRASS, LAKES, LAKES, LAKES, LAKES, LAKES) // Add multiple times to decrease rarity

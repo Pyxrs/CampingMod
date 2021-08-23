@@ -4,6 +4,7 @@
   "package": "io.github.simplycmd.camping.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "AxeItemMixin",
     "LiveFishingMixin"
   ],
   "client": [

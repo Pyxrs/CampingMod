@@ -1,11 +1,16 @@
 package io.github.simplycmd.camping;
 
+import io.github.simplycmd.camping.blocks.PineLogBlock;
 import io.github.simplycmd.camping.marshmallows.MarshmallowOnStick;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
 import net.fabricmc.fabric.api.biome.v1.OverworldClimate;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.MapColor;
+import net.minecraft.block.Material;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -13,25 +18,22 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.gen.decorator.ChanceDecoratorConfig;
 import net.minecraft.world.gen.decorator.CountExtraDecoratorConfig;
 import net.minecraft.world.gen.decorator.Decorator;
-import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.ConfiguredFeatures;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.foliage.SpruceFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 
 public class Main implements ModInitializer {
-	public static final TreeFeatureConfig CAMPING_TREE_CONFIG = new TreeFeatureConfig.Builder(
-			new SimpleBlockStateProvider(Blocks.SPRUCE_LOG.getDefaultState()),
-			new StraightTrunkPlacer(12, 12, 4),
-			new SimpleBlockStateProvider(Blocks.DARK_OAK_LEAVES.getDefaultState()),
-			new SimpleBlockStateProvider(Blocks.SPRUCE_SAPLING.getDefaultState()),
-			new SpruceFoliagePlacer(UniformIntProvider.create(2, 3), UniformIntProvider.create(1, 1), UniformIntProvider.create(4, 12)),
-			new TwoLayersFeatureSize(2, 0, 4)
-	).ignoreVines().build();
-	public static final ConfiguredFeature<?, ?> CAMPING_TREES = Feature.TREE.configure(CAMPING_TREE_CONFIG).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(100, 1, 2)));
+	// Blocks
+	public static final Block PINE_LOG = new PineLogBlock(FabricBlockSettings.of(Material.WOOD, MapColor.BROWN));
+
+	// Items
 	public static final Item MARSHMALLOW = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(1).saturationModifier(0.5f).snack().build()));
 	public static final Item MARSHMALLOW_ON_STICK_RAW = new MarshmallowOnStick(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(1).saturationModifier(0.5f).snack().alwaysEdible().build()));
 	public static final Item MARSHMALLOW_ON_STICK_WARM = new MarshmallowOnStick(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(2).saturationModifier(0.75f).snack().alwaysEdible().build()));
@@ -39,10 +41,21 @@ public class Main implements ModInitializer {
 	public static final Item MARSHMALLOW_ON_STICK_HALFBURNT = new MarshmallowOnStick(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(2).saturationModifier(0.5f).snack().alwaysEdible().build()));
 	public static final Item MARSHMALLOW_ON_STICK_BURNT = new MarshmallowOnStick(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(1).saturationModifier(0f).snack().alwaysEdible().meat().build()));
 
-
+	// Features
+	public static final TreeFeatureConfig CAMPING_TREE_CONFIG = new TreeFeatureConfig.Builder(
+			new SimpleBlockStateProvider(PINE_LOG.getDefaultState()),
+			new StraightTrunkPlacer(12, 12, 4),
+			new SimpleBlockStateProvider(Blocks.DARK_OAK_LEAVES.getDefaultState()),
+			new SimpleBlockStateProvider(Blocks.SPRUCE_SAPLING.getDefaultState()),
+			new SpruceFoliagePlacer(UniformIntProvider.create(2, 3), UniformIntProvider.create(1, 1), UniformIntProvider.create(4, 12)),
+			new TwoLayersFeatureSize(2, 0, 4)
+	).ignoreVines().build();
+	public static final ConfiguredFeature<?, ?> CAMPING_TREES = Feature.TREE.configure(CAMPING_TREE_CONFIG).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(100, 1, 2)));
 
 	@Override
 	public void onInitialize() {
+		Registry.register(Registry.BLOCK, new Identifier("camping", "pine_log"), PINE_LOG);
+
 		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier("camping", "camping_trees"), CAMPING_TREES);
 
 		Registry.register(BuiltinRegistries.BIOME, BiomeKeys.CAMPING_FOREST.getValue(), CampingForest.CAMPING_FOREST);

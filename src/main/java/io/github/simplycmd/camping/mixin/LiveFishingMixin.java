@@ -27,6 +27,8 @@ public class LiveFishingMixin {
         ItemEntity originalItem = ((ItemEntity) original);
         Item item = originalItem.getStack().getItem();
         FishEntity fish;
+
+        // Hardcoded because I couldn't think of a better way
         if (item.equals(Items.COD))
             fish = new CodEntity(EntityType.COD, self.world);
         else if (item.equals(Items.SALMON))
@@ -43,7 +45,11 @@ public class LiveFishingMixin {
         double d = playerEntity.getX() - self.getX();
         double e = playerEntity.getY() - self.getY();
         double f = playerEntity.getZ() - self.getZ();
-        fish.setVelocity(d * 0.1D, e + Math.sqrt(Math.sqrt(d * d + e * e + f * f)) * 0.08D, f * 0.1D);
+        double yeetAmount = 0.5F; // How much to yeet the fish
+
+        // Scary math by Mojank (not me)
+        fish.setVelocity(d * 0.1D, e * yeetAmount * 0.5 + Math.sqrt(Math.sqrt(d * d + e * e + f * f)) * 0.08D, f * 0.1D);
+
         return fish;
     }
 

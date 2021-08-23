@@ -6,6 +6,7 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 
 public class BiomeKeys {
+    // Identifiers for biomes
     public static final RegistryKey<Biome> CAMPING_FOREST = key("camping_forest");
     public static final RegistryKey<Biome> DENSE_FOREST = key("dense_forest");
 

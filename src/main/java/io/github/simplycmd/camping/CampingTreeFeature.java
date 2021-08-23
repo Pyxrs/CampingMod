@@ -14,6 +14,7 @@ public class CampingTreeFeature extends Feature<DefaultFeatureConfig> {
         super(config);
     }
 
+    // Large tree generation
     @Override
     public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
         BlockPos topPos = context.getWorld().getTopPosition(Heightmap.Type.WORLD_SURFACE, context.getOrigin());

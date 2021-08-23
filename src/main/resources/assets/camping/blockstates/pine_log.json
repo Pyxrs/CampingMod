@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "sappy=false": { "model": "minecraft:block/spruce_log" },
+    "sappy=true": { "model": "camping:block/pine_log_sap" }
+  }
+}
