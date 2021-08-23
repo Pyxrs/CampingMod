@@ -6,13 +6,13 @@
   "name": "Camping Mod",
   "description": "yes",
   "authors": [
-    "Coolcat255#9225",
     "Ibex#3641",
     "PaintedYeti#0103",
     "PhilGotPlayed#0001",
     "SimplyCmd#0001",
     "The Gibberish One#8654"
   ],
+  "accessWidener": "camping.accesswidener",
   "contact": {
     "homepage": "https://simplycmd.github.io/camping-mod/",
     "sources": "https://github.com/SimplyCmd/camping-mod"
