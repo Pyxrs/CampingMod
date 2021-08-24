@@ -30,10 +30,15 @@ import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 
 public class Main implements ModInitializer {
+	// Mod ID
+	public static final String MOD_ID = "camping";
+	
 	// Blocks
 	public static final Block PINE_LOG = new PineLogBlock(FabricBlockSettings.of(Material.WOOD, MapColor.BROWN));
 
 	// Items
+	public static final Item SAP = new Item(new FabricItemSettings().group(ItemGroup.MATERIALS));
+
 	public static final Item MARSHMALLOW = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(1).saturationModifier(0.5f).snack().build()));
 	public static final Item MARSHMALLOW_ON_STICK_RAW = new MarshmallowOnStick(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(1).saturationModifier(0.5f).snack().alwaysEdible().build()));
 	public static final Item MARSHMALLOW_ON_STICK_WARM = new MarshmallowOnStick(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(2).saturationModifier(0.75f).snack().alwaysEdible().build()));
@@ -54,10 +59,23 @@ public class Main implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		Registry.register(Registry.BLOCK, new Identifier("camping", "pine_log"), PINE_LOG);
+		// Register blocks
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_log"), PINE_LOG);
 
-		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier("camping", "camping_trees"), CAMPING_TREES);
+		// Register items
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sap"), SAP);
 
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "marshmallow"), MARSHMALLOW);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "raw_marshmallow_on_stick"), MARSHMALLOW_ON_STICK_RAW);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "warm_marshmallow_on_stick"), MARSHMALLOW_ON_STICK_WARM);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "golden_marshmallow_on_stick"), MARSHMALLOW_ON_STICK_GOLDEN);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "half_burnt_marshmallow_on_stick"), MARSHMALLOW_ON_STICK_HALFBURNT);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "burnt_marshmallow_on_stick"), MARSHMALLOW_ON_STICK_BURNT);
+
+		// Register features
+		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "camping_trees"), CAMPING_TREES);
+
+		// Register biomes (OverworldBiomes is deprecated because it's experimental)
 		Registry.register(BuiltinRegistries.BIOME, BiomeKeys.CAMPING_FOREST.getValue(), CampingForest.CAMPING_FOREST);
 		OverworldBiomes.addContinentalBiome(BiomeKeys.CAMPING_FOREST, OverworldClimate.SNOWY, 100D);
 		OverworldBiomes.addContinentalBiome(BiomeKeys.CAMPING_FOREST, OverworldClimate.TEMPERATE, 100D);
@@ -68,12 +86,5 @@ public class Main implements ModInitializer {
 		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_FOREST, OverworldClimate.SNOWY, 60D);
 		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_FOREST, OverworldClimate.TEMPERATE, 60D);
 		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_FOREST, OverworldClimate.COOL, 60D);
-		Registry.register(Registry.ITEM, new Identifier("camping", "marshmallow"), MARSHMALLOW);
-		Registry.register(Registry.ITEM, new Identifier("camping", "raw_marshmallow_on_stick"), MARSHMALLOW_ON_STICK_RAW);
-		Registry.register(Registry.ITEM, new Identifier("camping", "warm_marshmallow_on_stick"), MARSHMALLOW_ON_STICK_WARM);
-		Registry.register(Registry.ITEM, new Identifier("camping", "golden_marshmallow_on_stick"), MARSHMALLOW_ON_STICK_GOLDEN);
-		Registry.register(Registry.ITEM, new Identifier("camping", "half_burnt_marshmallow_on_stick"), MARSHMALLOW_ON_STICK_HALFBURNT);
-		Registry.register(Registry.ITEM, new Identifier("camping", "burnt_marshmallow_on_stick"), MARSHMALLOW_ON_STICK_BURNT);
-
 	}
 }
