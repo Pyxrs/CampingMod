@@ -68,7 +68,6 @@ public class Main implements ModInitializer {
 		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_FOREST, OverworldClimate.SNOWY, 60D);
 		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_FOREST, OverworldClimate.TEMPERATE, 60D);
 		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_FOREST, OverworldClimate.COOL, 60D);
-		//Item registry
 		Registry.register(Registry.ITEM, new Identifier("camping", "marshmallow"), MARSHMALLOW);
 		Registry.register(Registry.ITEM, new Identifier("camping", "raw_marshmallow_on_stick"), MARSHMALLOW_ON_STICK_RAW);
 		Registry.register(Registry.ITEM, new Identifier("camping", "warm_marshmallow_on_stick"), MARSHMALLOW_ON_STICK_WARM);
