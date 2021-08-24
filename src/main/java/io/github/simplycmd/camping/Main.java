@@ -1,5 +1,6 @@
 package io.github.simplycmd.camping;
 
+import io.github.simplycmd.camping.blocks.HotSpringWaterBlock;
 import io.github.simplycmd.camping.blocks.PineLogBlock;
 import io.github.simplycmd.camping.marshmallows.MarshmallowOnStick;
 import net.fabricmc.api.ModInitializer;
@@ -7,23 +8,18 @@ import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
 import net.fabricmc.fabric.api.biome.v1.OverworldClimate;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.MapColor;
-import net.minecraft.block.Material;
+import net.minecraft.block.*;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.decorator.CountExtraDecoratorConfig;
 import net.minecraft.world.gen.decorator.Decorator;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.ConfiguredFeatures;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
+import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.foliage.SpruceFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
@@ -34,7 +30,8 @@ public class Main implements ModInitializer {
 	public static final String MOD_ID = "camping";
 	
 	// Blocks
-	public static final Block PINE_LOG = new PineLogBlock(FabricBlockSettings.of(Material.WOOD, MapColor.BROWN));
+	public static final Block PINE_LOG = new PineLogBlock(FabricBlockSettings.of(Material.WOOD, MapColor.BROWN).strength(2.0F).sounds(BlockSoundGroup.WOOD));
+	public static final Block HOT_SPRING_WATER = new HotSpringWaterBlock(FabricBlockSettings.of(Material.BUBBLE_COLUMN).noCollision().dropsNothing());
 
 	// Items
 	public static final Item SAP = new Item(new FabricItemSettings().group(ItemGroup.MATERIALS));
@@ -56,11 +53,13 @@ public class Main implements ModInitializer {
 			new TwoLayersFeatureSize(2, 0, 4)
 	).ignoreVines().build();
 	public static final ConfiguredFeature<?, ?> CAMPING_TREES = Feature.TREE.configure(CAMPING_TREE_CONFIG).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(100, 1, 2)));
+	public static final ConfiguredFeature<?, ?> HOT_SPRINGS = Feature.LAKE.configure(new SingleStateFeatureConfig(HOT_SPRING_WATER.getDefaultState())).range(ConfiguredFeatures.Decorators.BOTTOM_TO_TOP).spreadHorizontally().applyChance(4);
 
 	@Override
 	public void onInitialize() {
 		// Register blocks
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_log"), PINE_LOG);
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "hot_spring_water"), HOT_SPRING_WATER);
 
 		// Register items
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sap"), SAP);
@@ -74,6 +73,7 @@ public class Main implements ModInitializer {
 
 		// Register features
 		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "camping_trees"), CAMPING_TREES);
+		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "hot_springs"), HOT_SPRINGS);
 
 		// Register biomes (OverworldBiomes is deprecated because it's experimental)
 		Registry.register(BuiltinRegistries.BIOME, BiomeKeys.CAMPING_FOREST.getValue(), CampingForest.CAMPING_FOREST);

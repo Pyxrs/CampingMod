@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Random;
 
 @Mixin(AxeItem.class)
-public class AxeItemMixin {
+public class SapScrapingMixin {
     private static final Random RANDOM = new Random();
 
     @Inject(method = "useOnBlock", at = @At("HEAD"), cancellable = true)

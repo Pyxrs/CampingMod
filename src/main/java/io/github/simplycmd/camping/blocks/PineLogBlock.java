@@ -36,18 +36,16 @@ public class PineLogBlock extends PillarBlock {
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         // Logs that pass this `if` statement will hopefully be uncommon enough to not impact performance when scans are done
-        if (random.nextFloat() > 0.99) {
-            int radius = 20;
+        if (random.nextFloat() > 0.992) {
+            final int scanRadius = 20;
             boolean sapNearby = false;
 
             // Only become sappy if nearby logs aren't, to prevent unnecessary buildup of sap
-            for (int x = -(radius / 2); x < radius; x++)
-                for (int y = -(radius / 2); y < radius; y++)
-                    for (int z = -(radius / 2); z < radius; z++)
-                        if (world.getBlockState(new BlockPos(x, y, z)).getBlock().equals(Main.PINE_LOG) && world.getBlockState(new BlockPos(x, y, z)).get(SAPPY)) {
+            for (int x = -(scanRadius / 2); x < scanRadius; x++)
+                for (int y = -(scanRadius / 2); y < scanRadius; y++)
+                    for (int z = -(scanRadius / 2); z < scanRadius; z++)
+                        if (world.getBlockState(new BlockPos(x, y, z)).getBlock().equals(Main.PINE_LOG) && world.getBlockState(new BlockPos(x, y, z)).get(SAPPY))
                             sapNearby = true;
-                            break;
-                        }
 
             if (!sapNearby) world.setBlockState(pos, state.with(SAPPY, true));
         }

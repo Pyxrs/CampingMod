@@ -16,11 +16,12 @@ public class CampingForest {
     // Biomes using Terraform API
     private static final BiomeTemplate CAMPING_FOREST_TEMPLATE = new BiomeTemplate(TerraformBiomeBuilder.create()
             .configureSurfaceBuilder(SurfaceBuilder.DEFAULT, SurfaceBuilder.GRASS_CONFIG)
-            .addDefaultFeatures(LAND_CARVERS, DEFAULT_UNDERGROUND_STRUCTURES, DUNGEONS, MINEABLES, ORES, DISKS, DEFAULT_MUSHROOMS, DEFAULT_VEGETATION, FROZEN_TOP_LAYER, FOREST_FLOWERS, FOREST_GRASS, LAKES, LAKES, LAKES, LAKES, LAKES) // Add multiple times to decrease rarity
+            .addDefaultFeatures(LAND_CARVERS, DEFAULT_UNDERGROUND_STRUCTURES, DUNGEONS, MINEABLES, ORES, DISKS, DEFAULT_MUSHROOMS, DEFAULT_VEGETATION, FROZEN_TOP_LAYER, FOREST_FLOWERS, FOREST_GRASS, LAKES, SPRINGS) // Add multiple times to decrease rarity
             .addStructureFeatures(ConfiguredStructureFeatures.STRONGHOLD, ConfiguredStructureFeatures.MINESHAFT, ConfiguredStructureFeatures.PILLAGER_OUTPOST, ConfiguredStructureFeatures.RUINED_PORTAL)
             .precipitation(Biome.Precipitation.RAIN)
             .addFeature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, ConfiguredFeatures.PATCH_LARGE_FERN)
             .addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Main.CAMPING_TREES)
+            .addFeature(GenerationStep.Feature.LAKES, Main.HOT_SPRINGS)
             .category(Biome.Category.FOREST)
             .addDefaultSpawnEntries()
             .effects(new BiomeEffects.Builder()
@@ -43,11 +44,12 @@ public class CampingForest {
 
     private static final BiomeTemplate DENSE_FOREST_TEMPLATE = new BiomeTemplate(TerraformBiomeBuilder.create()
             .configureSurfaceBuilder(SurfaceBuilder.DEFAULT, SurfaceBuilder.PODZOL_CONFIG)
-            .addDefaultFeatures(LAND_CARVERS, DEFAULT_UNDERGROUND_STRUCTURES, DUNGEONS, MINEABLES, ORES, DISKS, DEFAULT_MUSHROOMS, DEFAULT_VEGETATION, FROZEN_TOP_LAYER, FOREST_FLOWERS, FOREST_GRASS, LAKES, LAKES, LAKES, LAKES, LAKES) // Add multiple times to decrease rarity
+            .addDefaultFeatures(LAND_CARVERS, DEFAULT_UNDERGROUND_STRUCTURES, DUNGEONS, MINEABLES, ORES, DISKS, DEFAULT_MUSHROOMS, DEFAULT_VEGETATION, FROZEN_TOP_LAYER, FOREST_FLOWERS, FOREST_GRASS, LAKES, SPRINGS) // Add multiple times to decrease rarity
             .addStructureFeatures(ConfiguredStructureFeatures.STRONGHOLD, ConfiguredStructureFeatures.MINESHAFT, ConfiguredStructureFeatures.PILLAGER_OUTPOST, ConfiguredStructureFeatures.RUINED_PORTAL)
             .precipitation(Biome.Precipitation.RAIN)
-            .addFeature(GenerationStep.Feature.VEGETAL_DECORATION, ConfiguredFeatures.PATCH_LARGE_FERN)
+            .addFeature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, ConfiguredFeatures.PATCH_LARGE_FERN)
             .addFeature(GenerationStep.Feature.VEGETAL_DECORATION, Main.CAMPING_TREES)
+            .addFeature(GenerationStep.Feature.LAKES, Main.HOT_SPRINGS)
             .category(Biome.Category.FOREST)
             .addDefaultSpawnEntries()
             .effects(new BiomeEffects.Builder()
