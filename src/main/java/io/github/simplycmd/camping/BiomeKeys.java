@@ -11,7 +11,7 @@ public class BiomeKeys {
     public static final RegistryKey<Biome> DENSE_FOREST = key("dense_forest");
 
     static RegistryKey<Biome> key(String name) {
-        Identifier id = new Identifier(Main.MOD_ID, name);
+        Identifier id = new Identifier("camping", name);
         return RegistryKey.of(Registry.BIOME_KEY, id);
     }
 }
