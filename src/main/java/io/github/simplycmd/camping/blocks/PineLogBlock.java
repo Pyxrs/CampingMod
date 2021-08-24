@@ -5,13 +5,10 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PillarBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
 
 import java.util.Random;
 
@@ -49,10 +46,5 @@ public class PineLogBlock extends PillarBlock {
 
             if (!sapNearby) world.setBlockState(pos, state.with(SAPPY, true));
         }
-    }
-
-    @Override
-    public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
-        return Items.SPRUCE_LOG.getDefaultStack();
     }
 }
