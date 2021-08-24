@@ -44,7 +44,7 @@ public class Main implements ModInitializer {
 	public static final Item MARSHMALLOW_ON_STICK_BURNT = new MarshmallowOnStick(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(1).saturationModifier(0f).snack().alwaysEdible().meat().build()));
 
 	// Features
-	public static final TreeFeatureConfig CAMPING_TREE_CONFIG = new TreeFeatureConfig.Builder(
+	public static final TreeFeatureConfig PINE_TREE_CONFIG = new TreeFeatureConfig.Builder(
 			new SimpleBlockStateProvider(PINE_LOG.getDefaultState()),
 			new StraightTrunkPlacer(12, 12, 4),
 			new SimpleBlockStateProvider(Blocks.DARK_OAK_LEAVES.getDefaultState()),
@@ -52,7 +52,7 @@ public class Main implements ModInitializer {
 			new SpruceFoliagePlacer(UniformIntProvider.create(2, 3), UniformIntProvider.create(1, 1), UniformIntProvider.create(4, 12)),
 			new TwoLayersFeatureSize(2, 0, 4)
 	).ignoreVines().build();
-	public static final ConfiguredFeature<?, ?> CAMPING_TREES = Feature.TREE.configure(CAMPING_TREE_CONFIG).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(100, 1, 2)));
+	public static final ConfiguredFeature<?, ?> PINE_TREES = Feature.TREE.configure(PINE_TREE_CONFIG).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(100, 1, 2)));
 	public static final ConfiguredFeature<?, ?> HOT_SPRINGS = Feature.LAKE.configure(new SingleStateFeatureConfig(HOT_SPRING_WATER.getDefaultState())).range(ConfiguredFeatures.Decorators.BOTTOM_TO_TOP).spreadHorizontally().applyChance(4);
 
 	@Override
@@ -72,19 +72,19 @@ public class Main implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "burnt_marshmallow_on_stick"), MARSHMALLOW_ON_STICK_BURNT);
 
 		// Register features
-		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "camping_trees"), CAMPING_TREES);
+		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "pine_trees"), PINE_TREES);
 		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "hot_springs"), HOT_SPRINGS);
 
 		// Register biomes (OverworldBiomes is deprecated because it's experimental)
-		Registry.register(BuiltinRegistries.BIOME, BiomeKeys.CAMPING_FOREST.getValue(), CampingForest.CAMPING_FOREST);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.CAMPING_FOREST, OverworldClimate.SNOWY, 100D);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.CAMPING_FOREST, OverworldClimate.TEMPERATE, 100D);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.CAMPING_FOREST, OverworldClimate.COOL, 100D);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.CAMPING_FOREST, OverworldClimate.DRY, 100D);
+		Registry.register(BuiltinRegistries.BIOME, BiomeKeys.PINE_FOREST.getValue(), PineForest.PINE_FOREST);
+		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.SNOWY, 100D);
+		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.TEMPERATE, 100D);
+		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.COOL, 100D);
+		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.DRY, 100D);
 
-		Registry.register(BuiltinRegistries.BIOME, BiomeKeys.DENSE_FOREST.getValue(), CampingForest.DENSE_FOREST);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_FOREST, OverworldClimate.SNOWY, 60D);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_FOREST, OverworldClimate.TEMPERATE, 60D);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_FOREST, OverworldClimate.COOL, 60D);
+		Registry.register(BuiltinRegistries.BIOME, BiomeKeys.DENSE_PINE_FOREST.getValue(), PineForest.DENSE_PINE_FOREST);
+		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_PINE_FOREST, OverworldClimate.SNOWY, 60D);
+		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_PINE_FOREST, OverworldClimate.TEMPERATE, 60D);
+		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_PINE_FOREST, OverworldClimate.COOL, 60D);
 	}
 }

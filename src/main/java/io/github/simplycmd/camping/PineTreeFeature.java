@@ -9,8 +9,8 @@ import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 
-public class CampingTreeFeature extends Feature<DefaultFeatureConfig> {
-    public CampingTreeFeature(Codec<DefaultFeatureConfig> config) {
+public class PineTreeFeature extends Feature<DefaultFeatureConfig> {
+    public PineTreeFeature(Codec<DefaultFeatureConfig> config) {
         super(config);
     }
 

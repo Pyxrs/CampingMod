@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 public class HotSpringWaterBlock extends BubbleColumnBlock {
-    int tick;
+    int tick = 0;
 
     public HotSpringWaterBlock(Settings settings) {
         super(settings);
