@@ -1,6 +1,0 @@
-{
-    "parent": "item/handheld",
-    "textures": {
-      "layer0": "camping:item/raw_marshmallow_on_stick"
-    }
-  }

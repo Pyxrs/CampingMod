@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "camping:item/marshmallow"
+    "layer0": "camping:item/breaded_smore_warm"
   }
 }

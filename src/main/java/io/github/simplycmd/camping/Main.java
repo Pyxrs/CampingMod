@@ -2,6 +2,8 @@ package io.github.simplycmd.camping;
 
 import io.github.simplycmd.camping.blocks.HotSpringWaterBlock;
 import io.github.simplycmd.camping.blocks.PineLogBlock;
+import io.github.simplycmd.camping.effects.BurningEffect;
+import io.github.simplycmd.camping.effects.CozinessEffect;
 import io.github.simplycmd.camping.items.MarshmallowOnStickItem;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
@@ -10,6 +12,10 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.block.*;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffectType;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -44,7 +50,17 @@ public class Main implements ModInitializer {
 	public static final Item MARSHMALLOW_ON_STICK_HALFBURNT = new MarshmallowOnStickItem(MarshmallowOnStickItem.Cooked.HALFBURNT);
 	public static final Item MARSHMALLOW_ON_STICK_FLAMING = new MarshmallowOnStickItem(MarshmallowOnStickItem.Cooked.FLAMING);
 	public static final Item MARSHMALLOW_ON_STICK_BURNT = new MarshmallowOnStickItem(MarshmallowOnStickItem.Cooked.BURNT);
+	public static final Item BREADED_SMORE_WARM = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(6).saturationModifier(3.0f).build()));
+	public static final Item BREADED_SMORE_GOLDEN = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(8).saturationModifier(5.0f).build()));
+	public static final Item BREADED_SMORE_HALF_BURNT = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(5).saturationModifier(1.5f).build()));
+	public static final Item BREADED_SMORE_BURNT = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(2).saturationModifier(1.0f).build()));
+	public static final Item BREADED_SMORE_FLAMING = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(4).saturationModifier(3.0f).build()));
 
+
+
+	//effects
+	public static final StatusEffect COZINESS = new CozinessEffect();
+	public static final StatusEffect BURNING = new BurningEffect();
 	// Features
 	public static final TreeFeatureConfig PINE_TREE_CONFIG = new TreeFeatureConfig.Builder(
 			new SimpleBlockStateProvider(PINE_LOG.getDefaultState()),
@@ -74,6 +90,14 @@ public class Main implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "half_burnt_marshmallow_on_a_stick"), MARSHMALLOW_ON_STICK_HALFBURNT);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "flaming_marshmallow_on_a_stick"), MARSHMALLOW_ON_STICK_FLAMING);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "burnt_marshmallow_on_a_stick"), MARSHMALLOW_ON_STICK_BURNT);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "breaded_smore_warm"), BREADED_SMORE_WARM);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "breaded_smore_golden"), BREADED_SMORE_GOLDEN);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "breaded_smore_half_burnt"), BREADED_SMORE_HALF_BURNT);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "breaded_smore_burnt"), BREADED_SMORE_BURNT);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "breaded_smore_flaming"), BREADED_SMORE_FLAMING);
+
+
+
 
 		// Register features
 		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "pine_trees"), PINE_TREES);
@@ -90,5 +114,9 @@ public class Main implements ModInitializer {
 		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_PINE_FOREST, OverworldClimate.SNOWY, 60D);
 		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_PINE_FOREST, OverworldClimate.TEMPERATE, 60D);
 		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_PINE_FOREST, OverworldClimate.COOL, 60D);
+
+		// Register Effects
+		Registry.register(Registry.STATUS_EFFECT, new Identifier(MOD_ID, "coziness"), COZINESS);
+		Registry.register(Registry.STATUS_EFFECT, new Identifier(MOD_ID, "burning"), BURNING);
 	}
 }

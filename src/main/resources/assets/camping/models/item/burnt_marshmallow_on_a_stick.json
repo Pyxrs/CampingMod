@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:item/handheld",
+    "textures": {
+      "layer0": "camping:item/burnt_marshmallow_on_a_stick"
+    }
+  }

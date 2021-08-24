@@ -13,6 +13,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import io.github.simplycmd.camping.Main;
+
 @Mixin(CampfireBlockEntity.class)
 public class CampfireBlockEntityMixin {
     private static final int HEALING_RADIUS = 5;
@@ -33,6 +35,7 @@ public class CampfireBlockEntityMixin {
 
                         // Having regeneration with this small of a duration doesn't actually give the effect but shows the icon, which is great
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 10, 0, false, false, true));
+                        player.addStatusEffect(new StatusEffectInstance(Main.COZINESS, 10, 0, false, false, true));
                     }
         }
     }
