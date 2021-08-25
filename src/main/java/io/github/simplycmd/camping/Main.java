@@ -55,6 +55,11 @@ public class Main implements ModInitializer {
 	public static final Item BREADED_SMORE_HALF_BURNT = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(5).saturationModifier(1.5f).build()));
 	public static final Item BREADED_SMORE_BURNT = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(2).saturationModifier(1.0f).build()));
 	public static final Item BREADED_SMORE_FLAMING = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(4).saturationModifier(3.0f).build()));
+	public static final Item COOKIE_SMORE_WARM = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(6).saturationModifier(3.0f).build()));
+	public static final Item COOKIE_SMORE_GOLDEN = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(8).saturationModifier(5.0f).build()));
+	public static final Item COOKIE_SMORE_HALF_BURNT = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(5).saturationModifier(1.5f).build()));
+	public static final Item COOKIE_SMORE_BURNT = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(2).saturationModifier(1.0f).build()));
+	public static final Item COOKIE_SMORE_FLAMING = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(4).saturationModifier(3.0f).build()));
 
 
 
@@ -96,6 +101,11 @@ public class Main implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "breaded_smore_half_burnt"), BREADED_SMORE_HALF_BURNT);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "breaded_smore_burnt"), BREADED_SMORE_BURNT);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "breaded_smore_flaming"), BREADED_SMORE_FLAMING);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cookie_smore_warm"), COOKIE_SMORE_WARM);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cookie_smore_golden"), COOKIE_SMORE_GOLDEN);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cookie_smore_half_burnt"), COOKIE_SMORE_HALF_BURNT);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cookie_smore_burnt"), COOKIE_SMORE_BURNT);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cookie_smore_flaming"), COOKIE_SMORE_FLAMING);
 
 
 

@@ -7,8 +7,6 @@ import net.minecraft.entity.effect.StatusEffectType;
 
 public class BurningEffect extends StatusEffect{
 
-    private static final float damage = 0;
-
     public BurningEffect() {
         super(
             StatusEffectType.NEUTRAL,

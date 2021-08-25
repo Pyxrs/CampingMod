@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " #",
+        "/ "
+    ],
+    "key": {
+        "#": {
+            "item": "camping:marshmallow"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "camping:raw_marshmallow_on_a_stick",
+        "count": 1
+    }
+}

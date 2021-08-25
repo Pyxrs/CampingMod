@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#S#"
+    ],
+    "key": {
+        "#": {
+            "item": "camping:sap"
+        },
+        "S": {
+            "item": "minecraft:sugar"
+        }
+    },
+    "result": {
+        "item": "camping:marshmallow",
+        "count": 1
+    }
+}
