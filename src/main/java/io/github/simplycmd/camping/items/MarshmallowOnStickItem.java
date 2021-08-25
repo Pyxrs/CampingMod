@@ -121,7 +121,7 @@ public class MarshmallowOnStickItem extends Item {
 
     public enum Cooked {
         BURNT(50, Optional.empty()),
-        FLAMING(5, Optional.empty()),
+        FLAMING(15, Optional.empty()),
         HALFBURNT(10, Optional.empty()),
         GOLDEN(25, Optional.empty()),
         WARM(50, Optional.empty()),
@@ -135,6 +135,7 @@ public class MarshmallowOnStickItem extends Item {
         }
 
         public static void updateItems() {
+            BURNT.nextItem = Optional.of(Main.MARSHMALLOW_ON_STICK_FLAMING);
             FLAMING.nextItem = Optional.of(Main.MARSHMALLOW_ON_STICK_BURNT);
             HALFBURNT.nextItem = Optional.of(Main.MARSHMALLOW_ON_STICK_FLAMING);
             GOLDEN.nextItem = Optional.of(Main.MARSHMALLOW_ON_STICK_HALFBURNT);

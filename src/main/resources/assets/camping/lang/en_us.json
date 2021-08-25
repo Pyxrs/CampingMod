@@ -7,8 +7,17 @@
     "item.camping.half_burnt_marshmallow_on_a_stick": "Half Burnt Marshmallow on a Stick",
     "item.camping.burnt_marshmallow_on_a_stick": "Burnt Marshmallow on a Stick",
     "item.camping.flaming_marshmallow_on_a_stick": "Flaming Marshmallow on a Stick",
-    "item.camping.sap": "Sap"
-    
+    "item.camping.sap": "Sap",
+    "item.camping.cookie_smore_flaming": "Flaming Cookie S'more",
+    "item.camping.cookie_smore_half_burnt": "Half Burnt Cookie S'more",
+    "item.camping.cookie_smore_burnt": "Burnt Cookie S'more",
+    "item.camping.cookie_smore_golden": "Golden Cookie S'more",
+    "item.camping.cookie_smore_warm": "Warm Cookie S'more",
+    "item.camping.breaded_smore_flaming": "Flaming Breaded S'more",
+    "item.camping.breaded_smore_half_burnt": "Half Burnt Breaded S'more",
+    "item.camping.breaded_smore_burnt": "Burnt Breaded S'more",
+    "item.camping.breaded_smore_golden": "Golden Breaded S'more",
+    "item.camping.breaded_smore_warm": "Warm Breaded S'more"
 
 
 }

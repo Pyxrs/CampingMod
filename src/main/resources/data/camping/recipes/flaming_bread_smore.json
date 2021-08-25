@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " # ",
+        "CSC",
+        " # "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:bread"
+        },
+        "C": {
+            "item": "minecraft:cocoa_beans"
+        },
+        "S": {
+            "item": "camping:flaming_marshmallow_on_a_stick"
+        }
+    },
+    "result": {
+        "item": "camping:breaded_smore_flaming",
+        "count": 1
+    }
+}
