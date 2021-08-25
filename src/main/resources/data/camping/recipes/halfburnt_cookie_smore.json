@@ -13,11 +13,11 @@
             "item": "minecraft:cocoa_beans"
         },
         "S": {
-            "item": "camping:gold_marshmallow_on_a_stick"
+            "item": "camping:half_burnt_marshmallow_on_a_stick"
         }
     },
     "result": {
-        "item": "camping:cookie_smore_golden",
+        "item": "camping:cookie_smore_half_burnt",
         "count": 1
     }
 }
