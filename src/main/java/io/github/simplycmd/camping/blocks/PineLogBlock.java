@@ -36,7 +36,7 @@ public class PineLogBlock extends PillarBlock {
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         // Become sappy
-        if (random.nextFloat() > 0.999) {
+        if (random.nextFloat() > 0.995) {
             world.setBlockState(pos, state.with(SAPPY, true));
         }
 

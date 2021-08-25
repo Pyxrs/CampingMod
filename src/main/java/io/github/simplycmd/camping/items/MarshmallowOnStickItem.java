@@ -94,10 +94,10 @@ public class MarshmallowOnStickItem extends Item {
             setCooked(stack, getCooked(stack).get() + 1);
 
             if (getCooked(stack).get() >= cooked.getBurnTime()) {
-                Cooked next = cooked.getNext();
+                Optional<Item> next = cooked.getNext();
                 // Increase cooked level
-                if (next != null)
-                    entity.setStackInHand(hand, cooked.getNext().getItem().getDefaultStack());
+                if (next.isPresent())
+                    entity.setStackInHand(hand, next.get().getDefaultStack());
                 else
                     entity.setStackInHand(hand, Items.STICK.getDefaultStack());
             }
@@ -120,34 +120,35 @@ public class MarshmallowOnStickItem extends Item {
     }
 
     public enum Cooked {
-        BURNT(null, 50, Main.MARSHMALLOW_ON_STICK_BURNT),
-        FLAMING(BURNT, 5, Main.MARSHMALLOW_ON_STICK_FLAMING),
-        HALFBURNT(FLAMING, 10, Main.MARSHMALLOW_ON_STICK_HALFBURNT),
-        GOLDEN(HALFBURNT, 25, Main.MARSHMALLOW_ON_STICK_GOLDEN),
-        WARM(GOLDEN, 50, Main.MARSHMALLOW_ON_STICK_WARM),
-        RAW(WARM, 100, Main.MARSHMALLOW_ON_STICK_RAW);
+        BURNT(50, Optional.empty()),
+        FLAMING(5, Optional.empty()),
+        HALFBURNT(10, Optional.empty()),
+        GOLDEN(25, Optional.empty()),
+        WARM(50, Optional.empty()),
+        RAW(100, Optional.empty());
 
-
-        private final Cooked next;
+        private Optional<Item> nextItem;
         private final int burnTime;
-        private final Item item;
 
-        private Cooked getNext() {
-            return next;
+        private Optional<Item> getNext() {
+            return nextItem;
+        }
+
+        public static void updateItems() {
+            FLAMING.nextItem = Optional.of(Main.MARSHMALLOW_ON_STICK_BURNT);
+            HALFBURNT.nextItem = Optional.of(Main.MARSHMALLOW_ON_STICK_FLAMING);
+            GOLDEN.nextItem = Optional.of(Main.MARSHMALLOW_ON_STICK_HALFBURNT);
+            WARM.nextItem = Optional.of(Main.MARSHMALLOW_ON_STICK_GOLDEN);
+            RAW.nextItem = Optional.of(Main.MARSHMALLOW_ON_STICK_WARM);
         }
 
         private int getBurnTime() {
             return burnTime;
         }
 
-        private Item getItem() {
-            return item;
-        }
-
-        Cooked(@Nullable Cooked next, int burnTime, Item item) {
-            this.next = next;
+        Cooked(int burnTime, Optional<Item> nextItem) {
+            this.nextItem = nextItem;
             this.burnTime = burnTime;
-            this.item = item;
         }
     }
 }

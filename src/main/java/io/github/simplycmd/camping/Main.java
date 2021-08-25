@@ -75,6 +75,7 @@ public class Main implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		MarshmallowOnStickItem.Cooked.updateItems();
 
 		// Register blocks
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_log"), PINE_LOG);
