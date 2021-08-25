@@ -21,6 +21,8 @@ import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.stat.StatFormatter;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.registry.BuiltinRegistries;
@@ -67,6 +69,9 @@ public class Main implements ModInitializer {
 	//effects
 	public static final StatusEffect COZINESS = new CozinessEffect();
 	public static final StatusEffect BURNING = new BurningEffect();
+
+	// Stats
+	public static final Identifier BURNED = new Identifier(MOD_ID, "burnt_times");
 	// Features
 	public static final TreeFeatureConfig PINE_TREE_CONFIG = new TreeFeatureConfig.Builder(
 			new SimpleBlockStateProvider(PINE_LOG.getDefaultState()),
@@ -109,7 +114,9 @@ public class Main implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cookie_smore_flaming"), COOKIE_SMORE_FLAMING);
 
 
-
+		// Register Stats
+		Registry.register(Registry.CUSTOM_STAT, "burnt_times", BURNED);
+		Stats.CUSTOM.getOrCreateStat(BURNED, StatFormatter.DEFAULT);
 
 		// Register features
 		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "pine_trees"), PINE_TREES);
