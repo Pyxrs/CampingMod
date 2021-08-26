@@ -2,21 +2,24 @@ package io.github.simplycmd.camping;
 
 import io.github.simplycmd.camping.blocks.HotSpringWaterBlock;
 import io.github.simplycmd.camping.blocks.PineLogBlock;
-import io.github.simplycmd.camping.effects.BurningEffect;
+import io.github.simplycmd.camping.blocks.SleepingBagBlock;
 import io.github.simplycmd.camping.effects.CozinessEffect;
 import io.github.simplycmd.camping.items.FlamingFoodItem;
+import io.github.simplycmd.camping.entities.BrownBearEntity;
 import io.github.simplycmd.camping.items.MarshmallowOnStickItem;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
 import net.fabricmc.fabric.api.biome.v1.OverworldClimate;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.block.*;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffectType;
-import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -42,11 +45,13 @@ public class Main implements ModInitializer {
 	// Blocks
 	public static final Block PINE_LOG = new PineLogBlock(FabricBlockSettings.of(Material.WOOD, MapColor.BROWN).strength(2.0F).sounds(BlockSoundGroup.WOOD).ticksRandomly());
 	public static final Block HOT_SPRING_WATER = new HotSpringWaterBlock(FabricBlockSettings.of(Material.BUBBLE_COLUMN).noCollision().dropsNothing());
+	public static final Block SLEEPING_BAG = new SleepingBagBlock(FabricBlockSettings.of(Material.WOOL));
 
 	// Items
 	public static final Item SAP = new Item(new FabricItemSettings().group(ItemGroup.MATERIALS));
-
+	public static final Item CLOTH = new Item(new FabricItemSettings().group(ItemGroup.MATERIALS));
 	public static final Item MARSHMALLOW = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(1).saturationModifier(0.5f).snack().build()));
+
 	public static final Item MARSHMALLOW_ON_STICK_RAW = new MarshmallowOnStickItem(MarshmallowOnStickItem.Cooked.RAW);
 	public static final Item MARSHMALLOW_ON_STICK_WARM = new MarshmallowOnStickItem(MarshmallowOnStickItem.Cooked.WARM);
 	public static final Item MARSHMALLOW_ON_STICK_GOLDEN = new MarshmallowOnStickItem(MarshmallowOnStickItem.Cooked.GOLDEN);
@@ -64,14 +69,12 @@ public class Main implements ModInitializer {
 	public static final Item COOKIE_SMORE_BURNT = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(2).saturationModifier(1.0f).build()));
 	public static final Item COOKIE_SMORE_FLAMING = new FlamingFoodItem(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(4).saturationModifier(3.0f).build()));
 
-
-
-	//effects
+	// Effects
 	public static final StatusEffect COZINESS = new CozinessEffect();
-	public static final StatusEffect BURNING = new BurningEffect();
 
 	// Stats
 	public static final Identifier BURNED = new Identifier(MOD_ID, "burnt_times");
+
 	// Features
 	public static final TreeFeatureConfig PINE_TREE_CONFIG = new TreeFeatureConfig.Builder(
 			new SimpleBlockStateProvider(PINE_LOG.getDefaultState()),
@@ -84,18 +87,35 @@ public class Main implements ModInitializer {
 	public static final ConfiguredFeature<?, ?> PINE_TREES = Feature.TREE.configure(PINE_TREE_CONFIG).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(100, 1, 2)));
 	public static final ConfiguredFeature<?, ?> HOT_SPRINGS = Feature.LAKE.configure(new SingleStateFeatureConfig(HOT_SPRING_WATER.getDefaultState())).range(ConfiguredFeatures.Decorators.BOTTOM_TO_TOP).spreadHorizontally().applyChance(4);
 
+	// Entities
+	public static final EntityType<BrownBearEntity> BROWN_BEAR = Registry.register(
+			Registry.ENTITY_TYPE,
+			new Identifier(MOD_ID, "brown_bear"),
+			FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, BrownBearEntity::new).dimensions(EntityDimensions.fixed(1.4F, 1.4F)).trackRangeBlocks(10).build()
+	);
+
 	@Override
 	public void onInitialize() {
 		MarshmallowOnStickItem.Cooked.updateItems();
 
-		// Register blocks
+		// --------------------------------------------------------------------
+		// Register Entities
+		FabricDefaultAttributeRegistry.register(BROWN_BEAR, BrownBearEntity.createMobAttributes());
+
+		// --------------------------------------------------------------------
+		// Register Blocks
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_log"), PINE_LOG);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "hot_spring_water"), HOT_SPRING_WATER);
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "sleeping_bag"), SLEEPING_BAG);
 
-		// Register items
+		// --------------------------------------------------------------------
+		// Register Items
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sap"), SAP);
-
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cloth"), CLOTH);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "marshmallow"), MARSHMALLOW);
+
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sleeping_bag"), new BlockItem(SLEEPING_BAG, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "raw_marshmallow_on_a_stick"), MARSHMALLOW_ON_STICK_RAW);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "warm_marshmallow_on_a_stick"), MARSHMALLOW_ON_STICK_WARM);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "golden_marshmallow_on_a_stick"), MARSHMALLOW_ON_STICK_GOLDEN);
@@ -112,17 +132,19 @@ public class Main implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cookie_smore_half_burnt"), COOKIE_SMORE_HALF_BURNT);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cookie_smore_burnt"), COOKIE_SMORE_BURNT);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cookie_smore_flaming"), COOKIE_SMORE_FLAMING);
-
-
+		
+		// --------------------------------------------------------------------
 		// Register Stats
 		Registry.register(Registry.CUSTOM_STAT, "burnt_times", BURNED);
 		Stats.CUSTOM.getOrCreateStat(BURNED, StatFormatter.DEFAULT);
 
-		// Register features
+		// --------------------------------------------------------------------
+		// Register Features
 		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "pine_trees"), PINE_TREES);
 		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "hot_springs"), HOT_SPRINGS);
 
-		// Register biomes (OverworldBiomes is deprecated because it's experimental)
+		// --------------------------------------------------------------------
+		// Register Biomes (OverworldBiomes is deprecated because it's experimental)
 		Registry.register(BuiltinRegistries.BIOME, BiomeKeys.PINE_FOREST.getValue(), PineForest.PINE_FOREST);
 		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.SNOWY, 100D);
 		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.TEMPERATE, 100D);
@@ -134,8 +156,8 @@ public class Main implements ModInitializer {
 		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_PINE_FOREST, OverworldClimate.TEMPERATE, 60D);
 		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_PINE_FOREST, OverworldClimate.COOL, 60D);
 
+		// --------------------------------------------------------------------
 		// Register Effects
 		Registry.register(Registry.STATUS_EFFECT, new Identifier(MOD_ID, "coziness"), COZINESS);
-		Registry.register(Registry.STATUS_EFFECT, new Identifier(MOD_ID, "burning"), BURNING);
 	}
 }

@@ -2,23 +2,33 @@ package io.github.simplycmd.camping.items;
 
 import io.github.simplycmd.camping.Main;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.block.BlockState;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.tag.BlockTags;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Optional;
 
 public class MarshmallowOnStickItem extends Item {
-    private static final double CAMPFIRE_DISTANCE = 1.5;
+    private static final double CAMPFIRE_DISTANCE = 2;
     private final Cooked cooked;
 
     public MarshmallowOnStickItem(Cooked cooked) {
@@ -26,7 +36,7 @@ public class MarshmallowOnStickItem extends Item {
         super(switch (cooked) {
             case RAW:
                 yield new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1).food(new FoodComponent.Builder().hunger(1).saturationModifier(0.5f).snack().alwaysEdible().build());
-            case WARM:
+            case WARM, FLAMING:
                 yield new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1).food(new FoodComponent.Builder().hunger(2).saturationModifier(0.75f).snack().alwaysEdible().build());
             case GOLDEN:
                 yield new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1).food(new FoodComponent.Builder().hunger(4).saturationModifier(1.25f).snack().alwaysEdible().build());
@@ -34,12 +44,16 @@ public class MarshmallowOnStickItem extends Item {
                 yield new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1).food(new FoodComponent.Builder().hunger(2).saturationModifier(0.5f).snack().alwaysEdible().build());
             case BURNT:
                 yield new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1).food(new FoodComponent.Builder().hunger(1).saturationModifier(0f).snack().alwaysEdible().build());
-            case FLAMING:
-                yield new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1);
             default:
                 throw new EnumConstantNotPresentException(Cooked.class, "cooked");
         });
         this.cooked = cooked;
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        tooltip.add(new LiteralText("Hold over a campfire to cook").formatted(Formatting.ITALIC, Formatting.GRAY));
+        tooltip.add(new LiteralText("(hint: look at it)").formatted(Formatting.ITALIC, Formatting.GRAY));
     }
 
     @Override
@@ -49,14 +63,29 @@ public class MarshmallowOnStickItem extends Item {
         // Check if in hand
         if (livingEntity.getMainHandStack().getItem().equals(this) || livingEntity.getOffHandStack().getItem().equals(this)) {
             BlockHitResult hit = raycast(world, livingEntity, RaycastContext.FluidHandling.NONE);
-            // Expensive distance call will hopefully be called rarely enough to not impact performance
-            if (hit.squaredDistanceTo(livingEntity) <= CAMPFIRE_DISTANCE) cook(livingEntity, stack, livingEntity.getMainHandStack().getItem().equals(this) ? Hand.MAIN_HAND : Hand.OFF_HAND);
+            BlockState hitBlock = world.getBlockState(hit.getBlockPos());
+            if (hitBlock.isIn(BlockTags.CAMPFIRES))
+                // Expensive distance call will hopefully be called rarely enough to not impact performance
+                if (hit.squaredDistanceTo(livingEntity) <= CAMPFIRE_DISTANCE) cook(stack);
         }
+
+        // Increase flaming cooked percent even when not near a fire
+        if (cooked.equals(Cooked.FLAMING)) {
+            if (getCooked(stack).isEmpty())
+                setCooked(stack, 0);
+            else
+                setCooked(stack, getCooked(stack).get() + 1);
+        }
+        update(livingEntity, stack, livingEntity.getMainHandStack().getItem().equals(this) ? Hand.MAIN_HAND : Hand.OFF_HAND);
     }
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         super.finishUsing(stack, world, user);
+
+        if (cooked.equals(Cooked.FLAMING)) {
+            user.setOnFireFor(3);
+        }
 
         if (stack.isEmpty()) {
             return new ItemStack(Items.STICK);
@@ -85,22 +114,29 @@ public class MarshmallowOnStickItem extends Item {
         nbtCompound.putInt("Cooked", cooked);
     }
 
-    // Responsible for cooking the marshmallow
-    private void cook(LivingEntity entity, ItemStack stack, Hand hand) {
+    private void update(LivingEntity entity, ItemStack stack, Hand hand) {
         if (getCooked(stack).isEmpty()) {
             setCooked(stack, 0);
         } else {
-            // Increase cooked
-            setCooked(stack, getCooked(stack).get() + 1);
-
             if (getCooked(stack).get() >= cooked.getBurnTime()) {
                 Optional<Item> next = cooked.getNext();
                 // Increase cooked level
-                if (next.isPresent())
+                if (next.isPresent()) {
                     entity.setStackInHand(hand, next.get().getDefaultStack());
-                else
+                    if (cooked.equals(Cooked.FLAMING) && entity instanceof PlayerEntity)
+                        entity.world.playSound((PlayerEntity) entity, entity.getBlockPos(), SoundEvents.ENTITY_GENERIC_BURN, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                } else {
                     entity.setStackInHand(hand, Items.STICK.getDefaultStack());
+                    if (entity instanceof PlayerEntity) entity.world.playSound((PlayerEntity) entity, entity.getBlockPos(), SoundEvents.ENTITY_GENERIC_BURN, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                }
             }
+        }
+    }
+
+    // Responsible for cooking the marshmallow
+    private void cook(ItemStack stack) {
+        if (getCooked(stack).isPresent() && !cooked.equals(Cooked.FLAMING)) {
+            setCooked(stack, getCooked(stack).get() + 1);
         }
     }
 
@@ -120,11 +156,11 @@ public class MarshmallowOnStickItem extends Item {
     }
 
     public enum Cooked {
-        BURNT(50, Optional.empty()),
-        FLAMING(15, Optional.empty()),
-        HALFBURNT(10, Optional.empty()),
+        BURNT(100, Optional.empty()),
+        FLAMING(100, Optional.empty()),
+        HALFBURNT(50, Optional.empty()),
         GOLDEN(25, Optional.empty()),
-        WARM(50, Optional.empty()),
+        WARM(75, Optional.empty()),
         RAW(100, Optional.empty());
 
         private Optional<Item> nextItem;

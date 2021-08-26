@@ -1,0 +1,34 @@
+{
+	"credit": "Made by PaintedYeti#0103",
+	"texture_size": [64, 64],
+	"textures": {
+		"0": "camping:block/sleeping_bag",
+		"particle": "camping:block/sleeping_bag"
+	},
+	"elements": [
+		{
+			"from": [1, 0, 1],
+			"to": [15, 2, 31],
+			"faces": {
+				"north": {"uv": [1, 8.5, 4.5, 9], "texture": "#0"},
+				"east": {"uv": [0.5, 1, 1, 8.5], "rotation": 270, "texture": "#0"},
+				"south": {"uv": [1, 0.5, 4.5, 1], "rotation": 180, "texture": "#0"},
+				"west": {"uv": [4.5, 1, 5, 8.5], "rotation": 90, "texture": "#0"},
+				"up": {"uv": [4.5, 8.5, 1, 1], "texture": "#0"},
+				"down": {"uv": [9, 1, 5.5, 8.5], "texture": "#0"}
+			}
+		},
+		{
+			"from": [1, 0, 1],
+			"to": [15, 2, 31],
+			"faces": {
+				"north": {"uv": [12.5, 15.5, 16, 16], "texture": "#0"},
+				"east": {"uv": [8.5, 15.5, 16, 16], "texture": "#0"},
+				"south": {"uv": [12.5, 15.5, 16, 16], "texture": "#0"},
+				"west": {"uv": [7, 0.5, 14.5, 1], "texture": "#0"},
+				"up": {"uv": [13, 8.5, 9.5, 1], "texture": "#0"},
+				"down": {"uv": [16, 8.5, 12.5, 16], "texture": "#0"}
+			}
+		}
+	]
+}

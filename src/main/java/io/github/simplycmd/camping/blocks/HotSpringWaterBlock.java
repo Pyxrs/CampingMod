@@ -30,7 +30,7 @@ public class HotSpringWaterBlock extends BubbleColumnBlock {
             }
 
             // Having regeneration with this small of a duration doesn't actually give the effect but shows the icon, which is great
-            ((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 10, 0, false, false, true));
+            ((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 10, 0, true, false, true));
         }
     }
 

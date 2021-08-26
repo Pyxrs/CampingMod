@@ -4,12 +4,11 @@
   "package": "io.github.simplycmd.camping.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "SapScrapingMixin",
+    "CampfireComfortMixin",
     "HotSpringWaterColorMixin",
-    "CampfireBlockEntityMixin",
-    "LiveFishingMixin"
-  ],
-  "client": [
+    "LiveFishingMixin",
+    "SapScrapingMixin",
+    "SleepingBagSpawnpointMixin"
   ],
   "injectors": {
     "defaultRequire": 1
