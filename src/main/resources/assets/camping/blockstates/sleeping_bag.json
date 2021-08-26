@@ -1,7 +1,6 @@
 {
   "variants": {
-    "": {
-      "model": "camping:block/sleeping_bag"
-    }
+    "part=foot": { "model": "camping:block/sleeping_bag" },
+    "part=head": { "model": "minecraft:block/air" }
   }
 }

@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ServerPlayerEntity.class)
 public class SleepingBagSpawnpointMixin {
     @Inject(method = "setSpawnPoint", at = @At("HEAD"), cancellable = true)
-    private void removeBobber(RegistryKey<World> dimension, BlockPos pos, float angle, boolean spawnPointSet, boolean sendMessage, CallbackInfo ci) {
+    private void preventSpawnPoint(RegistryKey<World> dimension, BlockPos pos, float angle, boolean spawnPointSet, boolean sendMessage, CallbackInfo ci) {
         if (((ServerPlayerEntity) (Object) this).world.getBlockState(pos).getBlock().equals(Main.SLEEPING_BAG)) {
             ((ServerPlayerEntity) (Object) this).sendSystemMessage(new LiteralText("Sleeping bags do not set spawn!"), Util.NIL_UUID);
             ci.cancel();
