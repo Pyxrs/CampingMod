@@ -1,4 +1,4 @@
-package io.github.simplycmd.camping.entities;
+package io.github.simplycmd.camping.entities.bear;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

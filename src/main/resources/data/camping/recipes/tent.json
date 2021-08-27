@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "CCC",
+        "S S"
+    ],
+    "key": {
+        "C": {
+            "item": "camping:cloth"
+        },
+        "S": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "camping:tent",
+        "count": 1
+    }
+}

@@ -19,6 +19,7 @@ repositories {
 		name = 'TerraformersMC'
 		url = 'https://maven.terraformersmc.com/'
 	}
+	maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
 }
 
 dependencies {
@@ -29,6 +30,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	include modImplementation("com.terraformersmc.terraform-api:terraform-biome-builder-api-v1:2.0.0")
+	include modImplementation("software.bernie.geckolib:geckolib-fabric-1.17:3.0.13:dev")
 }
 
 processResources {

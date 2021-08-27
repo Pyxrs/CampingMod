@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "CCC",
+        "CCC"
+    ],
+    "key": {
+        "C": {
+            "item": "camping:cloth"
+        }
+    },
+    "result": {
+        "item": "camping:sleeping_bag",
+        "count": 1
+    }
+}

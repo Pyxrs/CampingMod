@@ -1,16 +1,11 @@
-package io.github.simplycmd.camping.entities;
+package io.github.simplycmd.camping.entities.bear;
 
 import io.github.simplycmd.camping.Main;
 import io.github.simplycmd.camping.MainClient;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
-import net.minecraft.client.render.entity.model.PolarBearEntityModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.passive.PolarBearEntity;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)

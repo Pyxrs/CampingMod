@@ -1,6 +1,8 @@
 package io.github.simplycmd.camping.mixin;
 
 import io.github.simplycmd.camping.Main;
+import io.github.simplycmd.camping.blocks.SleepingBagBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,7 +18,8 @@ public class SleepingBagFreezingMixin {
     @Inject(method = "tick", at = @At("HEAD"))
     private void sleepingBagFreeze(CallbackInfo ci) {
         PlayerEntity self = ((PlayerEntity) (Object) this);
-        if (self.isSleeping() && self.world.getBlockState(self.getBlockPos()).getBlock().equals(Main.SLEEPING_BAG)) {
+        BlockState state = self.world.getBlockState(self.getBlockPos());
+        if (self.isSleeping() && state.getBlock().equals(Main.SLEEPING_BAG) && !state.get(SleepingBagBlock.TENT)) {
             playerFreezeTicks.putIfAbsent(self, 300);
         }
         if (!self.isSleeping() && playerFreezeTicks.containsKey(self)) {

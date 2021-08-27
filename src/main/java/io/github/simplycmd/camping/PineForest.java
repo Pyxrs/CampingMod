@@ -2,8 +2,10 @@ package io.github.simplycmd.camping;
 
 import com.terraformersmc.terraform.biomebuilder.BiomeTemplate;
 import com.terraformersmc.terraform.biomebuilder.TerraformBiomeBuilder;
+import net.minecraft.entity.EntityType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeEffects;
+import net.minecraft.world.biome.SpawnSettings;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.ConfiguredFeatures;
 import net.minecraft.world.gen.feature.ConfiguredStructureFeatures;
@@ -23,6 +25,7 @@ public class PineForest {
             .addFeature(GenerationStep.Feature.LAKES, Main.HOT_SPRINGS)
             .category(Biome.Category.FOREST)
             .addDefaultSpawnEntries()
+            .addSpawnEntry(new SpawnSettings.SpawnEntry(Main.BROWN_BEAR, 100, 1, 1))
             .effects(new BiomeEffects.Builder()
                     .waterColor(0x3F76E4)
                     .waterFogColor(0x50533)
@@ -51,6 +54,7 @@ public class PineForest {
             .addFeature(GenerationStep.Feature.LAKES, Main.HOT_SPRINGS)
             .category(Biome.Category.FOREST)
             .addDefaultSpawnEntries()
+            .addSpawnEntry(new SpawnSettings.SpawnEntry(Main.BROWN_BEAR, 100, 1, 1))
             .effects(new BiomeEffects.Builder()
                     .waterColor(0x3F76E4)
                     .waterFogColor(0x50533)

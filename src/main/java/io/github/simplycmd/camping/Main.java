@@ -4,9 +4,11 @@ import io.github.simplycmd.camping.blocks.HotSpringWaterBlock;
 import io.github.simplycmd.camping.blocks.PineLogBlock;
 import io.github.simplycmd.camping.blocks.SleepingBagBlock;
 import io.github.simplycmd.camping.effects.CozinessEffect;
+import io.github.simplycmd.camping.entities.bass.BassEntity;
 import io.github.simplycmd.camping.items.FlamingFoodItem;
-import io.github.simplycmd.camping.entities.BrownBearEntity;
+import io.github.simplycmd.camping.entities.bear.BrownBearEntity;
 import io.github.simplycmd.camping.items.MarshmallowOnStickItem;
+import io.github.simplycmd.camping.items.TentItem;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
 import net.fabricmc.fabric.api.biome.v1.OverworldClimate;
@@ -14,12 +16,13 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.*;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
@@ -38,11 +41,10 @@ import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.foliage.SpruceFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
-
-import java.util.HashMap;
+import software.bernie.example.registry.EntityRegistryBuilder;
+import software.bernie.geckolib3.GeckoLib;
 
 public class Main implements ModInitializer {
-
 
 	// Mod ID
 	public static final String MOD_ID = "camping";
@@ -56,6 +58,7 @@ public class Main implements ModInitializer {
 	public static final Item SAP = new Item(new FabricItemSettings().group(ItemGroup.MATERIALS));
 	public static final Item CLOTH = new Item(new FabricItemSettings().group(ItemGroup.MATERIALS));
 	public static final Item MARSHMALLOW = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(1).saturationModifier(0.5f).snack().build()));
+	public static final Item TENT = new TentItem(new FabricItemSettings().group(ItemGroup.MATERIALS));
 
 	public static final Item MARSHMALLOW_ON_STICK_RAW = new MarshmallowOnStickItem(MarshmallowOnStickItem.Cooked.RAW);
 	public static final Item MARSHMALLOW_ON_STICK_WARM = new MarshmallowOnStickItem(MarshmallowOnStickItem.Cooked.WARM);
@@ -98,14 +101,22 @@ public class Main implements ModInitializer {
 			new Identifier(MOD_ID, "brown_bear"),
 			FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, BrownBearEntity::new).dimensions(EntityDimensions.fixed(1.4F, 1.4F)).trackRangeBlocks(10).build()
 	);
+	public static final EntityType<BassEntity> BASS = Registry.register(
+			Registry.ENTITY_TYPE,
+			new Identifier(MOD_ID, "bass"),
+			FabricEntityTypeBuilder.create(SpawnGroup.WATER_CREATURE, BassEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.3F)).trackRangeBlocks(4).build()
+	);
 
 	@Override
 	public void onInitialize() {
+		GeckoLib.initialize();
 		MarshmallowOnStickItem.Cooked.updateItems();
 
 		// --------------------------------------------------------------------
 		// Register Entities
 		FabricDefaultAttributeRegistry.register(BROWN_BEAR, BrownBearEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(BASS, BassEntity.createMobAttributes());
+		buildEntity(BASS);
 
 		// --------------------------------------------------------------------
 		// Register Blocks
@@ -118,8 +129,9 @@ public class Main implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sap"), SAP);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cloth"), CLOTH);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "marshmallow"), MARSHMALLOW);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "tent"), TENT);
 
-		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sleeping_bag"), new BlockItem(SLEEPING_BAG, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sleeping_bag"), new BlockItem(SLEEPING_BAG, new FabricItemSettings().group(ItemGroup.DECORATIONS).maxCount(1)));
 
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "raw_marshmallow_on_a_stick"), MARSHMALLOW_ON_STICK_RAW);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "warm_marshmallow_on_a_stick"), MARSHMALLOW_ON_STICK_WARM);
@@ -164,5 +176,11 @@ public class Main implements ModInitializer {
 		// --------------------------------------------------------------------
 		// Register Effects
 		Registry.register(Registry.STATUS_EFFECT, new Identifier(MOD_ID, "coziness"), COZINESS);
+	}
+
+	public static <T extends Entity> EntityType<T> buildEntity(EntityType.EntityFactory<T> entity, Class<T> entityClass, float width, float height, SpawnGroup group) {
+		String name = entityClass.getSimpleName().toLowerCase();
+		return EntityRegistryBuilder.<T>createBuilder(new Identifier(Main.MOD_ID, name)).entity(entity)
+				.category(group).dimensions(EntityDimensions.changing(width, height)).build();
 	}
 }

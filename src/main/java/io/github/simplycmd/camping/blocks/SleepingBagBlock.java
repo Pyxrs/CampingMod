@@ -9,6 +9,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
@@ -24,13 +27,30 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 import net.minecraft.world.explosion.ExplosionBehavior;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class SleepingBagBlock extends BedBlock {
+    public static final BooleanProperty TENT = BooleanProperty.of("tent");
 
     public SleepingBagBlock(Settings settings) {
-        super(DyeColor.GREEN, settings);
+        super(DyeColor.WHITE, settings);
+        setDefaultState(getStateManager().getDefaultState().with(TENT, false));
+    }
+
+    protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {
+        stateManager.add(TENT);
+        super.appendProperties(stateManager);
+    }
+
+    @Override
+    @Nullable
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        Direction direction = Direction.NORTH;
+        BlockPos blockPos = ctx.getBlockPos();
+        BlockPos blockPos2 = blockPos.offset(direction);
+        return ctx.getWorld().getBlockState(blockPos2).canReplace(ctx) ? (BlockState)this.getDefaultState().with(FACING, direction) : null;
     }
 
     @Override
@@ -46,26 +66,16 @@ public class SleepingBagBlock extends BedBlock {
                 }
             }
 
-            if (!isOverworld(world)) {
-                world.removeBlock(pos, false);
-                BlockPos blockPos = pos.offset(state.get(FACING).getOpposite());
-                if (world.getBlockState(blockPos).isOf(this)) {
-                    world.removeBlock(blockPos, false);
-                }
-
-                return ActionResult.SUCCESS;
-            } else if (state.get(OCCUPIED)) {
-                return ActionResult.SUCCESS;
-            } else {
+            if (isOverworld(world)) {
                 player.trySleep(pos).ifLeft((reason) -> {
                     if (reason != null) {
                         player.sendMessage(reason.toText(), true);
                     }
 
                 });
-                return ActionResult.SUCCESS;
             }
         }
+        return ActionResult.SUCCESS;
     }
 
     @Override
@@ -88,6 +98,6 @@ public class SleepingBagBlock extends BedBlock {
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D);
+        return Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D);
     }
 }
