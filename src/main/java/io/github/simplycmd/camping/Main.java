@@ -116,7 +116,7 @@ public class Main implements ModInitializer {
 		// Register Entities
 		FabricDefaultAttributeRegistry.register(BROWN_BEAR, BrownBearEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(BASS, BassEntity.createMobAttributes());
-		buildEntity(BASS);
+		// buildEntity(BASS);
 
 		// --------------------------------------------------------------------
 		// Register Blocks

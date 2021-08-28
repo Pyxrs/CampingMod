@@ -7,7 +7,7 @@ public class CozinessEffect extends StatusEffect{
     public CozinessEffect() {
         super(
             StatusEffectType.NEUTRAL,
-            0x98D982);
+            0xcfa136);
         
     }
     

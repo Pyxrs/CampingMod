@@ -22,7 +22,7 @@ public class MainClient implements ClientModInitializer {
     public void onInitializeClient() {
         EntityRendererRegistry.INSTANCE.register(Main.BROWN_BEAR, BrownBearEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_BROWN_BEAR_LAYER, BrownBearEntityModel::getTexturedModelData);
-        EntityRendererRegistry.INSTANCE.register(Main.BASS, BassEntityRenderer::new);
+        // EntityRendererRegistry.INSTANCE.register(Main.BASS, BassEntityRenderer::new);
 
         BlockRenderLayerMap.INSTANCE.putBlock(Main.SLEEPING_BAG, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(Main.SLEEPING_BAG, RenderLayer.getTranslucent());
