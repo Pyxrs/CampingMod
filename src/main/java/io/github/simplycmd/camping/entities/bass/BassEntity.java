@@ -9,13 +9,8 @@ import net.minecraft.item.Items;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class BassEntity extends SchoolingFishEntity implements IAnimatable {
-    AnimationFactory factory = new AnimationFactory(this);
-
+public class BassEntity extends SchoolingFishEntity {
     public BassEntity(EntityType<? extends BassEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -38,15 +33,5 @@ public class BassEntity extends SchoolingFishEntity implements IAnimatable {
 
     protected SoundEvent getFlopSound() {
         return SoundEvents.ENTITY_COD_FLOP;
-    }
-
-    @Override
-    public void registerControllers(AnimationData animationData) {
-
-    }
-
-    @Override
-    public AnimationFactory getFactory() {
-        return factory;
     }
 }

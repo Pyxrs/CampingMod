@@ -41,8 +41,6 @@ import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.foliage.SpruceFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
-import software.bernie.example.registry.EntityRegistryBuilder;
-import software.bernie.geckolib3.GeckoLib;
 
 public class Main implements ModInitializer {
 
@@ -109,7 +107,6 @@ public class Main implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		GeckoLib.initialize();
 		MarshmallowOnStickItem.Cooked.updateItems();
 
 		// --------------------------------------------------------------------
@@ -176,11 +173,5 @@ public class Main implements ModInitializer {
 		// --------------------------------------------------------------------
 		// Register Effects
 		Registry.register(Registry.STATUS_EFFECT, new Identifier(MOD_ID, "coziness"), COZINESS);
-	}
-
-	public static <T extends Entity> EntityType<T> buildEntity(EntityType.EntityFactory<T> entity, Class<T> entityClass, float width, float height, SpawnGroup group) {
-		String name = entityClass.getSimpleName().toLowerCase();
-		return EntityRegistryBuilder.<T>createBuilder(new Identifier(Main.MOD_ID, name)).entity(entity)
-				.category(group).dimensions(EntityDimensions.changing(width, height)).build();
 	}
 }
