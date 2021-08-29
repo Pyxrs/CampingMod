@@ -60,6 +60,6 @@ public class LiveFishingMixin {
 
     @Inject(method = "use", at = @At("RETURN"))
     private void removeBobber(ItemStack usedItem, CallbackInfoReturnable<Integer> cir) {
-        ((FishingBobberEntity) (Object) this).kill();
+        ((FishingBobberEntity) (Object) this).remove(Entity.RemovalReason.DISCARDED);
     }
 }
