@@ -5,19 +5,31 @@ import io.github.simplycmd.camping.blocks.PineLogBlock;
 import io.github.simplycmd.camping.blocks.SleepingBagBlock;
 import io.github.simplycmd.camping.effects.CozinessEffect;
 import io.github.simplycmd.camping.entities.bass.BassEntity;
+import io.github.simplycmd.camping.entities.bass.BassEntityModel;
+import io.github.simplycmd.camping.entities.bass.BassEntityRenderer;
+import io.github.simplycmd.camping.entities.bear.BrownBearEntityModel;
+import io.github.simplycmd.camping.entities.bear.BrownBearEntityRenderer;
 import io.github.simplycmd.camping.items.FlamingFoodItem;
 import io.github.simplycmd.camping.entities.bear.BrownBearEntity;
 import io.github.simplycmd.camping.items.MarshmallowOnStickItem;
 import io.github.simplycmd.camping.items.TentItem;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
 import net.fabricmc.fabric.api.biome.v1.OverworldClimate;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.*;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
@@ -41,7 +53,7 @@ import net.minecraft.world.gen.foliage.SpruceFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 
-public class Main implements ModInitializer {
+public class Main implements ModInitializer, ClientModInitializer {
 
 	// Mod ID
 	public static final String MOD_ID = "camping";
@@ -178,5 +190,22 @@ public class Main implements ModInitializer {
 		// --------------------------------------------------------------------
 		// Register Effects
 		Registry.register(Registry.STATUS_EFFECT, new Identifier(MOD_ID, "coziness"), COZINESS);
+	}
+
+	@Environment(EnvType.CLIENT)
+	public static final EntityModelLayer MODEL_BROWN_BEAR_LAYER = new EntityModelLayer(new Identifier(Main.MOD_ID, "brown_bear"), "main");
+	@Environment(EnvType.CLIENT)
+	public static final EntityModelLayer MODEL_BASS_LAYER = new EntityModelLayer(new Identifier(Main.MOD_ID, "bass"), "main");
+
+	@Environment(EnvType.CLIENT)
+	@Override
+	public void onInitializeClient() {
+		EntityRendererRegistry.INSTANCE.register(Main.BROWN_BEAR, BrownBearEntityRenderer::new);
+		EntityModelLayerRegistry.registerModelLayer(MODEL_BROWN_BEAR_LAYER, BrownBearEntityModel::getTexturedModelData);
+
+		EntityRendererRegistry.INSTANCE.register(Main.BASS, BassEntityRenderer::new);
+		EntityModelLayerRegistry.registerModelLayer(MODEL_BASS_LAYER, BassEntityModel::getTexturedModelData);
+
+		BlockRenderLayerMap.INSTANCE.putBlock(Main.SLEEPING_BAG, RenderLayer.getCutout());
 	}
 }

@@ -27,7 +27,7 @@
       "io.github.simplycmd.camping.Main"
     ],
     "client": [
-      "io.github.simplycmd.camping.MainClient"
+      "io.github.simplycmd.camping.Main"
     ]
   },
   "mixins": [

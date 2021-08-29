@@ -1,7 +1,6 @@
 package io.github.simplycmd.camping.entities.bass;
 
 import io.github.simplycmd.camping.Main;
-import io.github.simplycmd.camping.MainClient;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.MobEntityRenderer;
@@ -16,7 +15,7 @@ import net.minecraft.util.math.Vec3f;
 public class BassEntityRenderer extends MobEntityRenderer<BassEntity, BassEntityModel<BassEntity>> {
 
     public BassEntityRenderer(Context context) {
-        super(context, new BassEntityModel<>(context.getPart(MainClient.MODEL_BASS_LAYER)), 0.3F);
+        super(context, new BassEntityModel<>(context.getPart(Main.MODEL_BASS_LAYER)), 0.3F);
     }
 
     @Override
