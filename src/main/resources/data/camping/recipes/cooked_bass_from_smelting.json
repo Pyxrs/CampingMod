@@ -1,0 +1,9 @@
+{
+    "type": "minecraft:smoking",
+    "ingredient": {
+      "item": "minecraft:raw_bass"
+    },
+    "result": "minecraft:cooked_bass",
+    "experience": 0.35,
+    "cookingtime": 100
+}

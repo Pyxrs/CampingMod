@@ -81,6 +81,8 @@ public class Main implements ModInitializer, ClientModInitializer {
 	public static final Item MARSHMALLOW = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(1).saturationModifier(0.5f).snack().build()));
 	public static final Item TENT = new TentItem(new FabricItemSettings().group(ItemGroup.MATERIALS));
 	public static final Item BASS_BUCKET = new EntityBucketItem(BASS, Fluids.WATER, SoundEvents.ITEM_BUCKET_EMPTY_FISH, (new Item.Settings()).maxCount(1).group(ItemGroup.MISC));
+	public static final Item RAW_BASS = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(3).saturationModifier(0.7f).build()));
+	public static final Item COOKED_BASS = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(6).saturationModifier(6.0f).build()));
 
 	public static final Item MARSHMALLOW_ON_STICK_RAW = new MarshmallowOnStickItem(MarshmallowOnStickItem.Cooked.RAW);
 	public static final Item MARSHMALLOW_ON_STICK_WARM = new MarshmallowOnStickItem(MarshmallowOnStickItem.Cooked.WARM);
@@ -120,7 +122,7 @@ public class Main implements ModInitializer, ClientModInitializer {
 
 	//Spawn eggs
 	public static final Item BROWN_BEAR_SPAWN_EGG = new SpawnEggItem(BROWN_BEAR, 5059399, 2302766, new Item.Settings().group(ItemGroup.MISC));
-
+	public static final Item BASS_SPAWN_EGG = new SpawnEggItem(BASS, 8081500, 10197120, new Item.Settings().group(ItemGroup.MISC));
 
 	@Override
 	public void onInitialize() {
@@ -144,7 +146,8 @@ public class Main implements ModInitializer, ClientModInitializer {
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "marshmallow"), MARSHMALLOW);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "tent"), TENT);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "bass_bucket"), BASS_BUCKET);
-
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "raw_bass"), RAW_BASS);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cooked_bass"), COOKED_BASS);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sleeping_bag"), new BlockItem(SLEEPING_BAG, new FabricItemSettings().group(ItemGroup.DECORATIONS).maxCount(1)));
 
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "raw_marshmallow_on_a_stick"), MARSHMALLOW_ON_STICK_RAW);
@@ -164,6 +167,8 @@ public class Main implements ModInitializer, ClientModInitializer {
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cookie_smore_burnt"), COOKIE_SMORE_BURNT);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cookie_smore_flaming"), COOKIE_SMORE_FLAMING);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "brown_bear_spawn_egg"), BROWN_BEAR_SPAWN_EGG);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "bass_spawn_egg"), BASS_SPAWN_EGG);
+		
 		// --------------------------------------------------------------------
 		// Register Stats
 		Registry.register(Registry.CUSTOM_STAT, "burnt_times", BURNED);

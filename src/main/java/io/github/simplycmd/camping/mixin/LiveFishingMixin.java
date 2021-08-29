@@ -15,6 +15,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import io.github.simplycmd.camping.Main;
+
 @Mixin(FishingBobberEntity.class)
 public class LiveFishingMixin {
     @ModifyArg(
