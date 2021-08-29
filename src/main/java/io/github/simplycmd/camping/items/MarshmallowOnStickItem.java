@@ -88,6 +88,8 @@ public class MarshmallowOnStickItem extends Item {
         }
 
         if (stack.isEmpty()) {
+            if (user instanceof PlayerEntity)
+                ((PlayerEntity) user).incrementStat(Main.BURNED);
             return new ItemStack(Items.STICK);
         } else {
             if (user instanceof PlayerEntity playerEntity && !((PlayerEntity)user).getAbilities().creativeMode) {

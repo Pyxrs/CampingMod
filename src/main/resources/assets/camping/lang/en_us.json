@@ -1,5 +1,9 @@
 {
     "effect.camping.coziness": "Coziness",
+
+    "item.camping.sap": "Sap",
+    "item.camping.cloth": "Cloth",
+    "item.camping.tent": "Tent",
     "item.camping.marshmallow": "Marshmallow",
     "item.camping.raw_marshmallow_on_a_stick": "Raw Marshmallow on a Stick",
     "item.camping.warm_marshmallow_on_a_stick": "Warm Marshmallow on a Stick",
@@ -7,7 +11,6 @@
     "item.camping.half_burnt_marshmallow_on_a_stick": "Half Burnt Marshmallow on a Stick",
     "item.camping.burnt_marshmallow_on_a_stick": "Burnt Marshmallow on a Stick",
     "item.camping.flaming_marshmallow_on_a_stick": "Flaming Marshmallow on a Stick",
-    "item.camping.sap": "Sap",
     "item.camping.cookie_smore_flaming": "Flaming Cookie S'more",
     "item.camping.cookie_smore_half_burnt": "Half Burnt Cookie S'more",
     "item.camping.cookie_smore_burnt": "Burnt Cookie S'more",
@@ -17,7 +20,9 @@
     "item.camping.breaded_smore_half_burnt": "Half Burnt Breaded S'more",
     "item.camping.breaded_smore_burnt": "Burnt Breaded S'more",
     "item.camping.breaded_smore_golden": "Golden Breaded S'more",
-    "item.camping.breaded_smore_warm": "Warm Breaded S'more"
+    "item.camping.breaded_smore_warm": "Warm Breaded S'more",
 
+    "block.camping.sleeping_bag": "Sleeping Bag",
 
+    "stat.camping.burnt_times": "Marshmallows Burned"
 }
