@@ -1,0 +1,14 @@
+{
+  "windy1": {
+    "subtitle": "subtitles.camping.breeze",
+    "sounds": [
+      "camping:windy1"
+    ]
+  },
+  "windy2": {
+    "subtitle": "subtitles.camping.breeze",
+    "sounds": [
+      "camping:windy2"
+    ]
+  }
+}

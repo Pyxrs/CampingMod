@@ -38,6 +38,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.StatFormatter;
 import net.minecraft.stat.Stats;
@@ -119,14 +120,25 @@ public class Main implements ModInitializer, ClientModInitializer {
 	public static final ConfiguredFeature<?, ?> PINE_TREES = Feature.TREE.configure(PINE_TREE_CONFIG).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(100, 1, 2)));
 	public static final ConfiguredFeature<?, ?> HOT_SPRINGS = Feature.LAKE.configure(new SingleStateFeatureConfig(HOT_SPRING_WATER.getDefaultState())).range(ConfiguredFeatures.Decorators.BOTTOM_TO_TOP).spreadHorizontally().applyChance(4);
 
-
 	//Spawn eggs
 	public static final Item BROWN_BEAR_SPAWN_EGG = new SpawnEggItem(BROWN_BEAR, 5059399, 2302766, new Item.Settings().group(ItemGroup.MISC));
 	public static final Item BASS_SPAWN_EGG = new SpawnEggItem(BASS, 8081500, 10197120, new Item.Settings().group(ItemGroup.MISC));
 
+	// Sounds
+	public static final Identifier WINDY1_ID = new Identifier(MOD_ID + ":windy1");
+	public static SoundEvent WINDY1_EVENT = new SoundEvent(WINDY1_ID);
+	public static final Identifier WINDY2_ID = new Identifier(MOD_ID + ":windy2");
+	public static SoundEvent WINDY2_EVENT = new SoundEvent(WINDY2_ID);
+
 	@Override
 	public void onInitialize() {
 		MarshmallowOnStickItem.Cooked.updateItems();
+
+		// --------------------------------------------------------------------
+		// Register Sounds
+		Registry.register(Registry.SOUND_EVENT, WINDY1_ID, WINDY1_EVENT);
+		Registry.register(Registry.SOUND_EVENT, WINDY2_ID, WINDY2_EVENT);
+		AmbientSoundHandler.start();
 
 		// --------------------------------------------------------------------
 		// Register Entities
@@ -146,8 +158,10 @@ public class Main implements ModInitializer, ClientModInitializer {
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "marshmallow"), MARSHMALLOW);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "tent"), TENT);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "bass_bucket"), BASS_BUCKET);
+
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "raw_bass"), RAW_BASS);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cooked_bass"), COOKED_BASS);
+
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sleeping_bag"), new BlockItem(SLEEPING_BAG, new FabricItemSettings().group(ItemGroup.DECORATIONS).maxCount(1)));
 
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "raw_marshmallow_on_a_stick"), MARSHMALLOW_ON_STICK_RAW);
@@ -166,6 +180,7 @@ public class Main implements ModInitializer, ClientModInitializer {
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cookie_smore_half_burnt"), COOKIE_SMORE_HALF_BURNT);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cookie_smore_burnt"), COOKIE_SMORE_BURNT);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cookie_smore_flaming"), COOKIE_SMORE_FLAMING);
+
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "brown_bear_spawn_egg"), BROWN_BEAR_SPAWN_EGG);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "bass_spawn_egg"), BASS_SPAWN_EGG);
 		
