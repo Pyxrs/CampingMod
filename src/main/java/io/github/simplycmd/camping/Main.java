@@ -183,7 +183,7 @@ public class Main implements ModInitializer, ClientModInitializer {
 
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "brown_bear_spawn_egg"), BROWN_BEAR_SPAWN_EGG);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "bass_spawn_egg"), BASS_SPAWN_EGG);
-		
+
 		// --------------------------------------------------------------------
 		// Register Stats
 		Registry.register(Registry.CUSTOM_STAT, "burnt_times", BURNED);

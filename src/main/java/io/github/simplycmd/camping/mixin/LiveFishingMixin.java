@@ -1,5 +1,6 @@
 package io.github.simplycmd.camping.mixin;
 
+import io.github.simplycmd.camping.entities.bass.BassEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
@@ -39,6 +40,8 @@ public class LiveFishingMixin {
             fish = new TropicalFishEntity(EntityType.TROPICAL_FISH, self.world);
         else if (item.equals(Items.PUFFERFISH))
             fish = new PufferfishEntity(EntityType.PUFFERFISH, self.world);
+        else if (item.equals(Main.RAW_BASS))
+            fish = new BassEntity(Main.BASS, self.world);
         else
             return original;
 
