@@ -23,11 +23,10 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.FoodComponent;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.item.*;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.StatFormatter;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
@@ -46,6 +45,18 @@ public class Main implements ModInitializer {
 
 	// Mod ID
 	public static final String MOD_ID = "camping";
+
+	// Entities
+	public static final EntityType<BrownBearEntity> BROWN_BEAR = Registry.register(
+			Registry.ENTITY_TYPE,
+			new Identifier(MOD_ID, "brown_bear"),
+			FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, BrownBearEntity::new).dimensions(EntityDimensions.fixed(1.4F, 1.4F)).trackRangeBlocks(10).build()
+	);
+	public static final EntityType<BassEntity> BASS = Registry.register(
+			Registry.ENTITY_TYPE,
+			new Identifier(MOD_ID, "bass"),
+			FabricEntityTypeBuilder.create(SpawnGroup.WATER_CREATURE, BassEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.3F)).trackRangeBlocks(4).build()
+	);
 	
 	// Blocks
 	public static final Block PINE_LOG = new PineLogBlock(FabricBlockSettings.of(Material.WOOD, MapColor.BROWN).strength(2.0F).sounds(BlockSoundGroup.WOOD).ticksRandomly());
@@ -57,6 +68,7 @@ public class Main implements ModInitializer {
 	public static final Item CLOTH = new Item(new FabricItemSettings().group(ItemGroup.MATERIALS));
 	public static final Item MARSHMALLOW = new Item(new FabricItemSettings().group(ItemGroup.FOOD).maxCount(16).food(new FoodComponent.Builder().hunger(1).saturationModifier(0.5f).snack().build()));
 	public static final Item TENT = new TentItem(new FabricItemSettings().group(ItemGroup.MATERIALS));
+	public static final Item BASS_BUCKET = new EntityBucketItem(BASS, Fluids.WATER, SoundEvents.ITEM_BUCKET_EMPTY_FISH, (new Item.Settings()).maxCount(1).group(ItemGroup.MISC));
 
 	public static final Item MARSHMALLOW_ON_STICK_RAW = new MarshmallowOnStickItem(MarshmallowOnStickItem.Cooked.RAW);
 	public static final Item MARSHMALLOW_ON_STICK_WARM = new MarshmallowOnStickItem(MarshmallowOnStickItem.Cooked.WARM);
@@ -93,27 +105,14 @@ public class Main implements ModInitializer {
 	public static final ConfiguredFeature<?, ?> PINE_TREES = Feature.TREE.configure(PINE_TREE_CONFIG).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(100, 1, 2)));
 	public static final ConfiguredFeature<?, ?> HOT_SPRINGS = Feature.LAKE.configure(new SingleStateFeatureConfig(HOT_SPRING_WATER.getDefaultState())).range(ConfiguredFeatures.Decorators.BOTTOM_TO_TOP).spreadHorizontally().applyChance(4);
 
-	// Entities
-	public static final EntityType<BrownBearEntity> BROWN_BEAR = Registry.register(
-			Registry.ENTITY_TYPE,
-			new Identifier(MOD_ID, "brown_bear"),
-			FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, BrownBearEntity::new).dimensions(EntityDimensions.fixed(1.4F, 1.4F)).trackRangeBlocks(10).build()
-	);
-	public static final EntityType<BassEntity> BASS = Registry.register(
-			Registry.ENTITY_TYPE,
-			new Identifier(MOD_ID, "bass"),
-			FabricEntityTypeBuilder.create(SpawnGroup.WATER_CREATURE, BassEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.3F)).trackRangeBlocks(4).build()
-	);
-
 	@Override
 	public void onInitialize() {
 		MarshmallowOnStickItem.Cooked.updateItems();
 
 		// --------------------------------------------------------------------
 		// Register Entities
-		FabricDefaultAttributeRegistry.register(BROWN_BEAR, BrownBearEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(BROWN_BEAR, BrownBearEntity.createBrownBearAttributes());
 		FabricDefaultAttributeRegistry.register(BASS, BassEntity.createMobAttributes());
-		// buildEntity(BASS);
 
 		// --------------------------------------------------------------------
 		// Register Blocks
@@ -127,6 +126,7 @@ public class Main implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cloth"), CLOTH);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "marshmallow"), MARSHMALLOW);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "tent"), TENT);
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "bass_bucket"), BASS_BUCKET);
 
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sleeping_bag"), new BlockItem(SLEEPING_BAG, new FabricItemSettings().group(ItemGroup.DECORATIONS).maxCount(1)));
 

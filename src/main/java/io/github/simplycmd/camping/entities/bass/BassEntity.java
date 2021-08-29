@@ -16,8 +16,8 @@ public class BassEntity extends SchoolingFishEntity {
     }
 
     public ItemStack getBucketItem() {
-        return new ItemStack(Items.COD_BUCKET);
-    } // TODO: BASS_BUCKET
+        return Main.BASS_BUCKET.getDefaultStack();
+    }
 
     protected SoundEvent getAmbientSound() {
         return SoundEvents.ENTITY_COD_AMBIENT;
