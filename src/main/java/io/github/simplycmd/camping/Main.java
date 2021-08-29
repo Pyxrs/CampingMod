@@ -27,6 +27,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.stat.StatFormatter;
 import net.minecraft.stat.Stats;
@@ -105,6 +106,11 @@ public class Main implements ModInitializer {
 			FabricEntityTypeBuilder.create(SpawnGroup.WATER_CREATURE, BassEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.3F)).trackRangeBlocks(4).build()
 	);
 
+
+	//Spawn eggs
+	public static final Item BROWN_BEAR_SPAWN_EGG = new SpawnEggItem(BROWN_BEAR, 5059399, 2302766, new Item.Settings().group(ItemGroup.MISC));
+
+
 	@Override
 	public void onInitialize() {
 		MarshmallowOnStickItem.Cooked.updateItems();
@@ -146,7 +152,7 @@ public class Main implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cookie_smore_half_burnt"), COOKIE_SMORE_HALF_BURNT);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cookie_smore_burnt"), COOKIE_SMORE_BURNT);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cookie_smore_flaming"), COOKIE_SMORE_FLAMING);
-
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "brown_bear_spawn_egg"), BROWN_BEAR_SPAWN_EGG);
 		// --------------------------------------------------------------------
 		// Register Stats
 		Registry.register(Registry.CUSTOM_STAT, "burnt_times", BURNED);
