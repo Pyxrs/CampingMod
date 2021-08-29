@@ -5,6 +5,7 @@
     "item.camping.cloth": "Cloth",
     "item.camping.tent": "Tent",
     "item.camping.marshmallow": "Marshmallow",
+    "item.camping.bass_bucket": "Bucket Of Bass",
     "item.camping.raw_marshmallow_on_a_stick": "Raw Marshmallow on a Stick",
     "item.camping.warm_marshmallow_on_a_stick": "Warm Marshmallow on a Stick",
     "item.camping.golden_marshmallow_on_a_stick": "Golden Marshmallow on a Stick",
@@ -21,6 +22,8 @@
     "item.camping.breaded_smore_burnt": "Burnt Breaded S'more",
     "item.camping.breaded_smore_golden": "Golden Breaded S'more",
     "item.camping.breaded_smore_warm": "Warm Breaded S'more",
+
+    "entity.camping.brown_bear": "Brown Bear",
 
     "block.camping.sleeping_bag": "Sleeping Bag",
 
