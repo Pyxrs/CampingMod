@@ -10,5 +10,17 @@
     "sounds": [
       "camping:windy2"
     ]
+  },
+  "birds1": {
+    "subtitle": "subtitles.camping.chirping",
+    "sounds": [
+      "camping:birds1"
+    ]
+  },
+  "birds2": {
+    "subtitle": "subtitles.camping.chirping",
+    "sounds": [
+      "camping:birds2"
+    ]
   }
 }

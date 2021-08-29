@@ -7,10 +7,10 @@ import io.github.simplycmd.camping.effects.CozinessEffect;
 import io.github.simplycmd.camping.entities.bass.BassEntity;
 import io.github.simplycmd.camping.entities.bass.BassEntityModel;
 import io.github.simplycmd.camping.entities.bass.BassEntityRenderer;
+import io.github.simplycmd.camping.entities.bear.BrownBearEntity;
 import io.github.simplycmd.camping.entities.bear.BrownBearEntityModel;
 import io.github.simplycmd.camping.entities.bear.BrownBearEntityRenderer;
 import io.github.simplycmd.camping.items.FlamingFoodItem;
-import io.github.simplycmd.camping.entities.bear.BrownBearEntity;
 import io.github.simplycmd.camping.items.MarshmallowOnStickItem;
 import io.github.simplycmd.camping.items.TentItem;
 import net.fabricmc.api.ClientModInitializer;
@@ -26,11 +26,12 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.MapColor;
+import net.minecraft.block.Material;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -68,7 +69,7 @@ public class Main implements ModInitializer, ClientModInitializer {
 	public static final EntityType<BassEntity> BASS = Registry.register(
 			Registry.ENTITY_TYPE,
 			new Identifier(MOD_ID, "bass"),
-			FabricEntityTypeBuilder.create(SpawnGroup.WATER_CREATURE, BassEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.3F)).trackRangeBlocks(4).build()
+			FabricEntityTypeBuilder.create(SpawnGroup.WATER_CREATURE, BassEntity::new).dimensions(EntityDimensions.fixed(0.7F, 0.5F)).trackRangeBlocks(4).build()
 	);
 	
 	// Blocks
@@ -129,6 +130,10 @@ public class Main implements ModInitializer, ClientModInitializer {
 	public static SoundEvent WINDY1_EVENT = new SoundEvent(WINDY1_ID);
 	public static final Identifier WINDY2_ID = new Identifier(MOD_ID + ":windy2");
 	public static SoundEvent WINDY2_EVENT = new SoundEvent(WINDY2_ID);
+	public static final Identifier BIRDS1_ID = new Identifier(MOD_ID + ":birds1");
+	public static SoundEvent BIRDS1_EVENT = new SoundEvent(BIRDS1_ID);
+	public static final Identifier BIRDS2_ID = new Identifier(MOD_ID + ":birds2");
+	public static SoundEvent BIRDS2_EVENT = new SoundEvent(BIRDS2_ID);
 
 	@Override
 	public void onInitialize() {
@@ -138,6 +143,8 @@ public class Main implements ModInitializer, ClientModInitializer {
 		// Register Sounds
 		Registry.register(Registry.SOUND_EVENT, WINDY1_ID, WINDY1_EVENT);
 		Registry.register(Registry.SOUND_EVENT, WINDY2_ID, WINDY2_EVENT);
+		Registry.register(Registry.SOUND_EVENT, BIRDS1_ID, BIRDS1_EVENT);
+		Registry.register(Registry.SOUND_EVENT, BIRDS2_ID, BIRDS2_EVENT);
 		AmbientSoundHandler.start();
 
 		// --------------------------------------------------------------------

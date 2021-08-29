@@ -25,7 +25,6 @@
     "item.camping.raw_bass": "Raw Bass",
     "item.camping.cooked_bass": "Cooked Bass",
 
-
     "item.camping.bass_spawn_egg": "Bass Spawn Egg",
     "item.camping.brown_bear_spawn_egg": "Brown Bear Spawn Egg",
 
@@ -33,5 +32,8 @@
 
     "block.camping.sleeping_bag": "Sleeping Bag",
 
-    "stat.camping.burnt_times": "Marshmallows Burned"
+    "stat.camping.burnt_times": "Marshmallows Burned",
+
+    "subtitles.camping.breeze": "Breeze Rustles",
+    "subtitles.camping.chirping": "Birds Chirp"
 }

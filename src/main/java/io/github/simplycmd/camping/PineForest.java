@@ -2,7 +2,6 @@ package io.github.simplycmd.camping;
 
 import com.terraformersmc.terraform.biomebuilder.BiomeTemplate;
 import com.terraformersmc.terraform.biomebuilder.TerraformBiomeBuilder;
-import net.minecraft.entity.EntityType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeEffects;
 import net.minecraft.world.biome.SpawnSettings;
@@ -26,6 +25,7 @@ public class PineForest {
             .category(Biome.Category.FOREST)
             .addDefaultSpawnEntries()
             .addSpawnEntry(new SpawnSettings.SpawnEntry(Main.BROWN_BEAR, 100, 1, 1))
+            .addSpawnEntry(new SpawnSettings.SpawnEntry(Main.BASS, 100, 1, 3))
             .effects(new BiomeEffects.Builder()
                     .waterColor(0x3F76E4)
                     .waterFogColor(0x50533)
@@ -55,6 +55,7 @@ public class PineForest {
             .category(Biome.Category.FOREST)
             .addDefaultSpawnEntries()
             .addSpawnEntry(new SpawnSettings.SpawnEntry(Main.BROWN_BEAR, 100, 1, 1))
+            .addSpawnEntry(new SpawnSettings.SpawnEntry(Main.BASS, 100, 1, 3))
             .effects(new BiomeEffects.Builder()
                     .waterColor(0x3F76E4)
                     .waterFogColor(0x50533)
@@ -69,7 +70,7 @@ public class PineForest {
 
     static final Biome DENSE_PINE_FOREST = DENSE_PINE_FOREST_TEMPLATE.builder()
             .depth(0.4F)
-            .scale(0.4F)
+            .scale(0.6F)
             .playerSpawnFriendly()
             .build();
 }

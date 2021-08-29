@@ -3,7 +3,6 @@ package io.github.simplycmd.camping.mixin;
 import io.github.simplycmd.camping.Main;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.RegistryKey;
