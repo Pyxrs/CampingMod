@@ -12,6 +12,7 @@ import io.github.simplycmd.camping.entities.bear.BrownBearEntityModel;
 import io.github.simplycmd.camping.entities.bear.BrownBearEntityRenderer;
 import io.github.simplycmd.camping.items.FlamingFoodItem;
 import io.github.simplycmd.camping.items.MarshmallowOnStickItem;
+import io.github.simplycmd.camping.items.SleepingBagBlockItem;
 import io.github.simplycmd.camping.items.TentItem;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -22,10 +23,12 @@ import net.fabricmc.fabric.api.biome.v1.OverworldClimate;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.MapColor;
@@ -43,6 +46,8 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.StatFormatter;
 import net.minecraft.stat.Stats;
+import net.minecraft.tag.ItemTags;
+import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.registry.BuiltinRegistries;
@@ -121,7 +126,7 @@ public class Main implements ModInitializer, ClientModInitializer {
 	public static final ConfiguredFeature<?, ?> PINE_TREES = Feature.TREE.configure(PINE_TREE_CONFIG).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(100, 1, 2)));
 	public static final ConfiguredFeature<?, ?> HOT_SPRINGS = Feature.LAKE.configure(new SingleStateFeatureConfig(HOT_SPRING_WATER.getDefaultState())).range(ConfiguredFeatures.Decorators.BOTTOM_TO_TOP).spreadHorizontally().applyChance(4);
 
-	//Spawn eggs
+	// Spawn eggs
 	public static final Item BROWN_BEAR_SPAWN_EGG = new SpawnEggItem(BROWN_BEAR, 5059399, 2302766, new Item.Settings().group(ItemGroup.MISC));
 	public static final Item BASS_SPAWN_EGG = new SpawnEggItem(BASS, 8081500, 10197120, new Item.Settings().group(ItemGroup.MISC));
 
@@ -157,6 +162,7 @@ public class Main implements ModInitializer, ClientModInitializer {
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_log"), PINE_LOG);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "hot_spring_water"), HOT_SPRING_WATER);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "sleeping_bag"), SLEEPING_BAG);
+		ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> state.get(SleepingBagBlock.COLOR).getFireworkColor(), SLEEPING_BAG);
 
 		// --------------------------------------------------------------------
 		// Register Items
@@ -169,7 +175,7 @@ public class Main implements ModInitializer, ClientModInitializer {
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "raw_bass"), RAW_BASS);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cooked_bass"), COOKED_BASS);
 
-		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sleeping_bag"), new BlockItem(SLEEPING_BAG, new FabricItemSettings().group(ItemGroup.DECORATIONS).maxCount(1)));
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sleeping_bag"), new SleepingBagBlockItem(SLEEPING_BAG, new FabricItemSettings().group(ItemGroup.DECORATIONS).maxCount(1)));
 
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "raw_marshmallow_on_a_stick"), MARSHMALLOW_ON_STICK_RAW);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "warm_marshmallow_on_a_stick"), MARSHMALLOW_ON_STICK_WARM);

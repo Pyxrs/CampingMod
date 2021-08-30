@@ -39,12 +39,12 @@ public class PineLogBlock extends PillarBlock {
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         // Become sappy
-        if (random.nextFloat() > 0.996 && world.getNonSpectatingEntities(PlayerEntity.class, Box.from(BlockBox.create(new Vec3i(pos.getX() - UPDATE_RADIUS, pos.getY() - UPDATE_RADIUS, pos.getZ() - UPDATE_RADIUS), new Vec3i(pos.getX() + UPDATE_RADIUS, pos.getY() + UPDATE_RADIUS, pos.getZ() + UPDATE_RADIUS)))).size() <= 0) {
+        if (random.nextFloat() > 0.996 && world.getNonSpectatingEntities(PlayerEntity.class, Box.from(BlockBox.create(new Vec3i(pos.getX() - UPDATE_RADIUS, pos.getY() - UPDATE_RADIUS, pos.getZ() - UPDATE_RADIUS), new Vec3i(pos.getX() + UPDATE_RADIUS, pos.getY() + UPDATE_RADIUS, pos.getZ() + UPDATE_RADIUS)))).size() > 0) {
             world.setBlockState(pos, state.with(SAPPY, true));
         }
 
         // Become un-sappy
-        else if (random.nextFloat() > 0.5 && world.getBlockState(pos).get(SAPPY)) {
+        else if (world.getBlockState(pos).get(SAPPY) && world.getNonSpectatingEntities(PlayerEntity.class, Box.from(BlockBox.create(new Vec3i(pos.getX() - UPDATE_RADIUS, pos.getY() - UPDATE_RADIUS, pos.getZ() - UPDATE_RADIUS), new Vec3i(pos.getX() + UPDATE_RADIUS, pos.getY() + UPDATE_RADIUS, pos.getZ() + UPDATE_RADIUS)))).size() <= 0) {
             world.setBlockState(pos, state.with(SAPPY, false));
         }
     }

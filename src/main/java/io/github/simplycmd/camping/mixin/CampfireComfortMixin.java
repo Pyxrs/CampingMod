@@ -32,7 +32,6 @@ public class CampfireComfortMixin {
                         }
 
                         player.addStatusEffect(new StatusEffectInstance(Main.COZINESS, 10, 0, true, false, true));
-                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 10, 0, true, false, true));
                     }
         }
     }

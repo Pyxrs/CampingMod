@@ -10,12 +10,12 @@
 			"from": [1, 0, -7],
 			"to": [15, 2, 23],
 			"faces": {
-				"north": {"uv": [1, 8.5, 4.5, 9], "texture": "#0"},
-				"east": {"uv": [0.5, 1, 1, 8.5], "rotation": 270, "texture": "#0"},
-				"south": {"uv": [1, 0.5, 4.5, 1], "rotation": 180, "texture": "#0"},
-				"west": {"uv": [4.5, 1, 5, 8.5], "rotation": 90, "texture": "#0"},
-				"up": {"uv": [4.5, 8.5, 1, 1], "texture": "#0"},
-				"down": {"uv": [9, 1, 5.5, 8.5], "texture": "#0"}
+				"north": {"uv": [1, 8.5, 4.5, 9], "texture": "#0", "tintindex": 0},
+				"east": {"uv": [0.5, 1, 1, 8.5], "rotation": 270, "texture": "#0", "tintindex": 0},
+				"south": {"uv": [1, 0.5, 4.5, 1], "rotation": 180, "texture": "#0", "tintindex": 0},
+				"west": {"uv": [4.5, 1, 5, 8.5], "rotation": 90, "texture": "#0", "tintindex": 0},
+				"up": {"uv": [4.5, 8.5, 1, 1], "texture": "#0", "tintindex": 0},
+				"down": {"uv": [9, 1, 5.5, 8.5], "texture": "#0", "tintindex": 0}
 			}
 		},
 		{

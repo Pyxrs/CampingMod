@@ -38,9 +38,9 @@ public class MarshmallowOnStickItem extends Item {
             case WARM, FLAMING:
                 yield new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1).food(new FoodComponent.Builder().hunger(2).saturationModifier(0.75f).snack().alwaysEdible().build());
             case GOLDEN:
-                yield new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1).food(new FoodComponent.Builder().hunger(4).saturationModifier(1.25f).snack().alwaysEdible().build());
+                yield new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1).food(new FoodComponent.Builder().hunger(8).saturationModifier(1.25f).snack().alwaysEdible().build());
             case HALFBURNT:
-                yield new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1).food(new FoodComponent.Builder().hunger(2).saturationModifier(0.5f).snack().alwaysEdible().build());
+                yield new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1).food(new FoodComponent.Builder().hunger(4).saturationModifier(0.5f).snack().alwaysEdible().build());
             case BURNT:
                 yield new FabricItemSettings().group(ItemGroup.FOOD).maxCount(1).food(new FoodComponent.Builder().hunger(1).saturationModifier(0f).snack().alwaysEdible().build());
             default:
