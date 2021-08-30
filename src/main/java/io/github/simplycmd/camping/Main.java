@@ -91,6 +91,8 @@ public class Main implements ModInitializer, ClientModInitializer {
 	public static final Item RAW_BASS = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(3).saturationModifier(0.7f).build()));
 	public static final Item COOKED_BASS = new Item(new FabricItemSettings().group(ItemGroup.FOOD).food(new FoodComponent.Builder().hunger(6).saturationModifier(6.0f).build()));
 
+	public static final SwordItem BEAR_CLAW = new SwordItem(ToolMaterials.IRON, 3, -2.0F, new FabricItemSettings().group(ItemGroup.COMBAT));
+
 	public static final Item MARSHMALLOW_ON_STICK_RAW = new MarshmallowOnStickItem(MarshmallowOnStickItem.Cooked.RAW);
 	public static final Item MARSHMALLOW_ON_STICK_WARM = new MarshmallowOnStickItem(MarshmallowOnStickItem.Cooked.WARM);
 	public static final Item MARSHMALLOW_ON_STICK_GOLDEN = new MarshmallowOnStickItem(MarshmallowOnStickItem.Cooked.GOLDEN);
@@ -176,6 +178,8 @@ public class Main implements ModInitializer, ClientModInitializer {
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cooked_bass"), COOKED_BASS);
 
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sleeping_bag"), new SleepingBagBlockItem(SLEEPING_BAG, new FabricItemSettings().group(ItemGroup.DECORATIONS).maxCount(1)));
+
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "bear_claw"), BEAR_CLAW);
 
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "raw_marshmallow_on_a_stick"), MARSHMALLOW_ON_STICK_RAW);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "warm_marshmallow_on_a_stick"), MARSHMALLOW_ON_STICK_WARM);
