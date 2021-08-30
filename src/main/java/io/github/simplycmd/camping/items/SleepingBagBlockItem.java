@@ -27,7 +27,7 @@ public class SleepingBagBlockItem extends BlockItem {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add(new LiteralText("Can be dyed by using").formatted(Formatting.ITALIC, Formatting.GRAY));
-        tooltip.add(new LiteralText("a dye on the block").formatted(Formatting.ITALIC, Formatting.GRAY));
+        tooltip.add(new LiteralText("Can be colored by using").formatted(Formatting.ITALIC, Formatting.GRAY));
+        tooltip.add(new LiteralText("any dye item on the block").formatted(Formatting.ITALIC, Formatting.GRAY));
     }
 }

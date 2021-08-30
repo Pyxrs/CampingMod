@@ -48,14 +48,11 @@ public class SleepingBagBlock extends BedBlock {
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
     }
 
-    /*@Override
+    @Override
     @Nullable
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        Direction direction = Direction.NORTH;
-        BlockPos blockPos = ctx.getBlockPos();
-        BlockPos blockPos2 = blockPos.offset(direction);
-        return ctx.getWorld().getBlockState(blockPos2).canReplace(ctx) ? this.getDefaultState().with(FACING, direction).with(TENT, false).with(COLOR, DyeColor.WHITE) : null;
-    }*/
+        return this.getDefaultState().with(FACING, Direction.NORTH).with(TENT, false).with(COLOR, DyeColor.WHITE);
+    }
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
