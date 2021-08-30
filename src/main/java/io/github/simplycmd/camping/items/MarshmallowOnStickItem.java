@@ -75,7 +75,7 @@ public class MarshmallowOnStickItem extends Item {
             else
                 setCooked(stack, getCooked(stack).get() + 1);
         }
-        update(livingEntity, stack, livingEntity.getMainHandStack().getItem().equals(this) ? Hand.MAIN_HAND : Hand.OFF_HAND);
+        update(livingEntity, stack, slot);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class MarshmallowOnStickItem extends Item {
         nbtCompound.putInt("Cooked", cooked);
     }
 
-    private void update(LivingEntity entity, ItemStack stack, Hand hand) {
+    private void update(LivingEntity entity, ItemStack stack, int slot) {
         if (getCooked(stack).isEmpty()) {
             setCooked(stack, 0);
         } else {
@@ -123,11 +123,17 @@ public class MarshmallowOnStickItem extends Item {
                 Optional<Item> next = cooked.getNext();
                 // Increase cooked level
                 if (next.isPresent()) {
-                    entity.setStackInHand(hand, next.get().getDefaultStack());
+                    if (entity instanceof PlayerEntity) {
+                        stack.decrement(1);
+                        ((PlayerEntity) entity).giveItemStack(next.get().getDefaultStack());
+                    }
                     if (cooked.equals(Cooked.FLAMING) && entity instanceof PlayerEntity)
                         entity.world.playSound((PlayerEntity) entity, entity.getBlockPos(), SoundEvents.ENTITY_GENERIC_BURN, SoundCategory.PLAYERS, 1.0F, 1.0F);
                 } else {
-                    entity.setStackInHand(hand, Items.STICK.getDefaultStack());
+                    if (entity instanceof PlayerEntity) {
+                        stack.decrement(1);
+                        ((PlayerEntity) entity).giveItemStack(Items.STICK.getDefaultStack());
+                    }
                     if (entity instanceof PlayerEntity) entity.world.playSound((PlayerEntity) entity, entity.getBlockPos(), SoundEvents.ENTITY_GENERIC_BURN, SoundCategory.PLAYERS, 1.0F, 1.0F);
                 }
             }
