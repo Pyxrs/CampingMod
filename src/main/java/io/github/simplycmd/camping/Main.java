@@ -214,15 +214,13 @@ public class Main implements ModInitializer, ClientModInitializer {
 		// --------------------------------------------------------------------
 		// Register Biomes (OverworldBiomes is deprecated because it's experimental)
 		Registry.register(BuiltinRegistries.BIOME, BiomeKeys.PINE_FOREST.getValue(), PineForest.PINE_FOREST);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.SNOWY, 100D);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.TEMPERATE, 100D);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.COOL, 100D);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.DRY, 100D);
+		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.TEMPERATE, 1D);
+		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.COOL, 1D);
+		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.DRY, 1D);
 
 		Registry.register(BuiltinRegistries.BIOME, BiomeKeys.DENSE_PINE_FOREST.getValue(), PineForest.DENSE_PINE_FOREST);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_PINE_FOREST, OverworldClimate.SNOWY, 60D);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_PINE_FOREST, OverworldClimate.TEMPERATE, 60D);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_PINE_FOREST, OverworldClimate.COOL, 60D);
+		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_PINE_FOREST, OverworldClimate.TEMPERATE, 0.5D);
+		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_PINE_FOREST, OverworldClimate.COOL, 0.5D);
 
 		// --------------------------------------------------------------------
 		// Register Effects

@@ -5,11 +5,13 @@
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "CampfireComfortMixin",
-    "HotSpringWaterColorMixin",
     "LiveFishingMixin",
     "SapScrapingMixin",
     "SleepingBagFreezingMixin",
     "SleepingBagSpawnpointMixin"
+  ],
+  "client": [
+    "HotSpringWaterColorMixin"
   ],
   "injectors": {
     "defaultRequire": 1
