@@ -152,7 +152,6 @@ public class Main implements ModInitializer, ClientModInitializer {
 		Registry.register(Registry.SOUND_EVENT, WINDY2_ID, WINDY2_EVENT);
 		Registry.register(Registry.SOUND_EVENT, BIRDS1_ID, BIRDS1_EVENT);
 		Registry.register(Registry.SOUND_EVENT, BIRDS2_ID, BIRDS2_EVENT);
-		AmbientSoundHandler.start();
 
 		// --------------------------------------------------------------------
 		// Register Entities
@@ -164,7 +163,6 @@ public class Main implements ModInitializer, ClientModInitializer {
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_log"), PINE_LOG);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "hot_spring_water"), HOT_SPRING_WATER);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "sleeping_bag"), SLEEPING_BAG);
-		ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> state.get(SleepingBagBlock.COLOR).getFireworkColor(), SLEEPING_BAG);
 
 		// --------------------------------------------------------------------
 		// Register Items
@@ -228,19 +226,33 @@ public class Main implements ModInitializer, ClientModInitializer {
 	}
 
 	@Environment(EnvType.CLIENT)
-	public static final EntityModelLayer MODEL_BROWN_BEAR_LAYER = new EntityModelLayer(new Identifier(Main.MOD_ID, "brown_bear"), "main");
+	public static EntityModelLayer MODEL_BROWN_BEAR_LAYER;
 	@Environment(EnvType.CLIENT)
-	public static final EntityModelLayer MODEL_BASS_LAYER = new EntityModelLayer(new Identifier(Main.MOD_ID, "bass"), "main");
+	public static EntityModelLayer MODEL_BASS_LAYER;
 
 	@Environment(EnvType.CLIENT)
 	@Override
 	public void onInitializeClient() {
+		// --------------------------------------------------------------------
+		// Start client-side sounds
+		AmbientSoundHandler.start();
+
+		// --------------------------------------------------------------------
+		// Register client-side block colors for maps
+		ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> state.get(SleepingBagBlock.COLOR).getFireworkColor(), SLEEPING_BAG);
+
+		// --------------------------------------------------------------------
+		// Register renderers for entities
+		MODEL_BROWN_BEAR_LAYER = new EntityModelLayer(new Identifier(Main.MOD_ID, "brown_bear"), "main");
 		EntityRendererRegistry.INSTANCE.register(Main.BROWN_BEAR, BrownBearEntityRenderer::new);
 		EntityModelLayerRegistry.registerModelLayer(MODEL_BROWN_BEAR_LAYER, BrownBearEntityModel::getTexturedModelData);
 
+		MODEL_BASS_LAYER = new EntityModelLayer(new Identifier(Main.MOD_ID, "bass"), "main");
 		EntityRendererRegistry.INSTANCE.register(Main.BASS, BassEntityRenderer::new);
 		EntityModelLayerRegistry.registerModelLayer(MODEL_BASS_LAYER, BassEntityModel::getTexturedModelData);
 
+		// --------------------------------------------------------------------
+		// Register renderers for blocks
 		BlockRenderLayerMap.INSTANCE.putBlock(Main.SLEEPING_BAG, RenderLayer.getCutout());
 	}
 }
