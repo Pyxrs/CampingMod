@@ -1,22 +1,24 @@
 package io.github.simplycmd.camping.mixin;
 
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+
 import io.github.simplycmd.camping.Main;
 import io.github.simplycmd.camping.entities.bass.BassEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.passive.*;
+import net.minecraft.entity.passive.CodEntity;
+import net.minecraft.entity.passive.FishEntity;
+import net.minecraft.entity.passive.PufferfishEntity;
+import net.minecraft.entity.passive.SalmonEntity;
+import net.minecraft.entity.passive.TropicalFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FishingBobberEntity.class)
 public class LiveFishingMixin {

@@ -30,11 +30,14 @@
     "item.camping.brown_bear_spawn_egg": "Brown Bear Spawn Egg",
 
     "entity.camping.brown_bear": "Brown Bear",
+    "entity.camping.bass": "Bass",
 
     "block.camping.sleeping_bag": "Sleeping Bag",
 
     "stat.camping.burnt_times": "Marshmallows Burned",
 
     "subtitles.camping.breeze": "Breeze Rustles",
-    "subtitles.camping.chirping": "Birds Chirp"
+    "subtitles.camping.chirping": "Birds Chirp",
+
+    "spawnpoint.camping.sleeping_bag": "Sleeping bags do not set spawn!"
 }

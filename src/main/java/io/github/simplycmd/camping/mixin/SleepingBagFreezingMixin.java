@@ -1,15 +1,15 @@
 package io.github.simplycmd.camping.mixin;
 
-import io.github.simplycmd.camping.Main;
-import io.github.simplycmd.camping.blocks.SleepingBagBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
+import java.util.HashMap;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.HashMap;
+import io.github.simplycmd.camping.blocks.SleepingBagBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 
 @Mixin(PlayerEntity.class)
 public class SleepingBagFreezingMixin {
@@ -19,9 +19,8 @@ public class SleepingBagFreezingMixin {
     private void sleepingBagFreeze(CallbackInfo ci) {
         PlayerEntity self = ((PlayerEntity) (Object) this);
         BlockState state = self.world.getBlockState(self.getBlockPos());
-        if (self.isSleeping() && state.getBlock().equals(Main.SLEEPING_BAG) && !state.get(SleepingBagBlock.TENT)) {
+        if (self.isSleeping() && state.getBlock() instanceof SleepingBagBlock && !state.get(SleepingBagBlock.TENT))
             playerFreezeTicks.putIfAbsent(self, 300);
-        }
         if (!self.isSleeping() && playerFreezeTicks.containsKey(self)) {
             playerFreezeTicks.replace(self, playerFreezeTicks.get(self) - 1);
             self.setFrozenTicks(200);

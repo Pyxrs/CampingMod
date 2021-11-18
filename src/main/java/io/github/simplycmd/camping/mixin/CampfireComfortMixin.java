@@ -1,17 +1,17 @@
 package io.github.simplycmd.camping.mixin;
 
-import io.github.simplycmd.camping.Main;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.CampfireBlockEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import io.github.simplycmd.camping.Main;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.CampfireBlockEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 @Mixin(CampfireBlockEntity.class)
 public class CampfireComfortMixin {

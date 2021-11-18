@@ -1,24 +1,17 @@
 package io.github.simplycmd.camping.items;
 
-import io.github.simplycmd.camping.Main;
-import io.github.simplycmd.camping.blocks.SleepingBagBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.world.RaycastContext;
-import net.minecraft.world.World;
+import java.util.List;
+
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import net.minecraft.block.Block;
+import net.minecraft.client.item.TooltipContext;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
+import net.minecraft.world.World;
 
 public class SleepingBagBlockItem extends BlockItem {
     public SleepingBagBlockItem(Block block, Settings settings) {

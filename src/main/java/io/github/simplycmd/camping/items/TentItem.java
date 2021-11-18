@@ -1,6 +1,9 @@
 package io.github.simplycmd.camping.items;
 
-import io.github.simplycmd.camping.Main;
+import java.util.List;
+
+import org.jetbrains.annotations.Nullable;
+
 import io.github.simplycmd.camping.blocks.SleepingBagBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
@@ -14,9 +17,6 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 public class TentItem extends Item {
     public TentItem(Settings settings) {
@@ -28,7 +28,7 @@ public class TentItem extends Item {
         BlockHitResult hit = raycast(context.getWorld(), context.getPlayer(), RaycastContext.FluidHandling.NONE);
         BlockState state = context.getWorld().getBlockState(hit.getBlockPos());
         ItemStack itemStack = context.getPlayer().getStackInHand(context.getHand());
-        if (state.getBlock().equals(Main.SLEEPING_BAG)) {
+        if (state.getBlock() instanceof SleepingBagBlock) {
             context.getWorld().setBlockState(hit.getBlockPos(), state.with(SleepingBagBlock.TENT, true));
             itemStack.decrement(1);
             return ActionResult.SUCCESS;

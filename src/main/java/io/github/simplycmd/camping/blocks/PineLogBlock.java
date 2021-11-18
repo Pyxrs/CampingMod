@@ -1,5 +1,7 @@
 package io.github.simplycmd.camping.blocks;
 
+import java.util.Random;
+
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -10,12 +12,11 @@ import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockBox;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.BlockView;
-
-import javax.swing.*;
-import java.util.Random;
 
 public class PineLogBlock extends PillarBlock {
     private static final int UPDATE_RADIUS = 15;

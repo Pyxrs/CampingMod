@@ -28,7 +28,6 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.MapColor;
@@ -40,21 +39,29 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.item.*;
+import net.minecraft.item.EntityBucketItem;
+import net.minecraft.item.FoodComponent;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.SpawnEggItem;
+import net.minecraft.item.SwordItem;
+import net.minecraft.item.ToolMaterials;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.StatFormatter;
 import net.minecraft.stat.Stats;
-import net.minecraft.tag.ItemTags;
-import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.decorator.CountExtraDecoratorConfig;
 import net.minecraft.world.gen.decorator.Decorator;
-import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.ConfiguredFeatures;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.SingleStateFeatureConfig;
+import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.foliage.SpruceFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
@@ -156,7 +163,7 @@ public class Main implements ModInitializer, ClientModInitializer {
 		// --------------------------------------------------------------------
 		// Register Entities
 		FabricDefaultAttributeRegistry.register(BROWN_BEAR, BrownBearEntity.createBrownBearAttributes());
-		FabricDefaultAttributeRegistry.register(BASS, BassEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(BASS, BassEntity.createBassAttributes());
 
 		// --------------------------------------------------------------------
 		// Register Blocks
@@ -235,7 +242,9 @@ public class Main implements ModInitializer, ClientModInitializer {
 	public void onInitializeClient() {
 		// --------------------------------------------------------------------
 		// Start client-side sounds
-		AmbientSoundHandler.start();
+
+		// DISABLED for now because it's kinda shitty
+		//AmbientSoundHandler.start();
 
 		// --------------------------------------------------------------------
 		// Register client-side block colors for maps
