@@ -1,0 +1,43 @@
+{
+    "effect.camping.coziness": "Conforto",
+
+    "item.camping.sap": "Seiva",
+    "item.camping.cloth": "Tecido",
+    "item.camping.tent": "Tenda",
+    "item.camping.marshmallow": "Marshmallow",
+    "item.camping.bass_bucket": "Balde com robalo",
+    "item.camping.raw_marshmallow_on_a_stick": "Marshmallow cru no graveto",
+    "item.camping.warm_marshmallow_on_a_stick": "Marshmallow morno no graveto",
+    "item.camping.golden_marshmallow_on_a_stick": "Marshmallow dourado no graveto",
+    "item.camping.half_burnt_marshmallow_on_a_stick": "Marshmallow meio queimado no graveto",
+    "item.camping.burnt_marshmallow_on_a_stick": "Marshmallow queimado no graveto",
+    "item.camping.flaming_marshmallow_on_a_stick": "Marshmallow flamejante no graveto",
+    "item.camping.cookie_smore_flaming": "Biscoito com marshmallow flamejante",
+    "item.camping.cookie_smore_half_burnt": "Biscoito com marshmallow meio queimado",
+    "item.camping.cookie_smore_burnt": "Biscoito com marshmallow queimado",
+    "item.camping.cookie_smore_golden": "Biscoito com marshmallow dourado",
+    "item.camping.cookie_smore_warm": "Biscoito com marshmallow morno",
+    "item.camping.breaded_smore_flaming": "Pão com marshmallow flamejante",
+    "item.camping.breaded_smore_half_burnt": "Pão com marshmallow meio queimado",
+    "item.camping.breaded_smore_burnt": "Pão com marshmallow queimado",
+    "item.camping.breaded_smore_golden": "Pão com marshmallow dourado",
+    "item.camping.breaded_smore_warm": "Pão com marshmallow morno",
+    "item.camping.raw_bass": "Robalo cru",
+    "item.camping.cooked_bass": "Robalo assado",
+    "item.camping.bear_claw": "Garras de urso",
+
+    "item.camping.bass_spawn_egg": "Ovo gerador de robalo",
+    "item.camping.brown_bear_spawn_egg": "Ovo gerador de urso-pardo",
+
+    "entity.camping.brown_bear": "Urso-pardo",
+    "entity.camping.bass": "Robalo",
+
+    "block.camping.sleeping_bag": "Saco de dormir",
+
+    "stat.camping.burnt_times": "Marshmallows queimados",
+
+    "subtitles.camping.breeze": "Breeze Rustles",
+    "subtitles.camping.chirping": "Chilrear dos pássaros",
+
+    "spawnpoint.camping.sleeping_bag": "Sacos de dormir não definem o ponto de renascimento!"
+}
