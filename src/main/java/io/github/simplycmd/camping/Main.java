@@ -1,6 +1,7 @@
 package io.github.simplycmd.camping;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import io.github.simplycmd.camping.blocks.HotSpringWaterBlock;
 import io.github.simplycmd.camping.blocks.PineLogBlock;
@@ -65,6 +66,7 @@ import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import net.minecraft.world.gen.foliage.SpruceFoliagePlacer;
+import net.minecraft.world.gen.placementmodifier.PlacementModifier;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.treedecorator.LeavesVineTreeDecorator;
@@ -79,8 +81,7 @@ import java.util.function.Consumer;
 
 import static net.minecraft.block.Blocks.DARK_OAK_LEAVES;
 import static net.minecraft.block.Blocks.DIRT;
-import static net.minecraft.world.gen.feature.VegetationPlacedFeatures.modifiers;
-import static net.minecraft.world.gen.feature.VegetationPlacedFeatures.modifiersWithWouldSurvive;
+import static net.minecraft.world.gen.feature.VegetationPlacedFeatures.*;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = ClientModInitializer.class)
 public class Main implements ModInitializer, ClientModInitializer, TerraBlenderApi {
@@ -238,13 +239,20 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 		Registry.register(Registry.CUSTOM_STAT, "burnt_times", BURNED);
 		Stats.CUSTOM.getOrCreateStat(BURNED, StatFormatter.DEFAULT);
 
+		var q = new ArrayList<PlacementModifier>();
+		q.add(NOT_IN_SURFACE_WATER_MODIFIER);
+		q.addAll(modifiers(1));
+
+		var d = new ArrayList<PlacementModifier>();
+		d.add(NOT_IN_SURFACE_WATER_MODIFIER);
+		d.addAll(modifiers(6));
 		// --------------------------------------------------------------------
 		// Register Features
 		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "pine_trees"), PINE_TREES);
-		PlacedFeatures.register(MOD_ID + ":pine_trees", BuiltinRegistries.CONFIGURED_FEATURE.getEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(PINE_TREES).get()).get(), modifiers(1));
-		PlacedFeatures.register(MOD_ID + ":dense_pine_trees", BuiltinRegistries.CONFIGURED_FEATURE.getEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(PINE_TREES).get()).get(), modifiers(6));
+		PlacedFeatures.register(MOD_ID + ":pine_trees", BuiltinRegistries.CONFIGURED_FEATURE.getEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(PINE_TREES).get()).get(), q);
+		PlacedFeatures.register(MOD_ID + ":dense_pine_trees", BuiltinRegistries.CONFIGURED_FEATURE.getEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(PINE_TREES).get()).get(), d);
 		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "hot_springs"), HOT_SPRINGS);
-		PlacedFeatures.register(MOD_ID + ":hot_springs", BuiltinRegistries.CONFIGURED_FEATURE.getEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(PINE_TREES).get()).get(), modifiers(1));
+		PlacedFeatures.register(MOD_ID + ":hot_springs", BuiltinRegistries.CONFIGURED_FEATURE.getEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(HOT_SPRINGS).get()).get(), modifiers(1));
 		// --------------------------------------------------------------------
 		// Register Biomes (OverworldBiomes is deprecated because it's experimental)
 		Registry.register(BuiltinRegistries.BIOME, BiomeKeys.PINE_FOREST.getValue(), PineForest.PINE_FOREST);

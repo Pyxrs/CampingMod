@@ -1,6 +1,7 @@
 {
-  "variants": {
-    "tent=false": { "model": "camping:block/sleeping_bag" },
-    "tent=true": { "model": "camping:block/tent_bag" }
-  }
+  "multipart": [
+    { "apply":  { "model": "camping:block/sleeping_bag" }, "when": { "part": "head", "tent": "false"}},
+    { "apply":  { "model": "camping:block/tent_bag" }, "when": { "part": "head", "tent": "true"}},
+    { "apply":  { "model": "minecraft:block/air" }, "when": { "part": "foot"}}
+  ]
 }
