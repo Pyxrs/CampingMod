@@ -29,6 +29,9 @@
     ],
     "client": [
       "io.github.simplycmd.camping.Main"
+    ],
+    "terrablender": [
+      "io.github.simplycmd.camping.Main"
     ]
   },
   "mixins": [

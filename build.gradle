@@ -19,6 +19,7 @@ repositories {
 		name = 'TerraformersMC'
 		url = 'https://maven.terraformersmc.com/'
 	}
+	maven { url = 'https://maven.minecraftforge.net/' }
 }
 
 dependencies {
@@ -28,6 +29,8 @@ dependencies {
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
+
+	modImplementation 'com.github.glitchfiend:TerraBlender-fabric:1.18.2-1.1.0.95'
 	//include modImplementation("com.terraformersmc.terraform-api:terraform-biome-builder-api-v1:2.0.0")
 }
 

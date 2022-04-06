@@ -1,6 +1,7 @@
 package io.github.simplycmd.camping;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.datafixers.util.Pair;
 import io.github.simplycmd.camping.blocks.HotSpringWaterBlock;
 import io.github.simplycmd.camping.blocks.PineLogBlock;
 import io.github.simplycmd.camping.blocks.SleepingBagBlock;
@@ -16,10 +17,7 @@ import io.github.simplycmd.camping.items.MarshmallowOnStickItem;
 import io.github.simplycmd.camping.items.SleepingBagBlockItem;
 import io.github.simplycmd.camping.items.TentItem;
 import io.github.simplycmd.camping.mixin.TreeConfiguredFeaturesAccessor;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.api.ModInitializer;
+import net.fabricmc.api.*;
 //import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
 //import net.fabricmc.fabric.api.biome.v1.OverworldClimate;
 import net.fabricmc.fabric.api.biome.v1.TheEndBiomes;
@@ -60,6 +58,9 @@ import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 //import net.minecraft.world.gen.decorator.CountExtraDecoratorConfig;
 //import net.minecraft.world.gen.decorator.Decorator;
+import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.source.util.MultiNoiseUtil;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.feature.util.FeatureContext;
@@ -67,14 +68,20 @@ import net.minecraft.world.gen.foliage.SpruceFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.treedecorator.LeavesVineTreeDecorator;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
+import terrablender.api.Region;
+import terrablender.api.RegionType;
+import terrablender.api.Regions;
+import terrablender.api.TerraBlenderApi;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 import static net.minecraft.block.Blocks.DARK_OAK_LEAVES;
 import static net.minecraft.world.gen.feature.VegetationPlacedFeatures.modifiers;
 import static net.minecraft.world.gen.feature.VegetationPlacedFeatures.modifiersWithWouldSurvive;
 
-public class Main implements ModInitializer, ClientModInitializer {
+@EnvironmentInterface(value = EnvType.CLIENT, itf = ClientModInitializer.class)
+public class Main implements ModInitializer, ClientModInitializer, TerraBlenderApi {
 
 	// Mod ID
 	public static final String MOD_ID = "camping";
@@ -281,5 +288,28 @@ public class Main implements ModInitializer, ClientModInitializer {
 		// --------------------------------------------------------------------
 		// Register renderers for blocks
 		BlockRenderLayerMap.INSTANCE.putBlock(Main.SLEEPING_BAG, RenderLayer.getCutout());
+	}
+
+
+	@Override
+	public void onTerraBlenderInitialized() {
+		TerraBlenderApi.super.onTerraBlenderInitialized();
+		Regions.register(new BiomeProvider(new Identifier(MOD_ID, "modded_region"), RegionType.OVERWORLD, 1));
+
+	}
+	private static class BiomeProvider extends Region {
+
+		public BiomeProvider(Identifier name, RegionType type, int weight) {
+			super(name, type, weight);
+		}
+
+		@Override
+		public void addBiomes(Registry<Biome> registry, Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> mapper) {
+			super.addBiomes(registry, mapper);
+			this.addModifiedVanillaOverworldBiomes(mapper, builder -> {
+				builder.replaceBiome(net.minecraft.world.biome.BiomeKeys.FOREST, BiomeKeys.PINE_FOREST);
+			});
+			//this.addBiome(mapper, BiomeKeys.PINE_FOREST);
+		}
 	}
 }
