@@ -29,7 +29,7 @@ public class AmbientSoundHandler {
 
     public static void start() {
         ClientTickCallback.EVENT.register((client) -> {
-            if (client.world != null && client.player.getBlockPos().getY() >= 64 && RANDOM.nextFloat() < SOUND_CHANCE && client.world.getBiomeAccess().getBiome(client.player.getBlockPos()).getFoliageColor() > 0) { // Janky but working way to detect modded biomes
+            if (client.world != null && client.player.getBlockPos().getY() >= 64 && RANDOM.nextFloat() < SOUND_CHANCE && client.world.getBiomeAccess().getBiome(client.player.getBlockPos()).value().getFoliageColor()> 0) { // Janky but working way to detect modded biomes
                 Sounds sound = Sounds.random();
                 client.world.playSound(client.player, client.player.getBlockPos().up(sound.yOffset).add(RANDOM.nextInt(10) - 5, 0, RANDOM.nextInt(10) - 5), sound.event, SoundCategory.BLOCKS, RANDOM.nextFloat() + 1, 0.9F + (RANDOM.nextFloat() / 5));
             }

@@ -1,5 +1,6 @@
 package io.github.simplycmd.camping;
 
+import com.google.common.collect.ImmutableList;
 import io.github.simplycmd.camping.blocks.HotSpringWaterBlock;
 import io.github.simplycmd.camping.blocks.PineLogBlock;
 import io.github.simplycmd.camping.blocks.SleepingBagBlock;
@@ -14,12 +15,14 @@ import io.github.simplycmd.camping.items.FlamingFoodItem;
 import io.github.simplycmd.camping.items.MarshmallowOnStickItem;
 import io.github.simplycmd.camping.items.SleepingBagBlockItem;
 import io.github.simplycmd.camping.items.TentItem;
+import io.github.simplycmd.camping.mixin.TreeConfiguredFeaturesAccessor;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
-import net.fabricmc.fabric.api.biome.v1.OverworldClimate;
+//import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
+//import net.fabricmc.fabric.api.biome.v1.OverworldClimate;
+import net.fabricmc.fabric.api.biome.v1.TheEndBiomes;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
@@ -55,17 +58,21 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.gen.decorator.CountExtraDecoratorConfig;
-import net.minecraft.world.gen.decorator.Decorator;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.ConfiguredFeatures;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.SingleStateFeatureConfig;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
+//import net.minecraft.world.gen.decorator.CountExtraDecoratorConfig;
+//import net.minecraft.world.gen.decorator.Decorator;
+import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
+import net.minecraft.world.gen.feature.util.FeatureContext;
 import net.minecraft.world.gen.foliage.SpruceFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.treedecorator.LeavesVineTreeDecorator;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
+
+import java.util.ArrayList;
+
+import static net.minecraft.block.Blocks.DARK_OAK_LEAVES;
+import static net.minecraft.world.gen.feature.VegetationPlacedFeatures.modifiers;
+import static net.minecraft.world.gen.feature.VegetationPlacedFeatures.modifiersWithWouldSurvive;
 
 public class Main implements ModInitializer, ClientModInitializer {
 
@@ -124,17 +131,26 @@ public class Main implements ModInitializer, ClientModInitializer {
 	public static final Identifier BURNED = new Identifier(MOD_ID, "burnt_times");
 
 	// Features
-	public static final TreeFeatureConfig PINE_TREE_CONFIG = new TreeFeatureConfig.Builder(
-			new SimpleBlockStateProvider(PINE_LOG.getDefaultState()),
-			new StraightTrunkPlacer(12, 12, 4),
-			new SimpleBlockStateProvider(Blocks.DARK_OAK_LEAVES.getDefaultState()),
-			new SimpleBlockStateProvider(Blocks.SPRUCE_SAPLING.getDefaultState()),
-			new SpruceFoliagePlacer(UniformIntProvider.create(2, 3), UniformIntProvider.create(1, 1), UniformIntProvider.create(4, 12)),
-			new TwoLayersFeatureSize(2, 0, 4)
-	).ignoreVines().build();
-	public static final ConfiguredFeature<?, ?> PINE_TREES = Feature.TREE.configure(PINE_TREE_CONFIG).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(100, 1, 2)));
-	public static final ConfiguredFeature<?, ?> HOT_SPRINGS = Feature.LAKE.configure(new SingleStateFeatureConfig(HOT_SPRING_WATER.getDefaultState())).range(ConfiguredFeatures.Decorators.BOTTOM_TO_TOP).spreadHorizontally().applyChance(4);
+//	public static final TreeFeatureConfig PINE_TREE_CONFIG = new TreeFeatureConfig.Builder(
+//			new SimpleBlockStateProvider(PINE_LOG.getDefaultState()),
+//			new StraightTrunkPlacer(12, 12, 4),
+//			new SimpleBlockStateProvider(DARK_OAK_LEAVES.getDefaultState()),
+//			new SimpleBlockStateProvider(Blocks.SPRUCE_SAPLING.getDefaultState()),
+//			new SpruceFoliagePlacer(UniformIntProvider.create(2, 3), UniformIntProvider.create(1, 1), UniformIntProvider.create(4, 12)),
+//			new TwoLayersFeatureSize(2, 0, 4)
+//	).ignoreVines().decorators(ImmutableList.of(TreeDecorator)).build();
 
+	public static final TreeFeatureConfig PINE_TREE_CONFIG = TreeConfiguredFeaturesAccessor.builder(
+			PINE_LOG,
+			DARK_OAK_LEAVES,
+			12,
+			12,
+			4,
+			3)
+			.decorators(ImmutableList.of(LeavesVineTreeDecorator.INSTANCE)).ignoreVines().build();
+	//public static final ConfiguredFeature<?, ?> PINE_TREES = Feature.TREE.generate(PINE_TREE_CONFIG).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(100, 1, 2)));
+	public static final ConfiguredFeature<?, ?> HOT_SPRINGS = new ConfiguredFeature<>(Feature.TREE, PINE_TREE_CONFIG);/*Feature.LAKE.configure(new SingleStateFeatureConfig(HOT_SPRING_WATER.getDefaultState())).range(ConfiguredFeatures.Decorators.BOTTOM_TO_TOP).spreadHorizontally().applyChance(4)*/
+	public static final ConfiguredFeature<?, ?> PINE_TREES = new ConfiguredFeature<>(Feature.TREE, PINE_TREE_CONFIG);
 	// Spawn eggs
 	public static final Item BROWN_BEAR_SPAWN_EGG = new SpawnEggItem(BROWN_BEAR, 5059399, 2302766, new Item.Settings().group(ItemGroup.MISC));
 	public static final Item BASS_SPAWN_EGG = new SpawnEggItem(BASS, 8081500, 10197120, new Item.Settings().group(ItemGroup.MISC));
@@ -214,18 +230,20 @@ public class Main implements ModInitializer, ClientModInitializer {
 		// --------------------------------------------------------------------
 		// Register Features
 		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "pine_trees"), PINE_TREES);
+		PlacedFeatures.register(MOD_ID + ":pine_trees", BuiltinRegistries.CONFIGURED_FEATURE.getEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(PINE_TREES).get()).get(), modifiers(1));
 		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "hot_springs"), HOT_SPRINGS);
 
 		// --------------------------------------------------------------------
 		// Register Biomes (OverworldBiomes is deprecated because it's experimental)
 		Registry.register(BuiltinRegistries.BIOME, BiomeKeys.PINE_FOREST.getValue(), PineForest.PINE_FOREST);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.TEMPERATE, 1D);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.COOL, 1D);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.DRY, 1D);
+
+//		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.TEMPERATE, 1D);
+//		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.COOL, 1D);
+//		OverworldBiomes.addContinentalBiome(BiomeKeys.PINE_FOREST, OverworldClimate.DRY, 1D);
 
 		Registry.register(BuiltinRegistries.BIOME, BiomeKeys.DENSE_PINE_FOREST.getValue(), PineForest.DENSE_PINE_FOREST);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_PINE_FOREST, OverworldClimate.TEMPERATE, 0.5D);
-		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_PINE_FOREST, OverworldClimate.COOL, 0.5D);
+//		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_PINE_FOREST, OverworldClimate.TEMPERATE, 0.5D);
+//		OverworldBiomes.addContinentalBiome(BiomeKeys.DENSE_PINE_FOREST, OverworldClimate.COOL, 0.5D);
 
 		// --------------------------------------------------------------------
 		// Register Effects

@@ -78,7 +78,7 @@ public class SleepingBagBlock extends HorizontalFacingBlock {
             } else {
                 player.trySleep(pos).ifLeft((reason) -> {
                     if (reason != null) {
-                        player.sendMessage(reason.toText(), true);
+                        player.sendMessage(reason.getMessage(), true);
                     }
                 });
                 return ActionResult.SUCCESS;
