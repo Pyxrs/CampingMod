@@ -129,7 +129,7 @@ public class PineForest {
 //            .downfall(0.9F)
 //    );
 
-    static final Biome DENSE_PINE_FOREST = createPineForest();
+    static final Biome DENSE_PINE_FOREST = createDensePineForest();
 //    static final Biome OLD_DENSE_PINE_FOREST = DENSE_PINE_FOREST_TEMPLATE.builder()
 //            .depth(0.4F)
 //            .scale(0.6F)
