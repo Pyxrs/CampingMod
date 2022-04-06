@@ -26,6 +26,7 @@ public class CozinessEffect extends StatusEffect{
 
     @Override
     public boolean canApplyUpdateEffect(int duration, int amplifier) {
+        if (true) return false;
         int i;
         if (this == Main.COZINESS) {
             i = 50 >> amplifier;
