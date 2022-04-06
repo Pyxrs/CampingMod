@@ -65,6 +65,7 @@ import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import net.minecraft.world.gen.foliage.SpruceFoliagePlacer;
+import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.treedecorator.LeavesVineTreeDecorator;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
@@ -77,6 +78,7 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 
 import static net.minecraft.block.Blocks.DARK_OAK_LEAVES;
+import static net.minecraft.block.Blocks.DIRT;
 import static net.minecraft.world.gen.feature.VegetationPlacedFeatures.modifiers;
 import static net.minecraft.world.gen.feature.VegetationPlacedFeatures.modifiersWithWouldSurvive;
 
@@ -155,8 +157,10 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 			4,
 			3)
 			.decorators(ImmutableList.of(LeavesVineTreeDecorator.INSTANCE)).ignoreVines().build();
+
+	public static final LakeFeature.Config LAKE_CONFIG = new LakeFeature.Config(BlockStateProvider.of(HOT_SPRING_WATER), BlockStateProvider.of(DIRT));
 	//public static final ConfiguredFeature<?, ?> PINE_TREES = Feature.TREE.generate(PINE_TREE_CONFIG).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(100, 1, 2)));
-	public static final ConfiguredFeature<?, ?> HOT_SPRINGS = new ConfiguredFeature<>(Feature.TREE, PINE_TREE_CONFIG);/*Feature.LAKE.configure(new SingleStateFeatureConfig(HOT_SPRING_WATER.getDefaultState())).range(ConfiguredFeatures.Decorators.BOTTOM_TO_TOP).spreadHorizontally().applyChance(4)*/
+	public static final ConfiguredFeature<?, ?> HOT_SPRINGS = new ConfiguredFeature<>(Feature.LAKE, LAKE_CONFIG);/*Feature.LAKE.configure(new SingleStateFeatureConfig(HOT_SPRING_WATER.getDefaultState())).range(ConfiguredFeatures.Decorators.BOTTOM_TO_TOP).spreadHorizontally().applyChance(4)*/
 	public static final ConfiguredFeature<?, ?> PINE_TREES = new ConfiguredFeature<>(Feature.TREE, PINE_TREE_CONFIG);
 	// Spawn eggs
 	public static final Item BROWN_BEAR_SPAWN_EGG = new SpawnEggItem(BROWN_BEAR, 5059399, 2302766, new Item.Settings().group(ItemGroup.MISC));
@@ -238,8 +242,9 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 		// Register Features
 		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "pine_trees"), PINE_TREES);
 		PlacedFeatures.register(MOD_ID + ":pine_trees", BuiltinRegistries.CONFIGURED_FEATURE.getEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(PINE_TREES).get()).get(), modifiers(1));
+		PlacedFeatures.register(MOD_ID + ":dense_pine_trees", BuiltinRegistries.CONFIGURED_FEATURE.getEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(PINE_TREES).get()).get(), modifiers(6));
 		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "hot_springs"), HOT_SPRINGS);
-
+		PlacedFeatures.register(MOD_ID + ":hot_springs", BuiltinRegistries.CONFIGURED_FEATURE.getEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(PINE_TREES).get()).get(), modifiers(1));
 		// --------------------------------------------------------------------
 		// Register Biomes (OverworldBiomes is deprecated because it's experimental)
 		Registry.register(BuiltinRegistries.BIOME, BiomeKeys.PINE_FOREST.getValue(), PineForest.PINE_FOREST);
@@ -308,6 +313,7 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 			super.addBiomes(registry, mapper);
 			this.addModifiedVanillaOverworldBiomes(mapper, builder -> {
 				builder.replaceBiome(net.minecraft.world.biome.BiomeKeys.FOREST, BiomeKeys.PINE_FOREST);
+				builder.replaceBiome(net.minecraft.world.biome.BiomeKeys.DARK_FOREST, BiomeKeys.DENSE_PINE_FOREST);
 			});
 			//this.addBiome(mapper, BiomeKeys.PINE_FOREST);
 		}

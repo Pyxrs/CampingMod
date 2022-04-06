@@ -9,6 +9,7 @@ import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.ConfiguredFeatures;
 import net.minecraft.world.gen.feature.ConfiguredStructureFeatures;
 import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
+import net.minecraft.world.gen.feature.VegetationPlacedFeatures;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 
 
@@ -41,6 +42,34 @@ public class PineForest {
 //            .downfall(0.9F)
 //    );
 
+    private static Biome createDensePineForest() {
+        SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder();
+        spawnSettings.spawn(SpawnGroup.CREATURE, new SpawnSettings.SpawnEntry(Main.BROWN_BEAR, 100, 1, 1));
+        DefaultBiomeFeatures.addFarmAnimals(spawnSettings);
+        DefaultBiomeFeatures.addBatsAndMonsters(spawnSettings);
+
+        GenerationSettings.Builder generationSettings = new GenerationSettings.Builder();
+        DefaultBiomeFeatures.addDefaultOres(generationSettings);
+        generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, BuiltinRegistries.PLACED_FEATURE.getEntry(BuiltinRegistries.PLACED_FEATURE.getKey(BuiltinRegistries.PLACED_FEATURE.get(Identifier.tryParse(MOD_ID + ":pine_trees"))).get()).get());
+        generationSettings.feature(GenerationStep.Feature.LAKES, BuiltinRegistries.PLACED_FEATURE.getEntry(BuiltinRegistries.PLACED_FEATURE.getKey(BuiltinRegistries.PLACED_FEATURE.get(Identifier.tryParse(MOD_ID + ":hot_springs"))).get()).get());
+        generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, VegetationPlacedFeatures.PATCH_LARGE_FERN);
+        return (new Biome.Builder())
+                .precipitation(Biome.Precipitation.RAIN)
+                .category(Biome.Category.FOREST)
+                .temperature(0.8F)
+                .downfall(0.4F)
+                .effects((new BiomeEffects.Builder())
+                        .waterColor(0x3f76e4)
+                        .waterFogColor(0x050533)
+                        .fogColor(0xc0d8ff)
+                        .skyColor(0x77adff)
+                        .grassColor(0x558233)
+                        .foliageColor(0x658233)
+                        .build())
+                .spawnSettings(spawnSettings.build())
+                .generationSettings(generationSettings.build())
+                .build();
+    }
     private static Biome createPineForest() {
         SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder();
         spawnSettings.spawn(SpawnGroup.CREATURE, new SpawnSettings.SpawnEntry(Main.BROWN_BEAR, 100, 1, 1));
@@ -48,11 +77,14 @@ public class PineForest {
         DefaultBiomeFeatures.addBatsAndMonsters(spawnSettings);
 
         GenerationSettings.Builder generationSettings = new GenerationSettings.Builder();
+        DefaultBiomeFeatures.addDefaultOres(generationSettings);
+        generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, BuiltinRegistries.PLACED_FEATURE.getEntry(BuiltinRegistries.PLACED_FEATURE.getKey(BuiltinRegistries.PLACED_FEATURE.get(Identifier.tryParse(MOD_ID + ":hot_springs"))).get()).get());
         generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, BuiltinRegistries.PLACED_FEATURE.getEntry(BuiltinRegistries.PLACED_FEATURE.getKey(BuiltinRegistries.PLACED_FEATURE.get(Identifier.tryParse(MOD_ID + ":pine_trees"))).get()).get());
+        generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, VegetationPlacedFeatures.PATCH_LARGE_FERN);
 
         return (new Biome.Builder())
                 .precipitation(Biome.Precipitation.RAIN)
-                .category(Biome.Category.NONE)
+                .category(Biome.Category.FOREST)
                 .temperature(0.8F)
                 .downfall(0.4F)
                 .effects((new BiomeEffects.Builder())
