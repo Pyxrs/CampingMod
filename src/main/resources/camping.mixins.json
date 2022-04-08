@@ -7,6 +7,7 @@
     "CampfireComfortMixin",
     "LiveFishingMixin",
     "SapScrapingMixin",
+    "SimpleBlockStateProviderAccessor",
     "SleepingBagFreezingMixin",
     "SleepingBagSpawnpointMixin",
     "TreeConfiguredFeaturesAccessor"

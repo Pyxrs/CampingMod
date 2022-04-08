@@ -17,6 +17,7 @@ import io.github.simplycmd.camping.items.FlamingFoodItem;
 import io.github.simplycmd.camping.items.MarshmallowOnStickItem;
 import io.github.simplycmd.camping.items.SleepingBagBlockItem;
 import io.github.simplycmd.camping.items.TentItem;
+import io.github.simplycmd.camping.mixin.SimpleBlockStateProviderAccessor;
 import io.github.simplycmd.camping.mixin.TreeConfiguredFeaturesAccessor;
 import net.fabricmc.api.*;
 //import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
@@ -141,23 +142,23 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 	public static final Identifier BURNED = new Identifier(MOD_ID, "burnt_times");
 
 	// Features
-//	public static final TreeFeatureConfig PINE_TREE_CONFIG = new TreeFeatureConfig.Builder(
-//			new SimpleBlockStateProvider(PINE_LOG.getDefaultState()),
-//			new StraightTrunkPlacer(12, 12, 4),
-//			new SimpleBlockStateProvider(DARK_OAK_LEAVES.getDefaultState()),
-//			new SimpleBlockStateProvider(Blocks.SPRUCE_SAPLING.getDefaultState()),
-//			new SpruceFoliagePlacer(UniformIntProvider.create(2, 3), UniformIntProvider.create(1, 1), UniformIntProvider.create(4, 12)),
-//			new TwoLayersFeatureSize(2, 0, 4)
-//	).ignoreVines().decorators(ImmutableList.of(TreeDecorator)).build();
+	public static final TreeFeatureConfig PINE_TREE_CONFIG = new TreeFeatureConfig.Builder(
+			SimpleBlockStateProviderAccessor.create(PINE_LOG.getDefaultState()),
+			new StraightTrunkPlacer(12, 12, 4),
+			SimpleBlockStateProviderAccessor.create(DARK_OAK_LEAVES.getDefaultState()),
+		//	SimpleBlockStateProviderAccessor.create(Blocks.SPRUCE_SAPLING.getDefaultState()),
+			new SpruceFoliagePlacer(UniformIntProvider.create(2, 3), UniformIntProvider.create(1, 1), UniformIntProvider.create(4, 12)),
+			new TwoLayersFeatureSize(2, 0, 4)
+	).ignoreVines().dirtProvider(BlockStateProvider.of(DIRT)).build();
 
-	public static final TreeFeatureConfig PINE_TREE_CONFIG = TreeConfiguredFeaturesAccessor.builder(
-			PINE_LOG,
-			DARK_OAK_LEAVES,
-			12,
-			12,
-			4,
-			3)
-			.decorators(ImmutableList.of(LeavesVineTreeDecorator.INSTANCE)).ignoreVines().build();
+//	public static final TreeFeatureConfig PINE_TREE_CONFIG = TreeConfiguredFeaturesAccessor.builder(
+//			PINE_LOG,
+//			DARK_OAK_LEAVES,
+//			12,
+//			12,
+//			4,
+//			3)
+//			.decorators(ImmutableList.of(LeavesVineTreeDecorator.INSTANCE)).ignoreVines().build();
 
 	public static final LakeFeature.Config LAKE_CONFIG = new LakeFeature.Config(BlockStateProvider.of(HOT_SPRING_WATER), BlockStateProvider.of(DIRT));
 	//public static final ConfiguredFeature<?, ?> PINE_TREES = Feature.TREE.generate(PINE_TREE_CONFIG).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(100, 1, 2)));
@@ -241,11 +242,11 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 
 		var q = new ArrayList<PlacementModifier>();
 		q.add(NOT_IN_SURFACE_WATER_MODIFIER);
-		q.addAll(modifiers(1));
+		q.addAll(modifiers(PlacedFeatures.createCountExtraModifier(100, 1F, 2)));
 
 		var d = new ArrayList<PlacementModifier>();
 		d.add(NOT_IN_SURFACE_WATER_MODIFIER);
-		d.addAll(modifiers(6));
+		d.addAll(modifiers(PlacedFeatures.createCountExtraModifier(150, 1F, 2)));
 		// --------------------------------------------------------------------
 		// Register Features
 		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "pine_trees"), PINE_TREES);
