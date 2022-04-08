@@ -55,6 +55,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.StatFormatter;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
@@ -62,11 +63,15 @@ import net.minecraft.util.registry.Registry;
 //import net.minecraft.world.gen.decorator.Decorator;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BuiltinBiomes;
 import net.minecraft.world.biome.source.util.MultiNoiseUtil;
+import net.minecraft.world.gen.blockpredicate.BlockPredicate;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import net.minecraft.world.gen.foliage.SpruceFoliagePlacer;
+import net.minecraft.world.gen.placementmodifier.BiomePlacementModifier;
+import net.minecraft.world.gen.placementmodifier.BlockFilterPlacementModifier;
 import net.minecraft.world.gen.placementmodifier.PlacementModifier;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
@@ -78,6 +83,7 @@ import terrablender.api.Regions;
 import terrablender.api.TerraBlenderApi;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.function.Consumer;
 
 import static net.minecraft.block.Blocks.DARK_OAK_LEAVES;
@@ -163,7 +169,6 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 	public static final LakeFeature.Config LAKE_CONFIG = new LakeFeature.Config(BlockStateProvider.of(HOT_SPRING_WATER), BlockStateProvider.of(DIRT));
 	//public static final ConfiguredFeature<?, ?> PINE_TREES = Feature.TREE.generate(PINE_TREE_CONFIG).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(100, 1, 2)));
 	public static final ConfiguredFeature<?, ?> HOT_SPRINGS = new ConfiguredFeature<>(Feature.LAKE, LAKE_CONFIG);/*Feature.LAKE.configure(new SingleStateFeatureConfig(HOT_SPRING_WATER.getDefaultState())).range(ConfiguredFeatures.Decorators.BOTTOM_TO_TOP).spreadHorizontally().applyChance(4)*/
-	public static final ConfiguredFeature<?, ?> PINE_TREES = new ConfiguredFeature<>(Feature.TREE, PINE_TREE_CONFIG);
 	// Spawn eggs
 	public static final Item BROWN_BEAR_SPAWN_EGG = new SpawnEggItem(BROWN_BEAR, 5059399, 2302766, new Item.Settings().group(ItemGroup.MISC));
 	public static final Item BASS_SPAWN_EGG = new SpawnEggItem(BASS, 8081500, 10197120, new Item.Settings().group(ItemGroup.MISC));
@@ -180,6 +185,7 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 
 	@Override
 	public void onInitialize() {
+		PineTree.register();
 		MarshmallowOnStickItem.Cooked.updateItems();
 
 		// --------------------------------------------------------------------
@@ -241,17 +247,18 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 		Stats.CUSTOM.getOrCreateStat(BURNED, StatFormatter.DEFAULT);
 
 		var q = new ArrayList<PlacementModifier>();
-		q.add(NOT_IN_SURFACE_WATER_MODIFIER);
-		q.addAll(modifiers(PlacedFeatures.createCountExtraModifier(100, 1F, 2)));
-
+		q.addAll(Lists.newArrayList(BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(Blocks.SPRUCE_SAPLING.getDefaultState(), BlockPos.ORIGIN))));
+		//q.add(BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(Blocks.OAK_SAPLING.getDefaultState(), BlockPos.ORIGIN)));
+		//q.addAll(modifiers(PlacedFeatures.createCountExtraModifier(100, 1F, 2)));
 		var d = new ArrayList<PlacementModifier>();
-		d.add(NOT_IN_SURFACE_WATER_MODIFIER);
-		d.addAll(modifiers(PlacedFeatures.createCountExtraModifier(150, 1F, 2)));
+		d.addAll(Lists.newArrayList(BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(Blocks.SPRUCE_SAPLING.getDefaultState(), BlockPos.ORIGIN))));
+		//d.add(BlockFilterPlacementModifier.of(BlockPredicate.wouldSurvive(Blocks.OAK_SAPLING.getDefaultState(), BlockPos.ORIGIN)));
+		//d.addAll(modifiers(PlacedFeatures.createCountExtraModifier(150, 1F, 2)));
 		// --------------------------------------------------------------------
 		// Register Features
-		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "pine_trees"), PINE_TREES);
-		PlacedFeatures.register(MOD_ID + ":pine_trees", BuiltinRegistries.CONFIGURED_FEATURE.getEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(PINE_TREES).get()).get(), q);
-		PlacedFeatures.register(MOD_ID + ":dense_pine_trees", BuiltinRegistries.CONFIGURED_FEATURE.getEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(PINE_TREES).get()).get(), d);
+		//Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "pine_trees"), PINE_TREES);
+		//PlacedFeatures.register(MOD_ID + ":pine_trees", BuiltinRegistries.CONFIGURED_FEATURE.getEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(PINE_TREES).get()).get(), q);
+		//PlacedFeatures.register(MOD_ID + ":dense_pine_trees", BuiltinRegistries.CONFIGURED_FEATURE.getEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(PINE_TREES).get()).get(), d);
 		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(MOD_ID, "hot_springs"), HOT_SPRINGS);
 		PlacedFeatures.register(MOD_ID + ":hot_springs", BuiltinRegistries.CONFIGURED_FEATURE.getEntry(BuiltinRegistries.CONFIGURED_FEATURE.getKey(HOT_SPRINGS).get()).get(), modifiers(1));
 		// --------------------------------------------------------------------

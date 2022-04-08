@@ -10,7 +10,8 @@
     "SimpleBlockStateProviderAccessor",
     "SleepingBagFreezingMixin",
     "SleepingBagSpawnpointMixin",
-    "TreeConfiguredFeaturesAccessor"
+    "TreeConfiguredFeaturesAccessor",
+    "W"
   ],
   "client": [
     "HotSpringWaterColorMixin"

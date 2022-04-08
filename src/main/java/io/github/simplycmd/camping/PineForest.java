@@ -50,7 +50,7 @@ public class PineForest {
 
         GenerationSettings.Builder generationSettings = new GenerationSettings.Builder();
         DefaultBiomeFeatures.addDefaultOres(generationSettings);
-        generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, BuiltinRegistries.PLACED_FEATURE.getEntry(BuiltinRegistries.PLACED_FEATURE.getKey(BuiltinRegistries.PLACED_FEATURE.get(Identifier.tryParse(MOD_ID + ":pine_trees"))).get()).get());
+        generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, PineTree.PINE_TREE_VEGITAL_FEATURE_PLACED);
         generationSettings.feature(GenerationStep.Feature.LAKES, BuiltinRegistries.PLACED_FEATURE.getEntry(BuiltinRegistries.PLACED_FEATURE.getKey(BuiltinRegistries.PLACED_FEATURE.get(Identifier.tryParse(MOD_ID + ":hot_springs"))).get()).get());
         generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, VegetationPlacedFeatures.PATCH_LARGE_FERN);
         return (new Biome.Builder())
@@ -79,7 +79,7 @@ public class PineForest {
         GenerationSettings.Builder generationSettings = new GenerationSettings.Builder();
         DefaultBiomeFeatures.addDefaultOres(generationSettings);
         generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, BuiltinRegistries.PLACED_FEATURE.getEntry(BuiltinRegistries.PLACED_FEATURE.getKey(BuiltinRegistries.PLACED_FEATURE.get(Identifier.tryParse(MOD_ID + ":hot_springs"))).get()).get());
-        generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, BuiltinRegistries.PLACED_FEATURE.getEntry(BuiltinRegistries.PLACED_FEATURE.getKey(BuiltinRegistries.PLACED_FEATURE.get(Identifier.tryParse(MOD_ID + ":pine_trees"))).get()).get());
+        generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, PineTree.PINE_TREE_VEGITAL_FEATURE_PLACED);
         generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, VegetationPlacedFeatures.PATCH_LARGE_FERN);
 
         return (new Biome.Builder())
