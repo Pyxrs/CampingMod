@@ -36,7 +36,10 @@
     "block.camping.pine_log": "Pine Log",
     "block.camping.stripped_pine_log": "Stripped Pine Log",
     "block.camping.pine_planks": "Pine Planks",
+    "block.camping.pine_slab": "Pine Slab",
     "block.camping.pine_sign": "Pine Sign",
+    "block.camping.pine_stairs": "Pine Stairs",
+    "block.camping.pine_fence": "Pine Fence",
     "stat.camping.burnt_times": "Marshmallows Burned",
 
     "subtitles.camping.breeze": "Breeze Rustles",

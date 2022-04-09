@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "camping:block/pine_slab"
+    },
+    "type=double": {
+      "model": "camping:block/pine_planks"
+    },
+    "type=top": {
+      "model": "camping:block/pine_slab_top"
+    }
+  }
+}

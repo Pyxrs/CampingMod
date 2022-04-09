@@ -124,13 +124,16 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 	);
 	
 	// Blocks
-	public static final Block PINE_LOG = new PineLogBlock(FabricBlockSettings.of(Material.WOOD, MapColor.BROWN).strength(2.0F).sounds(BlockSoundGroup.WOOD).ticksRandomly());
+	public static final Block PINE_LOG = new PineLogBlock(FabricBlockSettings.of(Material.WOOD, MapColor.BROWN).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD).ticksRandomly());
 	public static final Block PINE_PLANKS = new Block(AbstractBlock.Settings.of(Material.WOOD, MapColor.PALE_YELLOW).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
+	public static final Block PINE_SLAB = new SlabBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.PALE_YELLOW).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
+	public static final Block PINE_STAIRS = new StairsBlock(PINE_PLANKS.getDefaultState(), AbstractBlock.Settings.copy(PINE_PLANKS));
 	public static final Block STRIPPED_PINE_LOG = createLogBlock(MapColor.PALE_YELLOW, MapColor.PALE_YELLOW);
 	public static final Block HOT_SPRING_WATER = new HotSpringWaterBlock(FabricBlockSettings.of(Material.BUBBLE_COLUMN).noCollision().dropsNothing());
 	public static final Block SLEEPING_BAG = new SleepingBagBlock(FabricBlockSettings.of(Material.WOOL).noCollision());
 	public static final Block PINE_SIGN = new SignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), Main.PINE_SIGN_TYPE);
 	public static final Block PINE_WALL_SIGN = new WallSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), Main.PINE_SIGN_TYPE);
+	public static final Block PINE_FENCE = new FenceBlock(AbstractBlock.Settings.copy(PINE_PLANKS));
 
 	// Items
 	public static final Item SAP = new Item(new FabricItemSettings().group(ItemGroup.MATERIALS));
@@ -205,10 +208,10 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 	private static PillarBlock createLogBlock(MapColor topMapColor, MapColor sideMapColor) {
 		return new PillarBlock(AbstractBlock.Settings.of(Material.WOOD, (state) -> {
 			return state.get(PillarBlock.AXIS) == Direction.Axis.Y ? topMapColor : sideMapColor;
-		}).strength(2.0F).sounds(BlockSoundGroup.WOOD));
+		}).strength(2.0F,  3.0F).sounds(BlockSoundGroup.WOOD));
 	}
 
-	public static final BlockFamily PINE_TYPE = register(PINE_PLANKS)/*.button(Blocks.ACACIA_BUTTON).fence(Blocks.ACACIA_FENCE).fenceGate(Blocks.ACACIA_FENCE_GATE).pressurePlate(Blocks.ACACIA_PRESSURE_PLATE)*/.sign(PINE_SIGN, PINE_WALL_SIGN)/*.slab(Blocks.ACACIA_SLAB).stairs(Blocks.ACACIA_STAIRS).door(Blocks.ACACIA_DOOR).trapdoor(Blocks.ACACIA_TRAPDOOR)*/.group("wooden").unlockCriterionName("has_planks").build();
+	public static final BlockFamily PINE_TYPE = register(PINE_PLANKS)/*.button(Blocks.ACACIA_BUTTON)*/.fence(PINE_FENCE)/*.fenceGate(Blocks.ACACIA_FENCE_GATE).pressurePlate(Blocks.ACACIA_PRESSURE_PLATE)*/.sign(PINE_SIGN, PINE_WALL_SIGN).slab(PINE_SLAB).stairs(PINE_STAIRS)/*.door(Blocks.ACACIA_DOOR).trapdoor(Blocks.ACACIA_TRAPDOOR)*/.group("wooden").unlockCriterionName("has_planks").build();
 	@Override
 	public void onInitialize() {
 		SignTypeAccessor.callRegister(PINE_SIGN_TYPE);
@@ -234,6 +237,9 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_sign"), PINE_SIGN);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_wall_sign"), PINE_WALL_SIGN);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_planks"), PINE_PLANKS);
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_slab"), PINE_SLAB);
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_stairs"), PINE_STAIRS);
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_fence"), PINE_FENCE);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "hot_spring_water"), HOT_SPRING_WATER);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "sleeping_bag"), SLEEPING_BAG);
 
@@ -242,6 +248,9 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_log"), new BlockItem(PINE_LOG, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "stripped_pine_log"), new BlockItem(STRIPPED_PINE_LOG, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_planks"), new BlockItem(PINE_PLANKS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_stairs"), new BlockItem(PINE_STAIRS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_slab"), new BlockItem(PINE_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_fence"), new BlockItem(PINE_FENCE, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_sign"), new SignItem((new Item.Settings()).maxCount(16).group(ItemGroup.DECORATIONS), PINE_SIGN, PINE_WALL_SIGN));
 		var w = new HashMap<Block, Block>(AxeItemAccessor.getSTRIPPED_BLOCKS());
 		w.put(Main.PINE_LOG, Main.STRIPPED_PINE_LOG);

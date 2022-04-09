@@ -18,6 +18,7 @@ import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.TexturedModel;
 import net.minecraft.data.family.BlockFamilies;
 import net.minecraft.data.family.BlockFamily;
+import net.minecraft.data.server.BlockLootTableGenerator;
 import net.minecraft.data.server.LootTableProvider;
 import net.minecraft.data.server.RecipeProvider;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
@@ -51,9 +52,11 @@ public class ModDataGeneration implements DataGeneratorEntrypoint {
                 offerBarkBlockRecipe(exporter, Blocks.OAK_WOOD, Main.PINE_LOG);
                 offerBoatRecipe(exporter, Items.OAK_BOAT, Main.PINE_PLANKS);
                 offerBarkBlockRecipe(exporter, Blocks.STRIPPED_OAK_WOOD, Main.STRIPPED_PINE_LOG);
+                offerSlabRecipe(exporter, Main.PINE_SLAB, Main.PINE_PLANKS);
                 createSignRecipe(Main.PINE_SIGN, Ingredient.ofItems(Main.PINE_PLANKS)).criterion(hasItem(Main.PINE_PLANKS), conditionsFromItem(Main.PINE_PLANKS)).offerTo(exporter);
+                createStairsRecipe(Main.PINE_STAIRS, Ingredient.ofItems(Main.PINE_PLANKS)).criterion(hasItem(Main.PINE_PLANKS), conditionsFromItem(Main.PINE_PLANKS)).offerTo(exporter);
                 //offerBoatRecipe(exporter, Items.OAK_BOAT, Blocks.OAK_PLANKS);
-
+                createFenceRecipe(Main.PINE_FENCE, Ingredient.ofItems(Main.PINE_PLANKS)).criterion(hasItem(Main.PINE_PLANKS), conditionsFromItem(Main.PINE_PLANKS)).offerTo(exporter);
             }
 
 //            public static void offerPlanksRecipe(Consumer<RecipeJsonProvider> exporter, ItemConvertible output, ItemConvertible input) {
@@ -69,6 +72,14 @@ public class ModDataGeneration implements DataGeneratorEntrypoint {
                 getOrCreateTagBuilder(Main.PINE_LOGS).add(Main.PINE_LOG.asItem(), Main.STRIPPED_PINE_LOG.asItem());
                 getOrCreateTagBuilder(ItemTags.PLANKS).add(Main.PINE_PLANKS.asItem());
                 getOrCreateTagBuilder(ItemTags.SIGNS).add(Main.PINE_SIGN.asItem());
+                getOrCreateTagBuilder(ItemTags.WOODEN_SLABS).add(Main.PINE_SLAB.asItem());
+                getOrCreateTagBuilder(ItemTags.SLABS).add(Main.PINE_SLAB.asItem());
+
+                getOrCreateTagBuilder(ItemTags.STAIRS).add(Main.PINE_STAIRS.asItem());
+                getOrCreateTagBuilder(ItemTags.WOODEN_STAIRS).add(Main.PINE_STAIRS.asItem());
+
+                getOrCreateTagBuilder(ItemTags.FENCES).add(Main.PINE_FENCE.asItem());
+                getOrCreateTagBuilder(ItemTags.WOODEN_FENCES).add(Main.PINE_FENCE.asItem());
             }
         });
 
@@ -83,6 +94,15 @@ public class ModDataGeneration implements DataGeneratorEntrypoint {
                 getOrCreateTagBuilder(BlockTags.SIGNS).add(Main.PINE_SIGN, Main.PINE_WALL_SIGN);
                 getOrCreateTagBuilder(BlockTags.WALL_SIGNS).add(Main.PINE_WALL_SIGN);
                 getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(Main.PINE_SIGN, Main.PINE_WALL_SIGN);
+
+                getOrCreateTagBuilder(BlockTags.WOODEN_SLABS).add(Main.PINE_SLAB);
+                getOrCreateTagBuilder(BlockTags.SLABS).add(Main.PINE_SLAB);
+
+                getOrCreateTagBuilder(BlockTags.STAIRS).add(Main.PINE_STAIRS);
+                getOrCreateTagBuilder(BlockTags.WOODEN_STAIRS).add(Main.PINE_STAIRS);
+
+                getOrCreateTagBuilder(BlockTags.FENCES).add(Main.PINE_FENCE);
+                getOrCreateTagBuilder(BlockTags.WOODEN_FENCES).add(Main.PINE_FENCE);
             }
         });
 
@@ -95,6 +115,9 @@ public class ModDataGeneration implements DataGeneratorEntrypoint {
                 addDrop(Main.HOT_SPRING_WATER, Items.AIR);
                 addDrop(Main.PINE_PLANKS);
                 addDrop(Main.SLEEPING_BAG, LootTable.builder().pool(LootPool.builder().rolls(UniformLootNumberProvider.create(2, 3)).with(ItemEntry.builder(Main.CLOTH)).conditionally(SurvivesExplosionLootCondition.builder())));
+                addDrop(Main.PINE_SLAB, BlockLootTableGenerator::slabDrops);
+                addDrop(Main.PINE_STAIRS);
+                addDrop(Main.PINE_FENCE);
             }
         });
 
