@@ -3,8 +3,30 @@ plugins {
 	id 'maven-publish'
 }
 
+sourceSets {
+	main {
+		resources {
+			srcDirs += [
+					'src/generated/resources'
+			]
+		}
+	}
+}
+
 loom {
 	accessWidenerPath = file("src/main/resources/camping.accesswidener")
+	runs {
+		data {
+			server()
+			name "Data Generation"
+			vmArg "-Dfabric-api.datagen"
+			vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
+	//		vmArg "-Dfabric-api.datagen.strict-validation"
+			vmArg "-Dfabric-api.datagen.modid=camping"
+			ideConfigGenerated = true
+			runDir "build/datagen"
+		}
+	}
 }
 
 sourceCompatibility = JavaVersion.VERSION_17

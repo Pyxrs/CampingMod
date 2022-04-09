@@ -1,6 +1,10 @@
 {
   "variants": {
-    "sappy=false": { "model": "camping:block/pine_log" },
-    "sappy=true": { "model": "camping:block/pine_log_sap" }
+    "sappy=false,axis=x": { "model": "camping:block/pine_log_horizontal", "x": 90, "y": 90 },
+    "sappy=true,axis=x": { "model": "camping:block/pine_log_sap_horizontal", "x": 90, "y": 90 },
+    "sappy=false,axis=y": { "model": "camping:block/pine_log" },
+    "sappy=true,axis=y": { "model": "camping:block/pine_log_sap" },
+    "sappy=false,axis=z": { "model": "camping:block/pine_log_horizontal", "x": 90 },
+    "sappy=true,axis=z": { "model": "camping:block/pine_log_sap_horizontal", "x": 90 }
   }
 }

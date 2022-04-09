@@ -1,6 +1,7 @@
 package io.github.simplycmd.camping;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import io.github.simplycmd.camping.blocks.HotSpringWaterBlock;
@@ -17,6 +18,7 @@ import io.github.simplycmd.camping.items.FlamingFoodItem;
 import io.github.simplycmd.camping.items.MarshmallowOnStickItem;
 import io.github.simplycmd.camping.items.SleepingBagBlockItem;
 import io.github.simplycmd.camping.items.TentItem;
+import io.github.simplycmd.camping.mixin.AxeItemAccessor;
 import io.github.simplycmd.camping.mixin.SimpleBlockStateProviderAccessor;
 import io.github.simplycmd.camping.mixin.TreeConfiguredFeaturesAccessor;
 import net.fabricmc.api.*;
@@ -31,10 +33,7 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.MapColor;
-import net.minecraft.block.Material;
+import net.minecraft.block.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.EntityDimensions;
@@ -42,20 +41,16 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.item.EntityBucketItem;
-import net.minecraft.item.FoodComponent;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.SpawnEggItem;
-import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolMaterials;
+import net.minecraft.item.*;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.StatFormatter;
 import net.minecraft.stat.Stats;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
@@ -84,10 +79,13 @@ import terrablender.api.TerraBlenderApi;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.function.Consumer;
 
+import static io.github.simplycmd.camping.blocks.PineLogBlock.ACTIVE;
 import static net.minecraft.block.Blocks.DARK_OAK_LEAVES;
 import static net.minecraft.block.Blocks.DIRT;
+import static net.minecraft.block.PillarBlock.AXIS;
 import static net.minecraft.world.gen.feature.VegetationPlacedFeatures.*;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = ClientModInitializer.class)
@@ -95,6 +93,9 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 
 	// Mod ID
 	public static final String MOD_ID = "camping";
+
+	public static final TagKey<Item> PINE_LOGS = TagKey.of(Registry.ITEM.getKey(), new Identifier(MOD_ID, "pine_logs"));
+	public static final TagKey<Block> PINE_LOGS_BLOCKS = TagKey.of(Registry.BLOCK.getKey(), new Identifier(MOD_ID, "pine_logs"));
 
 	// Entities
 	public static final EntityType<BrownBearEntity> BROWN_BEAR = Registry.register(
@@ -110,6 +111,8 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 	
 	// Blocks
 	public static final Block PINE_LOG = new PineLogBlock(FabricBlockSettings.of(Material.WOOD, MapColor.BROWN).strength(2.0F).sounds(BlockSoundGroup.WOOD).ticksRandomly());
+	public static final Block PINE_PLANKS = new Block(AbstractBlock.Settings.of(Material.WOOD, MapColor.PALE_YELLOW).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
+	public static final Block STRIPPED_PINE_LOG = createLogBlock(MapColor.PALE_YELLOW, MapColor.PALE_YELLOW);
 	public static final Block HOT_SPRING_WATER = new HotSpringWaterBlock(FabricBlockSettings.of(Material.BUBBLE_COLUMN).noCollision().dropsNothing());
 	public static final Block SLEEPING_BAG = new SleepingBagBlock(FabricBlockSettings.of(Material.WOOL).noCollision());
 
@@ -149,7 +152,7 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 
 	// Features
 	public static final TreeFeatureConfig PINE_TREE_CONFIG = new TreeFeatureConfig.Builder(
-			SimpleBlockStateProviderAccessor.create(PINE_LOG.getDefaultState()),
+			SimpleBlockStateProviderAccessor.create(PINE_LOG.getDefaultState().with(AXIS, Direction.Axis.Y).with(ACTIVE, true)),
 			new StraightTrunkPlacer(12, 12, 4),
 			SimpleBlockStateProviderAccessor.create(DARK_OAK_LEAVES.getDefaultState()),
 		//	SimpleBlockStateProviderAccessor.create(Blocks.SPRUCE_SAPLING.getDefaultState()),
@@ -183,6 +186,11 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 	public static final Identifier BIRDS2_ID = new Identifier(MOD_ID + ":birds2");
 	public static SoundEvent BIRDS2_EVENT = new SoundEvent(BIRDS2_ID);
 
+	private static PillarBlock createLogBlock(MapColor topMapColor, MapColor sideMapColor) {
+		return new PillarBlock(AbstractBlock.Settings.of(Material.WOOD, (state) -> {
+			return state.get(PillarBlock.AXIS) == Direction.Axis.Y ? topMapColor : sideMapColor;
+		}).strength(2.0F).sounds(BlockSoundGroup.WOOD));
+	}
 	@Override
 	public void onInitialize() {
 		PineTree.register();
@@ -203,11 +211,20 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 		// --------------------------------------------------------------------
 		// Register Blocks
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_log"), PINE_LOG);
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "stripped_pine_log"), STRIPPED_PINE_LOG);
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_planks"), PINE_PLANKS);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "hot_spring_water"), HOT_SPRING_WATER);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "sleeping_bag"), SLEEPING_BAG);
 
 		// --------------------------------------------------------------------
 		// Register Items
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_log"), new BlockItem(PINE_LOG, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "stripped_pine_log"), new BlockItem(STRIPPED_PINE_LOG, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_planks"), new BlockItem(PINE_PLANKS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
+		var w = new HashMap<Block, Block>(AxeItemAccessor.getSTRIPPED_BLOCKS());
+		w.put(Main.PINE_LOG, Main.STRIPPED_PINE_LOG);
+		AxeItemAccessor.setSTRIPPED_BLOCKS(ImmutableMap.copyOf(w));
+
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sap"), SAP);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "cloth"), CLOTH);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "marshmallow"), MARSHMALLOW);

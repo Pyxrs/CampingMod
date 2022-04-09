@@ -11,7 +11,7 @@
     "PhilGotPlayed#0001",
     "SimplyCmd#0001",
     "The Gibberish One#8654",
-    "Jab125"
+    "Jab125#9591"
   ],
   "accessWidener": "camping.accesswidener",
   "contact": {
@@ -32,6 +32,9 @@
     ],
     "terrablender": [
       "io.github.simplycmd.camping.Main"
+    ],
+    "fabric-datagen": [
+      "io.github.simplycmd.camping.datagen.ModDataGeneration"
     ]
   },
   "mixins": [

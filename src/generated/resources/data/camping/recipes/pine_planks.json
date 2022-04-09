@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "camping:pine_logs"
+    }
+  ],
+  "result": {
+    "item": "camping:pine_planks",
+    "count": 4
+  }
+}

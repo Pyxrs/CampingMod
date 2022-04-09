@@ -33,7 +33,9 @@
     "entity.camping.bass": "Bass",
 
     "block.camping.sleeping_bag": "Sleeping Bag",
-
+    "block.camping.pine_log": "Pine Log",
+    "block.camping.stripped_pine_log": "Stripped Pine Log",
+    "block.camping.pine_planks": "Pine Planks",
     "stat.camping.burnt_times": "Marshmallows Burned",
 
     "subtitles.camping.breeze": "Breeze Rustles",
