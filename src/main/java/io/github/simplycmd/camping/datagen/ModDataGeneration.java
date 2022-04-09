@@ -57,6 +57,7 @@ public class ModDataGeneration implements DataGeneratorEntrypoint {
                 createStairsRecipe(Main.PINE_STAIRS, Ingredient.ofItems(Main.PINE_PLANKS)).criterion(hasItem(Main.PINE_PLANKS), conditionsFromItem(Main.PINE_PLANKS)).offerTo(exporter);
                 //offerBoatRecipe(exporter, Items.OAK_BOAT, Blocks.OAK_PLANKS);
                 createFenceRecipe(Main.PINE_FENCE, Ingredient.ofItems(Main.PINE_PLANKS)).criterion(hasItem(Main.PINE_PLANKS), conditionsFromItem(Main.PINE_PLANKS)).offerTo(exporter);
+                createFenceGateRecipe(Main.PINE_FENCE_GATE, Ingredient.ofItems(Main.PINE_PLANKS)).criterion(hasItem(Main.PINE_PLANKS), conditionsFromItem(Main.PINE_PLANKS)).offerTo(exporter);
             }
 
 //            public static void offerPlanksRecipe(Consumer<RecipeJsonProvider> exporter, ItemConvertible output, ItemConvertible input) {
@@ -103,6 +104,8 @@ public class ModDataGeneration implements DataGeneratorEntrypoint {
 
                 getOrCreateTagBuilder(BlockTags.FENCES).add(Main.PINE_FENCE);
                 getOrCreateTagBuilder(BlockTags.WOODEN_FENCES).add(Main.PINE_FENCE);
+
+                getOrCreateTagBuilder(BlockTags.FENCE_GATES).add(Main.PINE_FENCE_GATE);
             }
         });
 
@@ -118,6 +121,7 @@ public class ModDataGeneration implements DataGeneratorEntrypoint {
                 addDrop(Main.PINE_SLAB, BlockLootTableGenerator::slabDrops);
                 addDrop(Main.PINE_STAIRS);
                 addDrop(Main.PINE_FENCE);
+                addDrop(Main.PINE_FENCE_GATE);
             }
         });
 

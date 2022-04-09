@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#W#",
+    "#W#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:stick"
+    },
+    "W": {
+      "item": "camping:pine_planks"
+    }
+  },
+  "result": {
+    "item": "camping:pine_fence_gate"
+  }
+}
