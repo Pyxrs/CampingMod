@@ -135,6 +135,8 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 	public static final Block PINE_WALL_SIGN = new WallSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), Main.PINE_SIGN_TYPE);
 	public static final Block PINE_FENCE = new FenceBlock(AbstractBlock.Settings.copy(PINE_PLANKS));
 	public static final Block PINE_FENCE_GATE = new FenceGateBlock(AbstractBlock.Settings.copy(PINE_PLANKS));
+	public static final Block PINE_WOOD = new PillarBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.BROWN).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
+	public static final Block STRIPPED_PINE_WOOD = new PillarBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.BROWN).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
 
 	// Items
 	public static final Item SAP = new Item(new FabricItemSettings().group(ItemGroup.MATERIALS));
@@ -242,6 +244,8 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_stairs"), PINE_STAIRS);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_fence"), PINE_FENCE);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_fence_gate"), PINE_FENCE_GATE);
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_wood"), PINE_WOOD);
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "stripped_pine_wood"), STRIPPED_PINE_WOOD);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "hot_spring_water"), HOT_SPRING_WATER);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "sleeping_bag"), SLEEPING_BAG);
 
@@ -255,8 +259,11 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_fence"), new BlockItem(PINE_FENCE, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_fence_gate"), new BlockItem(PINE_FENCE_GATE, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_sign"), new SignItem((new Item.Settings()).maxCount(16).group(ItemGroup.DECORATIONS), PINE_SIGN, PINE_WALL_SIGN));
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_wood"), new BlockItem(PINE_WOOD, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "stripped_pine_wood"), new BlockItem(STRIPPED_PINE_WOOD, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
 		var w = new HashMap<Block, Block>(AxeItemAccessor.getSTRIPPED_BLOCKS());
 		w.put(Main.PINE_LOG, Main.STRIPPED_PINE_LOG);
+		w.put(Main.PINE_WOOD, Main.STRIPPED_PINE_WOOD);
 		AxeItemAccessor.setSTRIPPED_BLOCKS(ImmutableMap.copyOf(w));
 
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sap"), SAP);

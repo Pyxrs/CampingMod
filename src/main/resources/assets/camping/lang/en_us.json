@@ -40,6 +40,8 @@
     "block.camping.pine_sign": "Pine Sign",
     "block.camping.pine_stairs": "Pine Stairs",
     "block.camping.pine_fence": "Pine Fence",
+    "block.camping.pine_wood": "Pine Wood",
+    "block.camping.stripped_pine_wood": "Stripped Pine Wood",
     "block.camping.pine_fence_gate": "Pine Fence Gate",
     "stat.camping.burnt_times": "Marshmallows Burned",
 

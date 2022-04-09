@@ -49,9 +49,9 @@ public class ModDataGeneration implements DataGeneratorEntrypoint {
             @Override
             protected void generateRecipes(Consumer<RecipeJsonProvider> exporter) {
                 offerPlanksRecipe(exporter, Main.PINE_PLANKS, Main.PINE_LOGS);
-                offerBarkBlockRecipe(exporter, Blocks.OAK_WOOD, Main.PINE_LOG);
+                offerBarkBlockRecipe(exporter, Main.PINE_WOOD, Main.PINE_LOG);
                 offerBoatRecipe(exporter, Items.OAK_BOAT, Main.PINE_PLANKS);
-                offerBarkBlockRecipe(exporter, Blocks.STRIPPED_OAK_WOOD, Main.STRIPPED_PINE_LOG);
+                offerBarkBlockRecipe(exporter, Main.STRIPPED_PINE_WOOD, Main.STRIPPED_PINE_LOG);
                 offerSlabRecipe(exporter, Main.PINE_SLAB, Main.PINE_PLANKS);
                 createSignRecipe(Main.PINE_SIGN, Ingredient.ofItems(Main.PINE_PLANKS)).criterion(hasItem(Main.PINE_PLANKS), conditionsFromItem(Main.PINE_PLANKS)).offerTo(exporter);
                 createStairsRecipe(Main.PINE_STAIRS, Ingredient.ofItems(Main.PINE_PLANKS)).criterion(hasItem(Main.PINE_PLANKS), conditionsFromItem(Main.PINE_PLANKS)).offerTo(exporter);
@@ -70,7 +70,7 @@ public class ModDataGeneration implements DataGeneratorEntrypoint {
             protected void generateTags() {
                 getOrCreateTagBuilder(ItemTags.LOGS).addTag(Main.PINE_LOGS);
                 getOrCreateTagBuilder(ItemTags.LOGS_THAT_BURN).addTag(Main.PINE_LOGS);
-                getOrCreateTagBuilder(Main.PINE_LOGS).add(Main.PINE_LOG.asItem(), Main.STRIPPED_PINE_LOG.asItem());
+                getOrCreateTagBuilder(Main.PINE_LOGS).add(Main.PINE_LOG.asItem(), Main.STRIPPED_PINE_LOG.asItem(), Main.PINE_WOOD.asItem(), Main.STRIPPED_PINE_WOOD.asItem());
                 getOrCreateTagBuilder(ItemTags.PLANKS).add(Main.PINE_PLANKS.asItem());
                 getOrCreateTagBuilder(ItemTags.SIGNS).add(Main.PINE_SIGN.asItem());
                 getOrCreateTagBuilder(ItemTags.WOODEN_SLABS).add(Main.PINE_SLAB.asItem());
@@ -89,7 +89,7 @@ public class ModDataGeneration implements DataGeneratorEntrypoint {
             protected void generateTags() {
                 getOrCreateTagBuilder(BlockTags.LOGS).addTag(Main.PINE_LOGS_BLOCKS);
                 getOrCreateTagBuilder(BlockTags.LOGS_THAT_BURN).addTag(Main.PINE_LOGS_BLOCKS);
-                getOrCreateTagBuilder(Main.PINE_LOGS_BLOCKS).add(Main.PINE_LOG, Main.STRIPPED_PINE_LOG);
+                getOrCreateTagBuilder(Main.PINE_LOGS_BLOCKS).add(Main.PINE_LOG, Main.STRIPPED_PINE_LOG, Main.PINE_WOOD, Main.STRIPPED_PINE_WOOD);
                 getOrCreateTagBuilder(BlockTags.PLANKS).add(Main.PINE_PLANKS);
                 getOrCreateTagBuilder(BlockTags.STANDING_SIGNS).add(Main.PINE_SIGN);
                 getOrCreateTagBuilder(BlockTags.SIGNS).add(Main.PINE_SIGN, Main.PINE_WALL_SIGN);
@@ -122,6 +122,8 @@ public class ModDataGeneration implements DataGeneratorEntrypoint {
                 addDrop(Main.PINE_STAIRS);
                 addDrop(Main.PINE_FENCE);
                 addDrop(Main.PINE_FENCE_GATE);
+                addDrop(Main.PINE_WOOD);
+                addDrop(Main.STRIPPED_PINE_WOOD);
             }
         });
 
@@ -129,6 +131,8 @@ public class ModDataGeneration implements DataGeneratorEntrypoint {
             @Override
             public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
                 //blockStateModelGenerator.registerCubeAllModelTexturePool(Main.PINE_PLANKS);
+                blockStateModelGenerator.registerLog(Main.PINE_LOG).wood(Main.PINE_WOOD);
+                blockStateModelGenerator.registerLog(Main.STRIPPED_PINE_LOG).wood(Main.STRIPPED_PINE_WOOD);
                 blockStateModelGenerator.registerParentedItemModel(Main.PINE_PLANKS, new Identifier("camping", "block/pine_planks"));
                 Map<BlockFamily.Variant, BiConsumer<BlockStateModelGenerator.BlockTexturePool, Block>> a = ImmutableMap.of(BlockFamily.Variant.SIGN, BlockStateModelGenerator.BlockTexturePool::sign);
                 BlockFamilies.getFamilies().filter(BlockFamily::shouldGenerateModels).forEach((family) -> {

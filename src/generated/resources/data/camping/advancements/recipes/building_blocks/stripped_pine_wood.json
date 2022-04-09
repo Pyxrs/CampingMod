@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:stripped_oak_wood"
+      "camping:stripped_pine_wood"
     ]
   },
   "criteria": {
@@ -21,7 +21,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:stripped_oak_wood"
+        "recipe": "camping:stripped_pine_wood"
       }
     }
   },
