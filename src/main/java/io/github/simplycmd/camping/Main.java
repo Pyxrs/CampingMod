@@ -19,6 +19,7 @@ import io.github.simplycmd.camping.items.MarshmallowOnStickItem;
 import io.github.simplycmd.camping.items.SleepingBagBlockItem;
 import io.github.simplycmd.camping.items.TentItem;
 import io.github.simplycmd.camping.mixin.AxeItemAccessor;
+import io.github.simplycmd.camping.mixin.SignTypeAccessor;
 import io.github.simplycmd.camping.mixin.SimpleBlockStateProviderAccessor;
 import io.github.simplycmd.camping.mixin.TreeConfiguredFeaturesAccessor;
 import net.fabricmc.api.*;
@@ -29,13 +30,22 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.block.*;
+import net.minecraft.block.entity.SignBlockEntity;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.TexturedRenderLayers;
+import net.minecraft.client.render.block.entity.SignBlockEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.client.render.model.SpriteAtlasManager;
+import net.minecraft.client.texture.SpriteAtlasTexture;
+import net.minecraft.data.family.BlockFamilies;
+import net.minecraft.data.family.BlockFamily;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -49,6 +59,7 @@ import net.minecraft.stat.StatFormatter;
 import net.minecraft.stat.Stats;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.SignType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
@@ -86,6 +97,9 @@ import static io.github.simplycmd.camping.blocks.PineLogBlock.ACTIVE;
 import static net.minecraft.block.Blocks.DARK_OAK_LEAVES;
 import static net.minecraft.block.Blocks.DIRT;
 import static net.minecraft.block.PillarBlock.AXIS;
+import static net.minecraft.client.render.TexturedRenderLayers.SIGNS_ATLAS_TEXTURE;
+import static net.minecraft.client.render.TexturedRenderLayers.WOOD_TYPE_TEXTURES;
+import static net.minecraft.data.family.BlockFamilies.register;
 import static net.minecraft.world.gen.feature.VegetationPlacedFeatures.*;
 
 @EnvironmentInterface(value = EnvType.CLIENT, itf = ClientModInitializer.class)
@@ -94,9 +108,9 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 	// Mod ID
 	public static final String MOD_ID = "camping";
 
+	public static final SignType PINE_SIGN_TYPE = SignTypeAccessor.createSignType("camping_pine");
 	public static final TagKey<Item> PINE_LOGS = TagKey.of(Registry.ITEM.getKey(), new Identifier(MOD_ID, "pine_logs"));
 	public static final TagKey<Block> PINE_LOGS_BLOCKS = TagKey.of(Registry.BLOCK.getKey(), new Identifier(MOD_ID, "pine_logs"));
-
 	// Entities
 	public static final EntityType<BrownBearEntity> BROWN_BEAR = Registry.register(
 			Registry.ENTITY_TYPE,
@@ -115,6 +129,8 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 	public static final Block STRIPPED_PINE_LOG = createLogBlock(MapColor.PALE_YELLOW, MapColor.PALE_YELLOW);
 	public static final Block HOT_SPRING_WATER = new HotSpringWaterBlock(FabricBlockSettings.of(Material.BUBBLE_COLUMN).noCollision().dropsNothing());
 	public static final Block SLEEPING_BAG = new SleepingBagBlock(FabricBlockSettings.of(Material.WOOL).noCollision());
+	public static final Block PINE_SIGN = new SignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), Main.PINE_SIGN_TYPE);
+	public static final Block PINE_WALL_SIGN = new WallSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), Main.PINE_SIGN_TYPE);
 
 	// Items
 	public static final Item SAP = new Item(new FabricItemSettings().group(ItemGroup.MATERIALS));
@@ -191,8 +207,11 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 			return state.get(PillarBlock.AXIS) == Direction.Axis.Y ? topMapColor : sideMapColor;
 		}).strength(2.0F).sounds(BlockSoundGroup.WOOD));
 	}
+
+	public static final BlockFamily PINE_TYPE = register(PINE_PLANKS)/*.button(Blocks.ACACIA_BUTTON).fence(Blocks.ACACIA_FENCE).fenceGate(Blocks.ACACIA_FENCE_GATE).pressurePlate(Blocks.ACACIA_PRESSURE_PLATE)*/.sign(PINE_SIGN, PINE_WALL_SIGN)/*.slab(Blocks.ACACIA_SLAB).stairs(Blocks.ACACIA_STAIRS).door(Blocks.ACACIA_DOOR).trapdoor(Blocks.ACACIA_TRAPDOOR)*/.group("wooden").unlockCriterionName("has_planks").build();
 	@Override
 	public void onInitialize() {
+		SignTypeAccessor.callRegister(PINE_SIGN_TYPE);
 		PineTree.register();
 		MarshmallowOnStickItem.Cooked.updateItems();
 
@@ -212,6 +231,8 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 		// Register Blocks
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_log"), PINE_LOG);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "stripped_pine_log"), STRIPPED_PINE_LOG);
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_sign"), PINE_SIGN);
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_wall_sign"), PINE_WALL_SIGN);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_planks"), PINE_PLANKS);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "hot_spring_water"), HOT_SPRING_WATER);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "sleeping_bag"), SLEEPING_BAG);
@@ -221,6 +242,7 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_log"), new BlockItem(PINE_LOG, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "stripped_pine_log"), new BlockItem(STRIPPED_PINE_LOG, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_planks"), new BlockItem(PINE_PLANKS, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_sign"), new SignItem((new Item.Settings()).maxCount(16).group(ItemGroup.DECORATIONS), PINE_SIGN, PINE_WALL_SIGN));
 		var w = new HashMap<Block, Block>(AxeItemAccessor.getSTRIPPED_BLOCKS());
 		w.put(Main.PINE_LOG, Main.STRIPPED_PINE_LOG);
 		AxeItemAccessor.setSTRIPPED_BLOCKS(ImmutableMap.copyOf(w));
@@ -257,7 +279,6 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "brown_bear_spawn_egg"), BROWN_BEAR_SPAWN_EGG);
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "bass_spawn_egg"), BASS_SPAWN_EGG);
-
 		// --------------------------------------------------------------------
 		// Register Stats
 		Registry.register(Registry.CUSTOM_STAT, "burnt_times", BURNED);
@@ -293,6 +314,7 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 		// --------------------------------------------------------------------
 		// Register Effects
 		Registry.register(Registry.STATUS_EFFECT, new Identifier(MOD_ID, "coziness"), COZINESS);
+		System.out.println("Camping Init");
 	}
 
 	@Environment(EnvType.CLIENT)
@@ -303,6 +325,12 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 	@Environment(EnvType.CLIENT)
 	@Override
 	public void onInitializeClient() {
+//		ClientSpriteRegistryCallback.event(TexturedRenderLayers.SIGNS_ATLAS_TEXTURE).register(((atlasTexture, registry) -> {
+//			registry.register(new Identifier("camping", "entity/signs/pine"));
+//		}));
+//		WOOD_TYPE_TEXTURES.put(PINE_SIGN_TYPE, TexturedRenderLayers.getSignTextureId(PINE_SIGN_TYPE));
+		//WOOD_TYPE_TEXTURES.forEach((a,b)->{System.out.println(a.getName()+ ", " +b.toString());});
+		//System.exit(-1);
 		// --------------------------------------------------------------------
 		// Start client-side sounds
 

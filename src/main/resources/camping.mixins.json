@@ -5,14 +5,16 @@
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "AxeItemAccessor",
+    "BlockEntityTypeMixin",
     "CampfireComfortMixin",
-    "LiveFishingMixin",
+    "EntityModelLayersMixin",
     "SapScrapingMixin",
+    "SignTypeAccessor",
     "SimpleBlockStateProviderAccessor",
     "SleepingBagFreezingMixin",
     "SleepingBagSpawnpointMixin",
-    "TreeConfiguredFeaturesAccessor",
-    "W"
+    "TexturedRenderLayersMixin",
+    "TreeConfiguredFeaturesAccessor"
   ],
   "client": [
     "HotSpringWaterColorMixin"
