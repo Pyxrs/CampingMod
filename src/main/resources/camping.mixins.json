@@ -6,6 +6,8 @@
   "mixins": [
     "AxeItemAccessor",
     "BlockEntityTypeMixin",
+    "BoatEntityRendererMixin",
+    "BoatEntityTypeMixin",
     "CampfireComfortMixin",
     "EntityModelLayersMixin",
     "SapScrapingMixin",

@@ -41,6 +41,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.render.block.entity.SignBlockEntityRenderer;
+import net.minecraft.client.render.entity.BoatEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.model.SpriteAtlasManager;
 import net.minecraft.client.texture.SpriteAtlasTexture;
@@ -50,6 +51,7 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
 import net.minecraft.sound.BlockSoundGroup;
@@ -137,6 +139,7 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 	public static final Block PINE_FENCE_GATE = new FenceGateBlock(AbstractBlock.Settings.copy(PINE_PLANKS));
 	public static final Block PINE_WOOD = new PillarBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.BROWN).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
 	public static final Block STRIPPED_PINE_WOOD = new PillarBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.BROWN).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD));
+	public static final Block PINE_PRESSURE_PLATE = new PressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING, AbstractBlock.Settings.of(Material.WOOD, PINE_PLANKS.getDefaultMapColor()).noCollision().strength(0.5F).sounds(BlockSoundGroup.WOOD));
 
 	// Items
 	public static final Item SAP = new Item(new FabricItemSettings().group(ItemGroup.MATERIALS));
@@ -214,9 +217,10 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 		}).strength(2.0F,  3.0F).sounds(BlockSoundGroup.WOOD));
 	}
 
-	public static final BlockFamily PINE_TYPE = register(PINE_PLANKS)/*.button(Blocks.ACACIA_BUTTON)*/.fence(PINE_FENCE).fenceGate(PINE_FENCE_GATE)/*.pressurePlate(Blocks.ACACIA_PRESSURE_PLATE)*/.sign(PINE_SIGN, PINE_WALL_SIGN).slab(PINE_SLAB).stairs(PINE_STAIRS)/*.door(Blocks.ACACIA_DOOR).trapdoor(Blocks.ACACIA_TRAPDOOR)*/.group("wooden").unlockCriterionName("has_planks").build();
+	public static final BlockFamily PINE_TYPE = register(PINE_PLANKS)/*.button(Blocks.ACACIA_BUTTON)*/.fence(PINE_FENCE).fenceGate(PINE_FENCE_GATE).pressurePlate(PINE_PRESSURE_PLATE).sign(PINE_SIGN, PINE_WALL_SIGN).slab(PINE_SLAB).stairs(PINE_STAIRS)/*.door(Blocks.ACACIA_DOOR).trapdoor(Blocks.ACACIA_TRAPDOOR)*/.group("wooden").unlockCriterionName("has_planks").build();
 	@Override
 	public void onInitialize() {
+		System.out.println(ModBoatVariants.PINE);
 		SignTypeAccessor.callRegister(PINE_SIGN_TYPE);
 		PineTree.register();
 		MarshmallowOnStickItem.Cooked.updateItems();
@@ -244,6 +248,7 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_stairs"), PINE_STAIRS);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_fence"), PINE_FENCE);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_fence_gate"), PINE_FENCE_GATE);
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_pressure_plate"), PINE_PRESSURE_PLATE);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "pine_wood"), PINE_WOOD);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "stripped_pine_wood"), STRIPPED_PINE_WOOD);
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "hot_spring_water"), HOT_SPRING_WATER);
@@ -258,6 +263,7 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_slab"), new BlockItem(PINE_SLAB, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_fence"), new BlockItem(PINE_FENCE, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_fence_gate"), new BlockItem(PINE_FENCE_GATE, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
+		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_pressure_plate"), new BlockItem(PINE_PRESSURE_PLATE, new Item.Settings().group(ItemGroup.REDSTONE)));
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_sign"), new SignItem((new Item.Settings()).maxCount(16).group(ItemGroup.DECORATIONS), PINE_SIGN, PINE_WALL_SIGN));
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pine_wood"), new BlockItem(PINE_WOOD, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
 		Registry.register(Registry.ITEM, new Identifier(MOD_ID, "stripped_pine_wood"), new BlockItem(STRIPPED_PINE_WOOD, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));

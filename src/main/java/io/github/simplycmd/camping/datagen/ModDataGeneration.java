@@ -58,6 +58,7 @@ public class ModDataGeneration implements DataGeneratorEntrypoint {
                 //offerBoatRecipe(exporter, Items.OAK_BOAT, Blocks.OAK_PLANKS);
                 createFenceRecipe(Main.PINE_FENCE, Ingredient.ofItems(Main.PINE_PLANKS)).criterion(hasItem(Main.PINE_PLANKS), conditionsFromItem(Main.PINE_PLANKS)).offerTo(exporter);
                 createFenceGateRecipe(Main.PINE_FENCE_GATE, Ingredient.ofItems(Main.PINE_PLANKS)).criterion(hasItem(Main.PINE_PLANKS), conditionsFromItem(Main.PINE_PLANKS)).offerTo(exporter);
+                createPressurePlateRecipe(exporter, Main.PINE_PRESSURE_PLATE, Main.PINE_PLANKS);
             }
 
 //            public static void offerPlanksRecipe(Consumer<RecipeJsonProvider> exporter, ItemConvertible output, ItemConvertible input) {
@@ -81,6 +82,8 @@ public class ModDataGeneration implements DataGeneratorEntrypoint {
 
                 getOrCreateTagBuilder(ItemTags.FENCES).add(Main.PINE_FENCE.asItem());
                 getOrCreateTagBuilder(ItemTags.WOODEN_FENCES).add(Main.PINE_FENCE.asItem());
+
+                getOrCreateTagBuilder(ItemTags.WOODEN_PRESSURE_PLATES).add(Main.PINE_PRESSURE_PLATE.asItem());
             }
         });
 
@@ -106,6 +109,8 @@ public class ModDataGeneration implements DataGeneratorEntrypoint {
                 getOrCreateTagBuilder(BlockTags.WOODEN_FENCES).add(Main.PINE_FENCE);
 
                 getOrCreateTagBuilder(BlockTags.FENCE_GATES).add(Main.PINE_FENCE_GATE);
+
+                getOrCreateTagBuilder(BlockTags.WOODEN_PRESSURE_PLATES).add(Main.PINE_PRESSURE_PLATE);
             }
         });
 
@@ -124,6 +129,7 @@ public class ModDataGeneration implements DataGeneratorEntrypoint {
                 addDrop(Main.PINE_FENCE_GATE);
                 addDrop(Main.PINE_WOOD);
                 addDrop(Main.STRIPPED_PINE_WOOD);
+                addDrop(Main.PINE_PRESSURE_PLATE);
             }
         });
 
@@ -134,6 +140,10 @@ public class ModDataGeneration implements DataGeneratorEntrypoint {
                 blockStateModelGenerator.registerLog(Main.PINE_LOG).wood(Main.PINE_WOOD);
                 blockStateModelGenerator.registerLog(Main.STRIPPED_PINE_LOG).wood(Main.STRIPPED_PINE_WOOD);
                 blockStateModelGenerator.registerParentedItemModel(Main.PINE_PLANKS, new Identifier("camping", "block/pine_planks"));
+                blockStateModelGenerator.registerParentedItemModel(Main.PINE_WOOD, new Identifier("camping", "block/pine_wood"));
+                blockStateModelGenerator.registerParentedItemModel(Main.STRIPPED_PINE_WOOD, new Identifier("camping", "block/stripped_pine_wood"));
+                blockStateModelGenerator.registerParentedItemModel(Main.PINE_FENCE_GATE, new Identifier("camping", "block/pine_fence_gate"));
+                blockStateModelGenerator.registerParentedItemModel(Main.PINE_PRESSURE_PLATE, new Identifier("camping", "block/pine_pressure_plate"));
                 Map<BlockFamily.Variant, BiConsumer<BlockStateModelGenerator.BlockTexturePool, Block>> a = ImmutableMap.of(BlockFamily.Variant.SIGN, BlockStateModelGenerator.BlockTexturePool::sign);
                 BlockFamilies.getFamilies().filter(BlockFamily::shouldGenerateModels).forEach((family) -> {
                     if (family == Main.PINE_TYPE)
