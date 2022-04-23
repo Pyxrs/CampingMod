@@ -51,8 +51,8 @@ public class SleepingBagBlock extends HorizontalFacingBlock {
 
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         Item dyeItem = player.getStackInHand(hand).getItem();
-        if (dyeItem instanceof DyeItem) {
-            world.setBlockState(pos, state.with(COLOR, ((DyeItem) dyeItem).getColor()));
+        if (dyeItem instanceof DyeItem item) {
+            world.setBlockState(pos, state.with(COLOR, item.getColor()));
             return ActionResult.SUCCESS;
         }
         if (world.isClient) {
@@ -66,7 +66,7 @@ public class SleepingBagBlock extends HorizontalFacingBlock {
                 }
             }
 
-            if (!isOverworld(world)) {
+            if (!bedWorks(world)) {
                 world.removeBlock(pos, false);
                 BlockPos blockPos = pos.offset(state.get(FACING).getOpposite());
                 if (world.getBlockState(blockPos).isOf(this)) {
@@ -78,7 +78,7 @@ public class SleepingBagBlock extends HorizontalFacingBlock {
             } else {
                 player.trySleep(pos).ifLeft((reason) -> {
                     if (reason != null) {
-                        player.sendMessage(reason.toText(), true);
+                        player.sendMessage(reason.getMessage(), true);
                     }
                 });
                 return ActionResult.SUCCESS;
@@ -86,7 +86,7 @@ public class SleepingBagBlock extends HorizontalFacingBlock {
         }
     }
 
-    public static boolean isOverworld(World world) {
+    public static boolean bedWorks(World world) {
         return world.getDimension().isBedWorking();
     }
 
@@ -98,7 +98,7 @@ public class SleepingBagBlock extends HorizontalFacingBlock {
         }
     }
 
-    private static Direction getDirectionTowardsOtherPart(BedPart part, Direction direction) {
+    public static Direction getDirectionTowardsOtherPart(BedPart part, Direction direction) {
         return part == BedPart.FOOT ? direction : direction.getOpposite();
     }
 

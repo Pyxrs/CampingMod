@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "camping:pine_log",
+    "camping:stripped_pine_log",
+    "camping:pine_wood",
+    "camping:stripped_pine_wood"
+  ]
+}

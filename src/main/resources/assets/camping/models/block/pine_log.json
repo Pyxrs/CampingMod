@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "camping:block/pine_log_top",
+    "side": "camping:block/pine_log"
+  }
+}

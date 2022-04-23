@@ -33,7 +33,17 @@
     "entity.camping.bass": "Bass",
 
     "block.camping.sleeping_bag": "Sleeping Bag",
-
+    "block.camping.pine_log": "Pine Log",
+    "block.camping.stripped_pine_log": "Stripped Pine Log",
+    "block.camping.pine_planks": "Pine Planks",
+    "block.camping.pine_slab": "Pine Slab",
+    "block.camping.pine_sign": "Pine Sign",
+    "block.camping.pine_stairs": "Pine Stairs",
+    "block.camping.pine_fence": "Pine Fence",
+    "block.camping.pine_wood": "Pine Wood",
+    "block.camping.stripped_pine_wood": "Stripped Pine Wood",
+    "block.camping.pine_fence_gate": "Pine Fence Gate",
+    "block.camping.pine_pressure_plate": "Pine Pressure Plate",
     "stat.camping.burnt_times": "Marshmallows Burned",
 
     "subtitles.camping.breeze": "Breeze Rustles",

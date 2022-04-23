@@ -4,11 +4,19 @@
   "package": "io.github.simplycmd.camping.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "AxeItemAccessor",
+    "BlockEntityTypeMixin",
+    "BoatEntityRendererMixin",
+    "BoatEntityTypeMixin",
     "CampfireComfortMixin",
-    "LiveFishingMixin",
+    "EntityModelLayersMixin",
     "SapScrapingMixin",
+    "SignTypeAccessor",
+    "SimpleBlockStateProviderAccessor",
     "SleepingBagFreezingMixin",
-    "SleepingBagSpawnpointMixin"
+    "SleepingBagSpawnpointMixin",
+    "TexturedRenderLayersMixin",
+    "TreeConfiguredFeaturesAccessor"
   ],
   "client": [
     "HotSpringWaterColorMixin"

@@ -45,13 +45,13 @@ public class SapScrapingMixin {
 
                 // Make axe do that slurp thing
                 cir.setReturnValue(ActionResult.SUCCESS);
-            } else {
-                // Had to manually implement log stripping since log types are hardcoded
-                context.getWorld().setBlockState(pos, Blocks.STRIPPED_SPRUCE_LOG.getDefaultState());
-                context.getWorld().playSound(context.getPlayer(), pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                damageAxe(context);
-                cir.setReturnValue(ActionResult.SUCCESS);
-            }
+            }// else {
+//                // Had to manually implement log stripping since log types are hardcoded
+//                context.getWorld().setBlockState(pos, Blocks.STRIPPED_SPRUCE_LOG.getDefaultState());
+//                context.getWorld().playSound(context.getPlayer(), pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
+//                damageAxe(context);
+//                cir.setReturnValue(ActionResult.SUCCESS);
+//            }
     }
 
     private static void damageAxe(ItemUsageContext context) {

@@ -1,3 +1,7 @@
 accessWidener	v1	named
 
 accessible	class	net/minecraft/world/gen/feature/ConfiguredFeatures$Decorators
+accessible class net/minecraft/world/gen/stateprovider/SimpleBlockStateProvider
+mutable field net/minecraft/item/AxeItem STRIPPED_BLOCKS Ljava/util/Map;
+accessible class net/minecraft/data/client/BlockStateModelGenerator$BlockTexturePool
+accessible class net/minecraft/data/client/BlockStateModelGenerator$LogTexturePool

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "camping:block/pine_planks",
+    "top": "camping:block/pine_planks",
+    "side": "camping:block/pine_planks"
+  }
+}

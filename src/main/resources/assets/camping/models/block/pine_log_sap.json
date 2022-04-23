@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_column",
   "textures": {
-    "end": "minecraft:block/spruce_log_top",
+    "end": "camping:block/pine_log_top",
     "side": "camping:block/pine_log_sap"
   }
 }

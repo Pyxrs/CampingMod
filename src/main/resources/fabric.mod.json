@@ -10,7 +10,8 @@
     "PaintedYeti#0103",
     "PhilGotPlayed#0001",
     "SimplyCmd#0001",
-    "The Gibberish One#8654"
+    "The Gibberish One#8654",
+    "Jab125#9591"
   ],
   "accessWidener": "camping.accesswidener",
   "contact": {
@@ -28,6 +29,12 @@
     ],
     "client": [
       "io.github.simplycmd.camping.Main"
+    ],
+    "terrablender": [
+      "io.github.simplycmd.camping.Main"
+    ],
+    "fabric-datagen": [
+      "io.github.simplycmd.camping.datagen.ModDataGeneration"
     ]
   },
   "mixins": [
@@ -35,10 +42,10 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.11.3",
+    "fabricloader": ">=0.13.1",
     "fabric": "*",
-    "minecraft": "1.17.x",
-    "java": ">=16"
+    "minecraft": "1.18.x",
+    "java": ">=17"
   },
   "suggests": {
   }
