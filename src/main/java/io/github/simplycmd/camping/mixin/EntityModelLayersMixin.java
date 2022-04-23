@@ -65,13 +65,13 @@ public class EntityModelLayersMixin {
     @Inject(method = "createSign", at = @At("HEAD"), cancellable = true)
     private static void createSign(SignType type, CallbackInfoReturnable<EntityModelLayer> cir) {
         if (type == Main.PINE_SIGN_TYPE)
-            cir.setReturnValue(    create("sign/" + type.getName(), "main"));
+            cir.setReturnValue(    create("sign/" + "pine", "main"));
     }
 
     @Inject(method = "createBoat", at = @At("HEAD"), cancellable = true)
     private static void createBoat(BoatEntity.Type type, CallbackInfoReturnable<EntityModelLayer> cir) {
         if (type == ModBoatVariants.PINE)
-            cir.setReturnValue(    create("boat/" + type.getName(), "main"));
+            cir.setReturnValue(    create("boat/" + "pine", "main"));
     }
 
     @Unique

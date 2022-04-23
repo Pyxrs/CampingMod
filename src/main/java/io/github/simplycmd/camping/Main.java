@@ -91,6 +91,7 @@ import terrablender.api.Regions;
 import terrablender.api.TerraBlenderApi;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.function.Consumer;
@@ -221,6 +222,7 @@ public class Main implements ModInitializer, ClientModInitializer, TerraBlenderA
 	@Override
 	public void onInitialize() {
 		System.out.println(ModBoatVariants.PINE);
+		System.out.println(Arrays.toString(BoatEntity.Type.values()));
 		SignTypeAccessor.callRegister(PINE_SIGN_TYPE);
 		PineTree.register();
 		MarshmallowOnStickItem.Cooked.updateItems();

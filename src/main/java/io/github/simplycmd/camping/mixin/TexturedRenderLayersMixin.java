@@ -18,6 +18,6 @@ public class TexturedRenderLayersMixin {
     private static void createSignTextureId(SignType type, CallbackInfoReturnable<SpriteIdentifier> cir) {
         //System.out.println(type.getName());
         if (type == Main.PINE_SIGN_TYPE)
-        cir.setReturnValue(new SpriteIdentifier(SIGNS_ATLAS_TEXTURE, new Identifier("camping:entity/signs/pine")));
+            cir.setReturnValue(new SpriteIdentifier(SIGNS_ATLAS_TEXTURE, new Identifier("camping:entity/signs/pine")));
     }
 }
